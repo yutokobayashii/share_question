@@ -5,6 +5,7 @@ import '../model/tabbar_model/tab_item_data.dart';
 
 final _navigatorKeys = <TabItem, GlobalKey<NavigatorState>>{
   TabItem.home: GlobalKey<NavigatorState>(),
+  TabItem.answer:GlobalKey<NavigatorState>(),
   TabItem.settings: GlobalKey<NavigatorState>(),
 };
 
