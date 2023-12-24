@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_question/constant/color_constant.dart';
 
+import '../../widgets/base_textfield_widget.dart';
+import '../../widgets/dialog_widget.dart';
+import 'make_question_page.dart';
+
 class InitialMakeQuestionPage extends StatelessWidget {
   const InitialMakeQuestionPage({super.key});
 
@@ -14,9 +18,26 @@ class InitialMakeQuestionPage extends StatelessWidget {
      return MaterialApp(
         home: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.white,
             leading: GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context1) => AlertDialogWidget(
+                    title: '作問を中止しますか？',
+                    content: '中止すると入力した項目は保存されません',
+                    leftText: '中止する',
+                    rightText: '続ける',
+                    rightAction: () {
+                      Navigator.pop(context1);
+                    },
+                    leftAction: () {
+                      Navigator.pop(context1);
+                      Navigator.pop(context);
+                    },
+
+                  ),
+                );
               },
                 child: const Icon(
                   Icons.arrow_back,
@@ -26,51 +47,63 @@ class InitialMakeQuestionPage extends StatelessWidget {
             title: const Text('作問'),
 
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                SizedBox(height: 15.h,),
-                const BaseTextFieldWidget(
-                  title: '問題集名',
-                  isRequired: true,
-                  maxLength: 30,),
+          body: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  SizedBox(height: 15.h,),
+                  const BaseTextFieldWidget(
+                    title: '問題集名',
+                    isRequired: true,
+                    maxLength: 30,),
 
-                SizedBox(height: 10.h,),
-                const BaseTextFieldWidget(
-                  title: '作成者名',
-                  isRequired: true,
-                  maxLength: 15,),
+                  SizedBox(height: 10.h,),
+                  const BaseTextFieldWidget(
+                    title: '作成者名',
+                    isRequired: true,
+                    maxLength: 15,),
 
-                SizedBox(height: 10.h,),
-                const BaseTextFieldWidget(
-                  title: '問題集の説明',
-                  isRequired: false,
-                  maxLength: 100,),
+                  SizedBox(height: 10.h,),
+                  const BaseTextFieldWidget(
+                    title: '問題集の説明',
+                    isRequired: false,
+                    maxLength: 100,),
 
-                SizedBox(height: 10.h,),
-                const BaseTextFieldWidget(
-                  title: '解答した人へのコメント',
-                  isRequired: false,
-                  maxLength: 100,),
-              ],
+                  SizedBox(height: 10.h,),
+                  const BaseTextFieldWidget(
+                    title: '解答した人へのコメント',
+                    isRequired: false,
+                    maxLength: 100,),
+                ],
+              ),
             ),
           ),
-          floatingActionButton: Container(
-            height: 70.0, // 高さ
-            width: 70.0, // 幅
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle, // 円形に設定
-              color: baseColor, // 背景色
+          floatingActionButton: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const OptionMakeQuestionPage()),
+              );
+
+            },
+            child: Container(
+              height: 70.0,
+              width: 70.0,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: baseColor,
+              ),
+              child: Center(child:
+              Text(
+                '次へ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700
+                ),)),
             ),
-            child: Center(child:
-            Text(
-              '次へ',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700
-              ),)),
           )
         ),
       );
@@ -78,73 +111,4 @@ class InitialMakeQuestionPage extends StatelessWidget {
   }
 }
 
-class BaseTextFieldWidget extends StatelessWidget {
-  const BaseTextFieldWidget({
-    super.key,
-    required this.title,
-    required this.isRequired,
-    required this.maxLength,
-  });
 
-  final String title;
-  final bool isRequired;
-  final int maxLength;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontSize: 18.sp,
-              ),
-            ),
-            SizedBox(width: 5.w,),
-            isRequired ?
-            Container(
-              width: 40.w,
-              height: 16.h,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Center(
-                child: Text(
-                  '必須',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700
-                  ),),
-              ),
-            )
-                :
-            const SizedBox()
-          ],
-        ),
-        SizedBox(height: 10.h,),
-        SizedBox(
-          width: MediaQuery.of(context).size.width - 50.w,
-          height: 80.h,
-          child: TextField(
-            maxLength: maxLength,
-            cursorColor: baseColor,
-            controller: TextEditingController(),
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: baseColor),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: baseColor), // フォーカス時の外枠の色
-              ),
-           ),
-          ),
-        )
-      ],
-    );
-  }
-}
