@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../model/tabbar_model/tab_item_data.dart';
+import '../../model/tabbar_model/tab_item_data.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -15,16 +15,15 @@ class SettingsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(pageTitle),
-            ElevatedButton(
-              onPressed: () {
-                // Navigator.push<void>(
-                //   context,
-                //   MaterialPageRoute<void>(
-                //     builder: (BuildContext context) => const DetailPage(),
-                //   ),
-                // );
+            GestureDetector(
+              onTap: () {
+                print('hello');
               },
-              child: const Text('詳細ページへ'),
+                child: const Text('詳細ページへ',
+                  style: TextStyle(
+                    color: Colors.pink
+                  ),
+                )
             ),
           ],
         ),

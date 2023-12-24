@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../pages/answer_page.dart';
-import '../../pages/grade_page.dart';
-import '../../pages/home_page.dart';
-import '../../pages/settings_page.dart';
+import '../../pages/answer_pages/answer_page.dart';
+import '../../pages/grade_pages/grade_page.dart';
+import '../../pages/home_pages/home_page.dart';
+import '../../pages/settings_pages/settings_page.dart';
 
 
 
@@ -17,13 +17,13 @@ enum TabItem {
 
   answer(
     title: '解答',
-    icon: Icons.add_card,
+    icon: Icons.create,
     page: AnswerPage(),
   ),
 
   grade(
     title: '成績',
-    icon: Icons.accessible_forward_outlined,
+    icon: Icons.leaderboard,
     page: GradePage(),
   ),
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../model/tabbar_model/tab_item_data.dart';
+import '../../model/tabbar_model/tab_item_data.dart';
 
 class GradePage extends StatelessWidget {
   const GradePage({super.key});

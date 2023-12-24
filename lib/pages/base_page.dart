@@ -23,7 +23,6 @@ class BasePage extends HookWidget {
               .map(
                 (tabItem) => Offstage(
               offstage: currentTab.value != tabItem,
-              // ② 各ページの Navigator に NavigatorState を持った Key を渡す
               child: Navigator(
                 key: _navigatorKeys[tabItem],
                 onGenerateRoute: (settings) {
@@ -37,13 +36,17 @@ class BasePage extends HookWidget {
               .toList(),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
+       //   type: BottomNavigationBarType.fixed,
           currentIndex: TabItem.values.indexOf(currentTab.value),
+          unselectedItemColor: Colors.black,
+          selectedItemColor: Colors.cyan,
           items: TabItem.values
               .map(
                 (tabItem) => BottomNavigationBarItem(
               icon: Icon(tabItem.icon),
               label: tabItem.title,
+            //  backgroundColor: Colors.pink,
+
             ),
           )
               .toList(),

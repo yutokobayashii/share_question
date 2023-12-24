@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../model/tabbar_model/tab_item_data.dart';
+import '../../model/tabbar_model/tab_item_data.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class AnswerPage extends StatelessWidget {
+  const AnswerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final pageTitle = TabItem.home.title;
+    final pageTitle = TabItem.answer.title;
     return Scaffold(
       appBar: AppBar(title: Text(pageTitle)),
       body: Center(
