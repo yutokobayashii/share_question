@@ -6,6 +6,7 @@ import 'package:share_question/constant/color_constant.dart';
 
 import '../../widgets/base_textfield_widget.dart';
 import '../../widgets/dialog_widget.dart';
+import 'confirm_question_page.dart';
 import 'option_make_question_page.dart';
 
 class OptionMakeQuestionPage extends HookWidget {
@@ -204,45 +205,25 @@ class OptionMakeQuestionPage extends HookWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
+                            BasicButtonWidget(
+                              title: '最終確認へ',
                               width: MediaQuery.of(context).size.width  /2 -35.w,
-                              height: 45.h,
-                              decoration: BoxDecoration(
-                                color: baseColor,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: baseColor, // 外枠の色を黒に
-                                  width: 1, // 外枠の太さ
-                                ),
-                              ),
-                              child: Center(child: Text(
-                                '最終確認へ',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 18.sp
-                                ),)),
+                              action: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const ConfirmQuestionPage()),
+                                );
+
+                              },
                             ),
                             SizedBox(width: 20.w,),
-                            Container(
-                              width: MediaQuery.of(context).size.width /2 -35.w,
-                              height: 45.h,
-                              decoration: BoxDecoration(
-                                color: baseColor,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color: baseColor, // 外枠の色を黒に
-                                  width: 1, // 外枠の太さ
-                                ),
-                              ),
-                              child: Center(child: Text(
-                                'N問目へ',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 18.sp
-                                ),
-                              )),
+
+                            BasicButtonWidget(
+                              title: 'N問目へ',
+                              width: MediaQuery.of(context).size.width  /2 -35.w,
+                              action: () {
+
+                              },
                             ),
                           ],
                         ),
@@ -259,6 +240,44 @@ class OptionMakeQuestionPage extends HookWidget {
         ),
       );
     });
+  }
+}
+
+class BasicButtonWidget extends StatelessWidget {
+  const BasicButtonWidget({
+    super.key,
+    required this.title,
+    required this.width,
+    required this.action,
+  });
+  final String title;
+  final double width;
+  final VoidCallback action;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: action,
+      child: Container(
+        width: width,
+        height: 45.h,
+        decoration: BoxDecoration(
+          color: baseColor,
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+            color: baseColor, // 外枠の色を黒に
+            width: 1, // 外枠の太さ
+          ),
+        ),
+        child: Center(child: Text(
+          title,
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+              fontSize: 18.sp
+          ),)),
+      ),
+    );
   }
 }
 

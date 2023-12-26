@@ -36,6 +36,7 @@ class BasePage extends HookWidget {
               .toList(),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.shifting,
           currentIndex: TabItem.values.indexOf(currentTab.value),
           unselectedItemColor: Colors.black,
           selectedItemColor: Colors.cyan,
@@ -44,7 +45,7 @@ class BasePage extends HookWidget {
                 (tabItem) => BottomNavigationBarItem(
               icon: Icon(tabItem.icon),
               label: tabItem.title,
-            //  backgroundColor: Colors.pink,
+              backgroundColor: Colors.white,
 
             ),
           )
