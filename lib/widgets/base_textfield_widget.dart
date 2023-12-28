@@ -9,6 +9,8 @@ class BaseTextFieldWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.maxLength,
+    required this.onChanged,
+    required this.onSubmitted,
      this.height = 80,
      this.rightWidget = const SizedBox(),
 
@@ -18,6 +20,8 @@ class BaseTextFieldWidget extends StatelessWidget {
   final int maxLength;
   final double height;
   final Widget rightWidget;
+  final void Function(String) onChanged;
+  final void Function(String) onSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +60,8 @@ class BaseTextFieldWidget extends StatelessWidget {
                 borderSide: BorderSide(color: baseColor),
               ),
             ),
+            onChanged: onChanged,
+            onSubmitted: onSubmitted,
           ),
         )
       ],

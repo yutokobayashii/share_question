@@ -85,28 +85,52 @@ class InitialMakeQuestionPage extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 15.h,),
-                   const BaseTextFieldWidget(
+                  BaseTextFieldWidget(
                     title: '問題集名',
                     maxLength: 30,
-                    rightWidget: IsRequiredWidget()
+                    rightWidget: const IsRequiredWidget(),
+                     onChanged: (text) {
+
+                     },
+                    onSubmitted: (text) {
+
+                    },
                   ),
 
                   SizedBox(height: 10.h,),
-                  const BaseTextFieldWidget(
+                  BaseTextFieldWidget(
                     title: '作成者名',
                     maxLength: 15,
-                    rightWidget: IsRequiredWidget()
+                    rightWidget: const IsRequiredWidget(),
+                    onChanged: (text) {
+
+                    },
+                    onSubmitted: (text) {
+
+                    },
                   ),
 
                   SizedBox(height: 10.h,),
-                  const BaseTextFieldWidget(
+                  BaseTextFieldWidget(
                     title: '問題集の説明',
-                    maxLength: 100,),
+                    maxLength: 100,
+                    onChanged: (text) {
+
+                    },
+                    onSubmitted: (text) {
+
+                  },),
 
                   SizedBox(height: 10.h,),
-                  const BaseTextFieldWidget(
+                  BaseTextFieldWidget(
                     title: '解答した人へのコメント',
-                    maxLength: 100,),
+                    maxLength: 100,
+                    onChanged: (text) {
+
+                    },
+                    onSubmitted: (text) {
+
+                    },),
                 ],
               ),
             ),

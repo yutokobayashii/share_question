@@ -10,9 +10,11 @@ class BasicButtonWidget extends StatelessWidget {
     required this.title,
     required this.width,
     required this.action,
+      this.height = 45,
   });
   final String title;
   final double width;
+  final double height;
   final VoidCallback action;
 
   @override
@@ -21,7 +23,7 @@ class BasicButtonWidget extends StatelessWidget {
       onTap: action,
       child: Container(
         width: width,
-        height: 45.h,
+        height: height,
         decoration: BoxDecoration(
           color: baseColor,
           borderRadius: BorderRadius.circular(5),

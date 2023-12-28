@@ -27,6 +27,12 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               maxLength: 30,
               height: 70.h,
               rightWidget: const IsRequiredWidget(),
+              onChanged: (text) {
+
+              },
+              onSubmitted: (text) {
+
+              },
             ),
 
             BaseTextFieldWidget(
@@ -34,6 +40,12 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               maxLength: 30,
               height: 70.h,
               rightWidget: const IsRequiredWidget(),
+              onChanged: (text) {
+
+              },
+              onSubmitted: (text) {
+
+              },
             ),
 
             for(int i = 2; i<addOptionNumber.value; i++) ...{
@@ -61,6 +73,12 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
                       )
                   ),
                 ),
+                onChanged: (text) {
+
+              },
+                onSubmitted: (text) {
+
+              },
               ),
             },
 

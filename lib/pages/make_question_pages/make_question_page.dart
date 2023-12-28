@@ -208,6 +208,12 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           title: '問題',
                           maxLength: 100,
                           height: 70.h,
+                          onChanged: (text) {
+
+                          },
+                          onSubmitted: (text) {
+
+                          },
                         ),
 
                         BasicAddWidget(
@@ -274,12 +280,24 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           title: '正解',
                           maxLength: 30,
                           height: 70.h,
+                          onChanged: (text) {
+
+                          },
+                          onSubmitted: (text) {
+
+                        },
                         ),
 
                         BaseTextFieldWidget(
                           title: '解説',
                           maxLength: 30,
                           height: 70.h,
+                          onChanged: (text) {
+
+                          },
+                          onSubmitted: (text) {
+
+                         },
                         ),
 
                         SizedBox(height: 20.h,),
