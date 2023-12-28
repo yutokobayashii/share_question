@@ -1,7 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/pages/home_pages/home_page.dart';
 
-import '../../widgets/dialog_widget.dart';
+import '../../widgets/basic_button_widget.dart';
 
 class ShareQuestionPage extends StatelessWidget {
   const ShareQuestionPage({super.key});
@@ -14,7 +17,12 @@ class ShareQuestionPage extends StatelessWidget {
           backgroundColor: Colors.white,
           leading: GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.popUntil(context, (route) => route.isFirst);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const HomePage()),
+                // );
+
               },
               child: const Icon(
                 Icons.arrow_back,
@@ -22,41 +30,95 @@ class ShareQuestionPage extends StatelessWidget {
               )
           ),
           title: const Text('共有'),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 15),
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context1) => AlertDialogWidget(
-                      title: '作問を中止しますか？',
-                      content: '中止すると入力した項目は保存されません',
-                      leftText: '中止する',
-                      rightText: '続ける',
-                      rightAction: () {
-                        Navigator.pop(context1);
-                      },
-                      leftAction: () {
-                        Navigator.pop(context1);
-                        Navigator.popUntil(context, (route) => route.isFirst);
-                      },
 
-                    ),
-                  );
-                },
-                child: const Icon(Icons.close,
-                  size: 25,
-                  color: Colors.black,
+        ),
+        body: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              SizedBox(height: 15.h,),
+              Center(
+                child: SizedBox(
+                  width: 200.w,
+                  height: 200.h,
+                  child: Image.network('https://1.bp.blogspot.com/-HdrrDLMxxGs/Ws2uzOpk8yI/AAAAAAABLRY/9Td_5zg6Nf4eOkMiTbVdJ8qwuAfHfCltwCLcBGAs/s800/figure_dance.png')),
+              ),
+
+              SizedBox(height: 15.h,),
+
+              Text('作問お疲れ様でした！',
+                style: boldTextStyle,
+              ),
+
+              SizedBox(height: 15.h,),
+
+              Text('この問題集のパスワードは以下です。',
+                style: boldTextStyle,
+              ),
+
+              SizedBox(height: 10.h,),
+
+              Container(
+                width: MediaQuery.of(context).size.width - 80.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.content_copy),
+                    SizedBox(width: 15.w,),
+                    Text('nc8eugbv8rnome9b8vbcrifunv8r',
+                      style: normalTextStyle,),
+                  ],
                 ),
               ),
-            )
-          ],
 
-        ),
-        body: const Center(
-          child: Text('aaaa'),
-        ),
+              SizedBox(height: 15.h,),
+
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 80.w,
+                child: Text('※このパスワードを共有することで、\n解答者はこの問題にアクセスすることが可能になります。',
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black87
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 10.h,),
+
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 80.w,
+                child: Text('※このパスワードは、ホーム画面の「過去の作問」からいつでもアクセスできます。',
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black87
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 25.h,),
+
+              BasicButtonWidget(
+                title: 'SNSでシェアする',
+                width: MediaQuery.of(context).size.width -80.w,
+                action: () {
+
+                },
+              ),
+
+            ],
+          ),
+        )
       ),
     );
   }

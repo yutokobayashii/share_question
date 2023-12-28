@@ -8,16 +8,16 @@ class BaseTextFieldWidget extends StatelessWidget {
   const BaseTextFieldWidget({
     super.key,
     required this.title,
-    required this.isRequired,
     required this.maxLength,
      this.height = 80,
+     this.rightWidget = const SizedBox(),
 
   });
 
   final String title;
-  final bool isRequired;
   final int maxLength;
   final double height;
+  final Widget rightWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -34,27 +34,10 @@ class BaseTextFieldWidget extends StatelessWidget {
               ),
             ),
             SizedBox(width: 5.w,),
-            isRequired ?
-            Container(
-              width: 40.w,
-              height: 16.h,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Center(
-                child: Text(
-                  '必須',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700
-                  ),
-                ),
-              ),
-            )
-                :
-            const SizedBox()
+
+            rightWidget
+
+
           ],
         ),
         SizedBox(height: 10.h,),

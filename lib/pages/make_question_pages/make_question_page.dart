@@ -1,20 +1,31 @@
 
+
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:share_question/constant/color_constant.dart';
 
+import '../../controller/make_question_controller/make_question_controller.dart';
 import '../../widgets/base_textfield_widget.dart';
+import '../../widgets/basic_button_widget.dart';
 import '../../widgets/dialog_widget.dart';
 import 'confirm_question_page.dart';
 import 'option_make_question_page.dart';
 
-class OptionMakeQuestionPage extends HookWidget {
+final imageFileProvider = StateProvider<XFile?>((ref) => null);
+
+class OptionMakeQuestionPage extends HookConsumerWidget {
   const OptionMakeQuestionPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final isOptionAnswerTypeProvider = useState(false);
+  Widget build(BuildContext context,WidgetRef ref) {
+    final isOptionAnswerTypeState = useState(false);
+
     return ScreenUtilInit(
       designSize: const Size(393, 852),
     builder: (_ , child) {
@@ -28,11 +39,38 @@ class OptionMakeQuestionPage extends HookWidget {
                 },
                 child: const Icon(
                   Icons.arrow_back,
-                  size: 25,
+                  size: 28,
                 )
             ),
-            title: const Text('N問目'),
+            title: const Center(child: Text('N問目')),
             actions: [
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context1) => AlertDialogWidget(
+                        title: 'ここまでの作問を保存しますか？',
+                        content: '保存した作問は後から再開できます',
+                        leftText: '作問を続ける',
+                        rightText: '保存する',
+                        rightAction: () {
+                          debugPrint('保存しました');
+                          Navigator.pop(context1);
+                          Navigator.popUntil(context, (route) => route.isFirst);
+                        },
+                        leftAction: () {
+                          Navigator.pop(context1);
+                        },
+                      )
+                  );
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 15),
+                  child: Icon(Icons.description_outlined,
+                    size: 28,
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(right: 15),
                 child: GestureDetector(
@@ -56,7 +94,7 @@ class OptionMakeQuestionPage extends HookWidget {
                     );
                   },
                   child: const Icon(Icons.close,
-                    size: 25,
+                    size: 28,
                     color: Colors.black,
                   ),
                 ),
@@ -89,8 +127,8 @@ class OptionMakeQuestionPage extends HookWidget {
                             ),
                             const SizedBox(height: 10,),
                             GestureDetector(
-                                onTap: isOptionAnswerTypeProvider.value ? null : () {
-                                  isOptionAnswerTypeProvider.value = true;
+                                onTap: isOptionAnswerTypeState.value ? null : () {
+                                  isOptionAnswerTypeState.value = true;
                                 },
                                 child: Row(
                                   children: [
@@ -105,7 +143,7 @@ class OptionMakeQuestionPage extends HookWidget {
                                           width: 1,
                                         ),
                                       ),
-                                      child: isOptionAnswerTypeProvider.value ? Center(
+                                      child: isOptionAnswerTypeState.value ? Center(
                                         child: Container(
                                           width: 12.5.w,
                                           height: 12.5.h,
@@ -126,8 +164,8 @@ class OptionMakeQuestionPage extends HookWidget {
                                 )),
                             SizedBox(height: 10.h,),
                             GestureDetector(
-                                onTap: isOptionAnswerTypeProvider.value ? () {
-                                  isOptionAnswerTypeProvider.value = false;
+                                onTap: isOptionAnswerTypeState.value ? () {
+                                  isOptionAnswerTypeState.value = false;
                                 } : null,
                                 child: Row(
                                   children: [
@@ -142,7 +180,7 @@ class OptionMakeQuestionPage extends HookWidget {
                                           width: 1,
                                         ),
                                       ),
-                                      child: isOptionAnswerTypeProvider.value ? null : Center(
+                                      child: isOptionAnswerTypeState.value ? null : Center(
                                         child: Container(
                                           width: 12.5.w,
                                           height: 12.5.h,
@@ -168,7 +206,6 @@ class OptionMakeQuestionPage extends HookWidget {
 
                         BaseTextFieldWidget(
                           title: '問題',
-                          isRequired: false,
                           maxLength: 100,
                           height: 70.h,
                         ),
@@ -177,25 +214,70 @@ class OptionMakeQuestionPage extends HookWidget {
                           text: '画像を追加',
                           icon: Icons.add,
                           action: () {
-
+                            pickImage(ImageSource.gallery,ref);
                           },),
 
-                        (isOptionAnswerTypeProvider.value)
-                            ? const OptionMakeQuestionWidget() :
-                        const SizedBox(),
+                        (ref.watch(imageFileProvider) != null) ?
+                            Column(
+                              children: [
+                                SizedBox(height: 20.h,),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Container(
+                                    color: Colors.white,
+                                    width:  250.w,
+                                    height: 200.h,
+                                    child: Stack(
+                                      children: [
+                                        Image.file(File(ref.watch(imageFileProvider)!.path),
+                                          fit: BoxFit.contain,),
 
-                        SizedBox(height: 15.h,),
+                                        Positioned(
+                                          top: 0, // Containerの外側に配置
+                                          right: 0, // Containerの外側に配置
+                                          child:  GestureDetector(
+                                            onTap: () {
+                                              ref.watch(imageFileProvider.notifier).update((state) => null);
+                                            },
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.white,
+                                                  border: Border.all(
+                                                    color: baseColor,
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                child: const Icon(
+                                                  Icons.close,
+                                                  color: baseColor,
+                                                )
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                            : const SizedBox(),
+
+
+                        (isOptionAnswerTypeState.value)
+                            ? const OptionMakeQuestionWidget() :
+                          SizedBox(height: 15.h,),
+
+
 
                         BaseTextFieldWidget(
                           title: '正解',
-                          isRequired: false,
                           maxLength: 30,
                           height: 70.h,
                         ),
 
                         BaseTextFieldWidget(
                           title: '解説',
-                          isRequired: false,
                           maxLength: 30,
                           height: 70.h,
                         ),
@@ -243,43 +325,7 @@ class OptionMakeQuestionPage extends HookWidget {
   }
 }
 
-class BasicButtonWidget extends StatelessWidget {
-  const BasicButtonWidget({
-    super.key,
-    required this.title,
-    required this.width,
-    required this.action,
-  });
-  final String title;
-  final double width;
-  final VoidCallback action;
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: action,
-      child: Container(
-        width: width,
-        height: 45.h,
-        decoration: BoxDecoration(
-          color: baseColor,
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(
-            color: baseColor, // 外枠の色を黒に
-            width: 1, // 外枠の太さ
-          ),
-        ),
-        child: Center(child: Text(
-          title,
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-              fontSize: 18.sp
-          ),)),
-      ),
-    );
-  }
-}
 
 
 
