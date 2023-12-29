@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/pages/home_pages/home_page.dart';
 
-import '../../widgets/basic_button_widget.dart';
+import '../../../widgets/basic_button_widget.dart';
 
 class ShareQuestionPage extends StatelessWidget {
   const ShareQuestionPage({super.key});

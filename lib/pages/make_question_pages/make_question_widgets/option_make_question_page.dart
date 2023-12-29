@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
 
-import '../../widgets/base_textfield_widget.dart';
+import '../../../widgets/base_textfield_widget.dart';
 import 'initial_make_question_page.dart';
 
 class OptionMakeQuestionWidget extends HookConsumerWidget {

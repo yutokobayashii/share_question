@@ -14,3 +14,9 @@ const Color baseColor = Colors.cyan;
    fontSize: 14.sp,
   fontWeight: FontWeight.w400
  );
+
+ final colorBoldTextStyle =TextStyle(
+    color: baseColor,
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w600
+);

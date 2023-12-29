@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:share_question/constant/color_constant.dart';
 
-import '../../widgets/base_textfield_widget.dart';
-import '../../widgets/dialog_widget.dart';
-import 'make_question_page.dart';
+import '../../../widgets/base_textfield_widget.dart';
+import '../../../widgets/basic_floating_button.dart';
+import '../../../widgets/dialog_widget.dart';
+import '../make_question_page.dart';
 
 class InitialMakeQuestionPage extends StatelessWidget {
   const InitialMakeQuestionPage({super.key});
@@ -135,31 +135,14 @@ class InitialMakeQuestionPage extends StatelessWidget {
               ),
             ),
           ),
-          floatingActionButton: GestureDetector(
-            onTap: () {
+          floatingActionButton: BasicFloatingButtonWidget(
+            text: '次へ',
+            action: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const OptionMakeQuestionPage()),
               );
-
-            },
-            child: Container(
-              height: 70.0,
-              width: 70.0,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: baseColor,
-              ),
-              child: Center(child:
-              Text(
-                '次へ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700
-                ),)),
-            ),
-          )
+            },)
         ),
       );
     });

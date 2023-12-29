@@ -14,8 +14,8 @@ import '../../controller/make_question_controller/make_question_controller.dart'
 import '../../widgets/base_textfield_widget.dart';
 import '../../widgets/basic_button_widget.dart';
 import '../../widgets/dialog_widget.dart';
-import 'confirm_question_page.dart';
-import 'option_make_question_page.dart';
+import 'make_question_widgets/confirm_question_page.dart';
+import 'make_question_widgets/option_make_question_page.dart';
 
 final imageFileProvider = StateProvider<XFile?>((ref) => null);
 

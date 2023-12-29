@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_question/pages/home_pages/home_widgets/small_main_home_widget.dart';
 
 import '../../model/tabbar_model/tab_item_data.dart';
-import '../make_question_pages/initial_make_question_page.dart';
+import '../make_question_pages/make_question_widgets/initial_make_question_page.dart';
 import 'home_widgets/main_home_widget.dart';
 
 class HomePage extends StatelessWidget {

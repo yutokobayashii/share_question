@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/pages/input_password_page/input_password_page.dart';
+import 'package:share_question/constant/color_constant.dart';
+
 
 import '../../model/tabbar_model/tab_item_data.dart';
 import '../home_pages/home_widgets/main_home_widget.dart';
+import '../input_password_pages/input_password_page.dart';
 import 'answer_widgets/question_list_page.dart';
 
 
@@ -52,6 +54,26 @@ class AnswerPage extends HookConsumerWidget {
             ),
 
             SizedBox(height: 30.h,),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    Text('あなたのライブラリ',
+                         style: boldTextStyle,),
+
+                    const Icon(Icons.bookmark_outline,
+                      color: baseColor,
+                      size: 30,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            SizedBox(height: 20.h,),
 
             (ref.watch(testList).isEmpty) ?
 

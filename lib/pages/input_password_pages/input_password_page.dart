@@ -7,6 +7,7 @@ import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/widgets/base_textfield_widget.dart';
 
 import '../../widgets/basic_button_widget.dart';
+import '../answer_question_pages/answer_question_page.dart';
 
 class InputPasswordPage extends HookConsumerWidget {
   const InputPasswordPage({super.key});
@@ -68,13 +69,33 @@ class InputPasswordPage extends HookConsumerWidget {
 
               (isOnSubmitted.value) ?
 
-              BasicButtonWidget(
-                title: 'この問題を解答する',
-                width: MediaQuery.of(context).size.width -50.w,
-                height: 60.h,
-                action: () {
+              Column(
+                children: [
+                  BasicButtonWidget(
+                    title: 'この問題を解答する',
+                    width: MediaQuery.of(context).size.width -50.w,
+                    height: 60.h,
+                    action: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AnswerQuestionPage()),
+                      );
 
-                },)
+                    },),
+
+                  SizedBox(height: 20.h,),
+
+                  BasicButtonWidget(
+                    title: 'ライブラリに追加する',
+                    width: MediaQuery.of(context).size.width -50.w,
+                    height: 60.h,
+                    action: () {
+                      Navigator.pop(context);
+                    },),
+
+                ],
+              )
+
                   :
                   const SizedBox()
             ],

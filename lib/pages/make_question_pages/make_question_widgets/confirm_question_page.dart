@@ -1,10 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:share_question/pages/make_question_pages/share_question_page.dart';
+import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
+import 'package:share_question/widgets/basic_floating_button.dart';
 
-import '../../constant/color_constant.dart';
-import '../../widgets/dialog_widget.dart';
+import '../../../constant/color_constant.dart';
+import '../../../widgets/dialog_widget.dart';
 
 class ConfirmQuestionPage extends StatelessWidget {
   const ConfirmQuestionPage({super.key});
@@ -210,31 +211,15 @@ class ConfirmQuestionPage extends StatelessWidget {
             ),
           ),
         ),
-        floatingActionButton: GestureDetector(
-          onTap: () {
+        floatingActionButton: BasicFloatingButtonWidget(
+          text: '共有',
+          action: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const ShareQuestionPage()),
             );
-
           },
-          child: Container(
-            height: 70.0,
-            width: 70.0,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: baseColor,
-            ),
-            child: Center(child:
-            Text(
-              '共有',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700
-              ),)),
-          ),
-        ),
+        )
       ),
     );
   }
