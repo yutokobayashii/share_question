@@ -141,7 +141,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
           action: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const GradeDisplayPage()),
+              MaterialPageRoute(builder: (context) => const GradeDisplayPage(isFromGradePage: false,)),
             );
 
           },),

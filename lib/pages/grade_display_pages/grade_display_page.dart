@@ -9,7 +9,12 @@ import 'package:share_question/widgets/basic_floating_button.dart';
 
 
 class GradeDisplayPage extends StatelessWidget {
-  const GradeDisplayPage({super.key});
+  const GradeDisplayPage({
+    super.key,
+    required this.isFromGradePage
+  });
+
+  final bool isFromGradePage;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,14 @@ class GradeDisplayPage extends StatelessWidget {
           backgroundColor: Colors.white,
           title: const Center(child: Text('問題集名')),
           centerTitle:true,
-          leading: Opacity(opacity: 0, child: Container()),
+          leading: (isFromGradePage) ?
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back, size: 28,))
+              : Opacity(opacity: 0, child: Container()),
+
           actions: const [
             Padding(
               padding: EdgeInsets.only(right: 20),
@@ -114,7 +126,9 @@ class GradeDisplayPage extends StatelessWidget {
             ),
           ),
         ),
-        floatingActionButton: BasicFloatingButtonWidget(
+        floatingActionButton: (isFromGradePage) ?
+            const SizedBox()
+            : BasicFloatingButtonWidget(
           text: '戻る',
           action: () {
             Navigator.popUntil(context, (route) => route.isFirst);

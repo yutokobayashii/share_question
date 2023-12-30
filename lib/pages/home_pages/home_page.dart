@@ -4,8 +4,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_question/pages/home_pages/home_widgets/small_main_home_widget.dart';
+import 'package:share_question/pages/past_make_question_list_pages/past_make_question_list_page.dart';
 
 import '../../model/tabbar_model/tab_item_data.dart';
+import '../draft_list_pages/draft_list_page.dart';
 import '../make_question_pages/make_question_widgets/initial_make_question_page.dart';
 import 'home_widgets/main_home_widget.dart';
 
@@ -63,7 +65,11 @@ class HomePage extends StatelessWidget {
                             icon: const Icon(Icons.sort),
                             title: '過去の作問集',
                             action: () {
-                              debugPrint('あああああ');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const PastMakeQuestionListPage()),
+                              );
+
                             }, angle: -pi / 2,
                           ),
                           SizedBox(width: 20.w,),
@@ -72,7 +78,10 @@ class HomePage extends StatelessWidget {
                             icon: const Icon(Icons.description_outlined),
                             title: '下書き一覧',
                             action: () {
-                              debugPrint('かかかかか');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const DraftListPage()),
+                              );
                             }, angle: pi,
                           ),
                         ],

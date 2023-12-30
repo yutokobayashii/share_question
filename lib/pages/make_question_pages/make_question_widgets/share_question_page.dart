@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_question/constant/color_constant.dart';
-import 'package:share_question/pages/home_pages/home_page.dart';
+import 'package:share_question/widgets/copy_text_icon.dart';
 
 import '../../../widgets/basic_button_widget.dart';
 
@@ -18,10 +18,6 @@ class ShareQuestionPage extends StatelessWidget {
           leading: GestureDetector(
               onTap: () {
                 Navigator.popUntil(context, (route) => route.isFirst);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const HomePage()),
-                // );
 
               },
               child: const Icon(
@@ -59,7 +55,7 @@ class ShareQuestionPage extends StatelessWidget {
               SizedBox(height: 10.h,),
 
               Container(
-                width: MediaQuery.of(context).size.width - 80.w,
+                width: MediaQuery.of(context).size.width - 90.w,
                 height: 40.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
@@ -72,8 +68,7 @@ class ShareQuestionPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.content_copy),
-                    SizedBox(width: 15.w,),
+                   const CopyTextIcon(textToCopy: 'nc8eugbv8rnome9b8vbcrifunv8r',),
                     Text('nc8eugbv8rnome9b8vbcrifunv8r',
                       style: normalTextStyle,),
                   ],
