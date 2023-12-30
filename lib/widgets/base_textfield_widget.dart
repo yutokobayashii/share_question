@@ -1,10 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../constant/color_constant.dart';
+import '../provider/shared_prefrence_provider.dart';
 
-class BaseTextFieldWidget extends StatelessWidget {
+class BaseTextFieldWidget extends HookConsumerWidget {
   const BaseTextFieldWidget({
     super.key,
     required this.title,
@@ -24,7 +26,7 @@ class BaseTextFieldWidget extends StatelessWidget {
   final void Function(String) onSubmitted;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -50,14 +52,14 @@ class BaseTextFieldWidget extends StatelessWidget {
           height: height,
           child: TextField(
             maxLength: maxLength,
-            cursorColor: baseColor,
+            cursorColor: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
             controller: TextEditingController(),
-            decoration: const InputDecoration(
+            decoration:  InputDecoration(
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: baseColor),
+                borderSide: BorderSide(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: baseColor),
+                borderSide: BorderSide(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
               ),
             ),
             onChanged: onChanged,

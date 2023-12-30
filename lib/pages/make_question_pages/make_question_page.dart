@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:share_question/constant/color_constant.dart';
 
 import '../../controller/make_question_controller/make_question_controller.dart';
+import '../../provider/shared_prefrence_provider.dart';
 import '../../widgets/base_textfield_widget.dart';
 import '../../widgets/basic_button_widget.dart';
 import '../../widgets/dialog_widget.dart';
@@ -147,9 +148,9 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                                         child: Container(
                                           width: 12.5.w,
                                           height: 12.5.h,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: baseColor,
+                                            color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
                                           ),
                                         ),
                                       ) : null,
@@ -184,9 +185,9 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                                         child: Container(
                                           width: 12.5.w,
                                           height: 12.5.h,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: baseColor,
+                                            color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
                                           ),
                                         ),
                                       ),
@@ -250,13 +251,13 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                                                   shape: BoxShape.circle,
                                                   color: Colors.white,
                                                   border: Border.all(
-                                                    color: baseColor,
+                                                    color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
                                                     width: 1,
                                                   ),
                                                 ),
-                                                child: const Icon(
+                                                child: Icon(
                                                   Icons.close,
-                                                  color: baseColor,
+                                                  color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
                                                 )
                                             ),
                                           ),

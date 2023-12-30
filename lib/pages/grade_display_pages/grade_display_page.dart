@@ -3,12 +3,15 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/pages/grade_display_pages/question_result_list_widget.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
+import '../../provider/shared_prefrence_provider.dart';
 
-class GradeDisplayPage extends StatelessWidget {
+
+class GradeDisplayPage extends HookConsumerWidget {
   const GradeDisplayPage({
     super.key,
     required this.isFromGradePage
@@ -17,7 +20,7 @@ class GradeDisplayPage extends StatelessWidget {
   final bool isFromGradePage;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     const double score = 7;
     const double total = 10;
     double percentage = score / total;
@@ -66,7 +69,7 @@ class GradeDisplayPage extends StatelessWidget {
                               startDegreeOffset: -90,
                               sections: [
                                 PieChartSectionData(
-                                  color: baseColor,
+                                  color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
                                   value: percentage * 100,
                                   title: '',
                                   radius: 20,

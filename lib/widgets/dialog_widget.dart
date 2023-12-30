@@ -2,9 +2,12 @@
 
 
 import 'package:flutter/cupertino.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
 
-class AlertDialogWidget extends StatelessWidget {
+import '../provider/shared_prefrence_provider.dart';
+
+class AlertDialogWidget extends HookConsumerWidget {
 
   const AlertDialogWidget({
     super.key,
@@ -26,7 +29,7 @@ class AlertDialogWidget extends StatelessWidget {
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return CupertinoAlertDialog(
       title: Text(title),
       content: Text(content),
@@ -34,16 +37,16 @@ class AlertDialogWidget extends StatelessWidget {
         CupertinoDialogAction(
           onPressed: leftAction,
           child: Text(leftText,
-            style: const TextStyle(
-              color: baseColor
+            style: TextStyle(
+              color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)
             ),
           ),
         ),
         CupertinoDialogAction(
           onPressed: rightAction,
           child: Text(rightText,
-            style: const TextStyle(
-                color: baseColor
+            style: TextStyle(
+                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)
             ),
           ),
         ),

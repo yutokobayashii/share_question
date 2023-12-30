@@ -43,6 +43,7 @@ class DraftListPage extends HookConsumerWidget {
               SizedBox(height: 30.h,),
               QuestionListWidget(
                 ref: ref,
+                removeContent: '下書きを削除すると再度アクセスすることはできません',
                 action: () {
                   Navigator.push(
                     context,

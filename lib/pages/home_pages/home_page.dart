@@ -16,7 +16,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageTitle = TabItem.home.title;
     return ScreenUtilInit(
       designSize: const Size(393, 852),
     builder: (_ , child) {
@@ -25,7 +24,7 @@ class HomePage extends StatelessWidget {
           child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.white,
-                title: Text(pageTitle),
+                title: const Text("ホーム"),
                actions: const [
                  Padding(
                    padding: EdgeInsets.only(right: 20),

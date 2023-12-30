@@ -3,9 +3,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/pages/past_make_question_list_pages/past_question_detail_page.dart';
 
 import '../../constant/color_constant.dart';
+import '../../provider/shared_prefrence_provider.dart';
 
 class PastMakeQuestionListPage extends StatelessWidget {
   const PastMakeQuestionListPage({super.key});
@@ -55,13 +57,14 @@ class PastMakeQuestionListPage extends StatelessWidget {
   }
 }
 
-class PastQuestionListWidget extends StatelessWidget {
+class PastQuestionListWidget extends HookConsumerWidget {
   const PastQuestionListWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+   final colors = Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -89,7 +92,7 @@ class PastQuestionListWidget extends StatelessWidget {
               SizedBox(height: 15.h,),
 
               Text('問題名:',
-                  style: colorBoldTextStyle),
+                  style: colorBoldTextStyle(colors)),
 
               Text("dddddddddddd",
                 style: boldTextStyle,),
@@ -99,7 +102,7 @@ class PastQuestionListWidget extends StatelessWidget {
               Row(
                 children: [
                   Text('作成者:',
-                      style: colorBoldTextStyle),
+                      style: colorBoldTextStyle(colors)),
 
                   SizedBox(width: 5.w,),
 
@@ -115,7 +118,7 @@ class PastQuestionListWidget extends StatelessWidget {
               Row(
                 children: [
                   Text('作成日:',
-                      style: colorBoldTextStyle),
+                      style: colorBoldTextStyle(colors)),
 
                   SizedBox(width: 5.w,),
 
@@ -130,7 +133,7 @@ class PastQuestionListWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('説明:',
-                      style: colorBoldTextStyle),
+                      style: colorBoldTextStyle(colors)),
 
                   SizedBox(width: 5.w,),
 

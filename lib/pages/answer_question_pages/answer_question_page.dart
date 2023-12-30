@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
+import '../../provider/shared_prefrence_provider.dart';
 import '../grade_display_pages/grade_display_page.dart';
 
 
@@ -61,12 +62,12 @@ class AnswerQuestionPage extends HookConsumerWidget {
                    width: MediaQuery.of(context).size.width - 50.w,
                    child: Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                         child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderRadius: const BorderRadius.all(Radius.circular(5)),
                           child: LinearProgressIndicator(
                             value: currentNumber / maxNumber,
-                            valueColor: AlwaysStoppedAnimation<Color>(baseColor),
+                            valueColor: AlwaysStoppedAnimation<Color>(Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
                             backgroundColor: Colors.black12,
                             minHeight: 20,
                           ),
@@ -93,7 +94,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
                   ),
 
                   isOptional ?
-                  OptionalAnswerWidget(options: options, selectedOption: selectedOption)
+                  OptionalAnswerWidget(options: options, selectedOption: selectedOption, ref: ref,)
                       :
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,14 +108,14 @@ class AnswerQuestionPage extends HookConsumerWidget {
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           maxLength: 50,
-                          cursorColor: baseColor,
+                          cursorColor: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
                           controller: TextEditingController(),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: OutlineInputBorder(
-                              borderSide: BorderSide(color: baseColor),
+                              borderSide: BorderSide(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
                             ),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: baseColor),
+                              borderSide: BorderSide(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
                             ),
                           ),
                           onChanged: (text) {
@@ -155,10 +156,12 @@ class OptionalAnswerWidget extends StatelessWidget {
     super.key,
     required this.options,
     required this.selectedOption,
+    required this.ref,
   });
 
   final List<String> options;
   final ValueNotifier<String> selectedOption;
+  final WidgetRef ref;
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +172,7 @@ class OptionalAnswerWidget extends StatelessWidget {
          title: Text(option,
            style: boldTextStyle,),
          leading: Radio<String>(
-         activeColor: baseColor,
+         activeColor: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
          value: option,
          groupValue: selectedOption.value,
          onChanged: (String? value) {

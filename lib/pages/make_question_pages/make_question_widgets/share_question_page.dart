@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/widgets/copy_text_icon.dart';
 
+import '../../../controller/share_controller.dart';
 import '../../../widgets/basic_button_widget.dart';
 
 class ShareQuestionPage extends StatelessWidget {
@@ -107,7 +108,7 @@ class ShareQuestionPage extends StatelessWidget {
                 title: 'SNSでシェアする',
                 width: MediaQuery.of(context).size.width -80.w,
                 action: () {
-
+                  shareText(context,"ああああああああああああああああああああああ");
                 },
               ),
 

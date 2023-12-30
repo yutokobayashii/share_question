@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/provider/shared_prefrence_provider.dart';
 
 
 import '../../model/tabbar_model/tab_item_data.dart';
@@ -18,11 +19,10 @@ class AnswerPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
-    final pageTitle = TabItem.answer.title;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(pageTitle),
+        title: const Text("解答"),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 20),
@@ -65,8 +65,7 @@ class AnswerPage extends HookConsumerWidget {
                     Text('あなたのライブラリ',
                          style: boldTextStyle,),
 
-                    const Icon(Icons.bookmark_outline,
-                      color: baseColor,
+                     const Icon(Icons.bookmark_outline,
                       size: 30,
                     ),
                   ],
@@ -88,12 +87,13 @@ class AnswerPage extends HookConsumerWidget {
                 :
                   QuestionListWidget(
                     ref: ref,
+                    removeContent:'一度削除すると再度パスワードを入力しないと問題にアクセスできません',
                     action: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const AnswerQuestionPage()),
                       );
-                    },)
+                    }, )
           ],
         ),
       ),

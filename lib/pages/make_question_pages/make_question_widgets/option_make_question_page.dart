@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
 
+import '../../../provider/shared_prefrence_provider.dart';
 import '../../../widgets/base_textfield_widget.dart';
 import 'initial_make_question_page.dart';
 
@@ -62,13 +63,13 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
                         shape: BoxShape.circle,
                         color: Colors.white,
                         border: Border.all(
-                          color: baseColor,
+                          color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
                           width: 1,
                         ),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.close,
-                        color: baseColor,
+                        color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
                         size: 20,
                       )
                   ),
@@ -100,7 +101,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
     }
   }
 
-class BasicAddWidget extends StatelessWidget {
+class BasicAddWidget extends HookConsumerWidget {
   const BasicAddWidget({
     super.key,
     required this.text,
@@ -113,7 +114,7 @@ class BasicAddWidget extends StatelessWidget {
   final VoidCallback action;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return GestureDetector(
       onTap: action,
       child: Row(
@@ -131,13 +132,13 @@ class BasicAddWidget extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: Colors.white,
                 border: Border.all(
-                  color: baseColor,
+                  color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
                   width: 1,
                 ),
               ),
               child: Icon(
                 icon,
-                color: baseColor,
+                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
               )
           ),
 

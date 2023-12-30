@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../constant/color_constant.dart';
 import '../../model/tabbar_model/tab_item_data.dart';
+import '../../provider/shared_prefrence_provider.dart';
 import '../grade_display_pages/grade_display_page.dart';
 
 class GradePage extends StatelessWidget {
@@ -10,12 +12,11 @@ class GradePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageTitle = TabItem.grade.title;
     const listNumber = 3;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(pageTitle),
+        title: const Text("成績"),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 20),
@@ -52,7 +53,7 @@ class GradePage extends StatelessWidget {
   }
 }
 
-class GradeListWidget extends StatelessWidget {
+class GradeListWidget extends HookConsumerWidget {
   const GradeListWidget({
     super.key,
     required this.i,
@@ -71,7 +72,8 @@ class GradeListWidget extends StatelessWidget {
   final String name;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+   final colors = Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: GestureDetector(
@@ -99,7 +101,7 @@ class GradeListWidget extends StatelessWidget {
               SizedBox(height: 15.h,),
 
               Text('問題名:',
-                  style: colorBoldTextStyle),
+                  style: boldTextStyle),
 
               Text(questionName,
                 style: boldTextStyle,),
@@ -109,7 +111,7 @@ class GradeListWidget extends StatelessWidget {
               Row(
                 children: [
                   Text('作成者:',
-                      style: colorBoldTextStyle),
+                      style: boldTextStyle),
 
                   SizedBox(width: 5.w,),
 
@@ -125,7 +127,7 @@ class GradeListWidget extends StatelessWidget {
               Row(
                 children: [
                   Text('最終解答日:',
-                      style: colorBoldTextStyle),
+                      style: boldTextStyle),
 
                   SizedBox(width: 5.w,),
 
@@ -139,7 +141,7 @@ class GradeListWidget extends StatelessWidget {
               Row(
                 children: [
                   Text('正答率:',
-                      style: colorBoldTextStyle),
+                      style: boldTextStyle),
 
                   SizedBox(width: 5.w,),
 
@@ -150,10 +152,6 @@ class GradeListWidget extends StatelessWidget {
 
               SizedBox(height: 15.h,),
 
-              // (i != listNumber -1) ?
-              // const Divider()
-              //     :
-              // const SizedBox(),
             ],
           ),
         ),

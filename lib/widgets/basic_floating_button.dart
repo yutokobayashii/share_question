@@ -1,10 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../constant/color_constant.dart';
+import '../provider/shared_prefrence_provider.dart';
 
-class BasicFloatingButtonWidget extends StatelessWidget {
+class BasicFloatingButtonWidget extends HookConsumerWidget {
   const BasicFloatingButtonWidget({
     super.key,
     required this.text,
@@ -16,15 +18,15 @@ class BasicFloatingButtonWidget extends StatelessWidget {
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return GestureDetector(
       onTap: action,
       child: Container(
         height: 70.0,
         width: 70.0,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: baseColor,
+          color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
         ),
         child: Center(child:
         Text(

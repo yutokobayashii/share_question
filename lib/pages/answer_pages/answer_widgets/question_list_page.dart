@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../constant/color_constant.dart';
+import '../../../provider/shared_prefrence_provider.dart';
 import '../../../widgets/dialog_widget.dart';
 import '../../answer_question_pages/answer_question_page.dart';
 import '../answer_page.dart';
@@ -14,10 +15,12 @@ class QuestionListWidget extends StatelessWidget {
     super.key,
     required this.ref,
     required this.action,
+    required this.removeContent,
   });
 
   final WidgetRef ref;
   final VoidCallback action;
+  final String removeContent;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -32,7 +35,7 @@ class QuestionListWidget extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context1) => AlertDialogWidget(
                   title: 'この問題を削除しますか？',
-                  content: '一度削除すると再度パスワードを入力しないと問題にアクセスできません',
+                  content:removeContent,
                   leftText: '削除する',
                   rightText: 'キャンセル',
                   rightAction: () {
@@ -89,20 +92,8 @@ class QuestionListWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 10.h,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(ref.watch(testList)[index],
-                            style: boldTextStyle,
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(right: 15),
-                            child: Icon(Icons.touch_app_outlined,
-                              color: baseColor,
-                              size: 30,
-                            ),
-                          )
-                        ],
+                      Text(ref.watch(testList)[index],
+                        style: boldTextStyle,
                       ),
                       SizedBox(height: 5.h,),
                       Row(

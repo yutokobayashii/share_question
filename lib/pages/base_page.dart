@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../constant/color_constant.dart';
 import '../model/tabbar_model/tab_item_data.dart';
+import '../provider/shared_prefrence_provider.dart';
 
 final _navigatorKeys = <TabItem, GlobalKey<NavigatorState>>{
   TabItem.home: GlobalKey<NavigatorState>(),
@@ -9,12 +12,11 @@ final _navigatorKeys = <TabItem, GlobalKey<NavigatorState>>{
   TabItem.settings: GlobalKey<NavigatorState>(),
 };
 
-class BasePage extends HookWidget {
+class BasePage extends HookConsumerWidget {
   const BasePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // ① useState で選択状態の管理
+  Widget build(BuildContext context,WidgetRef ref) {
     final currentTab = useState(TabItem.home);
     return MaterialApp(
       home: Scaffold(
@@ -27,7 +29,7 @@ class BasePage extends HookWidget {
                 key: _navigatorKeys[tabItem],
                 onGenerateRoute: (settings) {
                   return MaterialPageRoute<Widget>(
-                    builder: (context) => tabItem.page,
+                    builder: (context) => getPageWidget(tabItem),
                   );
                 },
               ),
@@ -39,12 +41,12 @@ class BasePage extends HookWidget {
           type: BottomNavigationBarType.shifting,
           currentIndex: TabItem.values.indexOf(currentTab.value),
           unselectedItemColor: Colors.black,
-          selectedItemColor: Colors.cyan,
+          selectedItemColor: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
           items: TabItem.values
               .map(
                 (tabItem) => BottomNavigationBarItem(
               icon: Icon(tabItem.icon),
-              label: tabItem.title,
+              label: tabItem.label,
               backgroundColor: Colors.white,
 
             ),

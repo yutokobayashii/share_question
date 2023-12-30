@@ -1,10 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../constant/color_constant.dart';
+import '../provider/shared_prefrence_provider.dart';
 
-class BasicButtonWidget extends StatelessWidget {
+class BasicButtonWidget extends HookConsumerWidget {
   const BasicButtonWidget({
     super.key,
     required this.title,
@@ -18,17 +20,17 @@ class BasicButtonWidget extends StatelessWidget {
   final VoidCallback action;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return GestureDetector(
       onTap: action,
       child: Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: baseColor,
+          color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
           borderRadius: BorderRadius.circular(5),
           border: Border.all(
-            color: baseColor, // 外枠の色を黒に
+            color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
             width: 1, // 外枠の太さ
           ),
         ),

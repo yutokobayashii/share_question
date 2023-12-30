@@ -1,17 +1,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
 import '../../../constant/color_constant.dart';
+import '../../../provider/shared_prefrence_provider.dart';
 import '../../../widgets/dialog_widget.dart';
 
-class ConfirmQuestionPage extends StatelessWidget {
+class ConfirmQuestionPage extends HookConsumerWidget {
   const ConfirmQuestionPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return  MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -134,7 +136,7 @@ class ConfirmQuestionPage extends StatelessWidget {
                                             ),
                                           ),
 
-                                          const Icon(Icons.edit_outlined, color: baseColor,)
+                                          Icon(Icons.edit_outlined, color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),)
                                         ],
                                       ),
                                     )

@@ -2,17 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/controller/share_controller.dart';
 import 'package:share_question/pages/past_make_question_list_pages/past_question_detail_list_widget.dart';
 import 'package:share_question/widgets/basic_button_widget.dart';
 
+import '../../provider/shared_prefrence_provider.dart';
 import '../../widgets/copy_text_icon.dart';
 
-class PastQuestionDetailPage extends StatelessWidget {
+class PastQuestionDetailPage extends HookConsumerWidget {
   const PastQuestionDetailPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -86,7 +89,7 @@ class PastQuestionDetailPage extends StatelessWidget {
 
                   Row(
                     children: [
-                      const Icon(Icons.star,color: baseColor,),
+                      Icon(Icons.star,color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),),
                       SizedBox(width: 5.w,),
                       Text('いいね数:5',
                         style: boldTextStyle,),
@@ -170,7 +173,7 @@ class PastQuestionDetailPage extends StatelessWidget {
           title: 'SNSで共有する',
           width: MediaQuery.of(context).size.width - 50.w,
           action: () {
-
+            shareText(context, "kkkkkkkkkkkkkkkkkkk");
           },),
       ),
     );

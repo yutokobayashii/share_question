@@ -10,43 +10,42 @@ import '../../pages/settings_pages/settings_page.dart';
 
 enum TabItem {
   home(
-    title: 'ホーム',
-    icon: Icons.home,
-    page: HomePage(),
+      Icons.home,
+      "ホーム"
   ),
-
   answer(
-    title: '解答',
-    icon: Icons.create,
-    page: AnswerPage(),
+      Icons.create,
+      "解答"
   ),
-
   grade(
-    title: '成績',
-    icon: Icons.leaderboard,
-    page: GradePage(),
+      Icons.leaderboard,
+      "成績"
   ),
-
   settings(
-    title: '設定',
-    icon: Icons.settings,
-    page: SettingsPage(),
+      Icons.settings,
+      "設定"
   );
 
-  
+  const TabItem(this.icon,this.label);
 
-  const TabItem({
-    required this.title,
-    required this.icon,
-    required this.page,
-  });
-
-  /// タイトル
-  final String title;
-
-  /// アイコン
   final IconData icon;
+  final String label;
+}
 
-  /// 画面
-  final Widget page;
+
+Widget getPageWidget(TabItem item) {
+  switch (item) {
+    case TabItem.home:
+      return const HomePage();
+    case TabItem.answer:
+      return const AnswerPage();
+
+    case TabItem.grade:
+      return const GradePage();
+
+    case TabItem.settings:
+      return const SettingsPage();
+
+
+  }
 }
