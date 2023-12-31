@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/pages/settings_pages/setting_widgets/kiyaku.page.dart';
+import 'package:share_question/pages/settings_pages/setting_widgets/privacy_policy_page.dart';
 import 'package:share_question/provider/shared_prefrence_provider.dart';
 
-import '../../model/tabbar_model/tab_item_data.dart';
+import '../guide_pages/guide_page.dart';
 
 final colorProvider = StateProvider<int>((ref) => ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value);
 
@@ -13,7 +15,6 @@ class SettingsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
-   final colors = Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value);
     return Scaffold(
       appBar: AppBar(title: const Text("設定")),
       body: Padding(
@@ -69,7 +70,10 @@ class SettingsPage extends HookConsumerWidget {
               SettingWidget(
                 title: '使い方',
                 action: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const GuidePage()),
+                  );
                 },),
 
               SizedBox(height: 15.h,),
@@ -77,7 +81,10 @@ class SettingsPage extends HookConsumerWidget {
               SettingWidget(
                 title: 'プライバシーポリシー',
                 action: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const PrivacyPolicyPage()),
+                  );
                 },),
 
               SizedBox(height: 15.h,),
@@ -85,7 +92,10 @@ class SettingsPage extends HookConsumerWidget {
               SettingWidget(
                 title: '利用規約',
                 action: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const KiyakuPage()),
+                  );
                 },),
             ],
           ),
