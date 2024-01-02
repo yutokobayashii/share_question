@@ -9,7 +9,7 @@
         <key>NSCameraUsageDescription</key>
         <string>Camera Library Access Warning</string>
 	<key>CFBundleDisplayName</key>
-	<string>$(appName)</string>
+	<string>Share Question</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,7 +17,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(appName)</string>
+	<string>share_question</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
