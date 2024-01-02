@@ -6,9 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share_question/pages/home_pages/home_widgets/small_main_home_widget.dart';
 import 'package:share_question/pages/past_make_question_list_pages/past_make_question_list_page.dart';
 
-import '../../model/tabbar_model/tab_item_data.dart';
 import '../draft_list_pages/draft_list_page.dart';
-import '../guide_pages/guide_page.dart';
+import '../guide_pages/guide_widget/select_guide_widget.dart';
 import '../make_question_pages/make_question_widgets/initial_make_question_page.dart';
 import 'home_widgets/main_home_widget.dart';
 
@@ -95,9 +94,20 @@ class HomePage extends StatelessWidget {
                         title: '使い方ガイド',
                         content: 'lineや各種SNSで作った問題をみんなに共有し、\n学校の授業、部活動、家族や会社で活用しよう！',
                         action: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const GuidePage()),
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => const GuidePage()),
+                          // );
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定
+                            builder: (BuildContext context) {
+                              return Container(
+                                  color: Colors.white,
+                                  height: MediaQuery.of(context).size.height * 0.5,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: const SelectGuideWidget());
+                            },
                           );
                         },
                       ),
