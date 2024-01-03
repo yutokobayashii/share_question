@@ -28,6 +28,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               title: '選択肢1',
               maxLength: 30,
               height: 70.h,
+              controller: TextEditingController(),
               rightWidget: const IsRequiredWidget(),
               onChanged: (text) {
                 ref.watch(MakeQuestionProvider.optionalProvider(1).notifier).update((state) => text);
@@ -41,6 +42,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               title: '選択肢2',
               maxLength: 30,
               height: 70.h,
+              controller: TextEditingController(),
               rightWidget: const IsRequiredWidget(),
               onChanged: (text) {
                 ref.watch(MakeQuestionProvider.optionalProvider(2).notifier).update((state) => text);
@@ -55,6 +57,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
                 title: '選択肢${i+1}',
                 maxLength: 30,
                 height: 70.h,
+                controller: TextEditingController(),
                 rightWidget: GestureDetector(
                   onTap: () {
                     addOptionNumber.value--;

@@ -1,6 +1,7 @@
 
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../model/question_model/question.dart';
 
@@ -19,6 +20,8 @@ class MakeQuestionProvider {
  static final optionalNumber = StateProvider((ref) => 2);//選択肢2まではマストのため
 
  static final questionDetailListProvider = StateProvider<List<QuestionDetail>>((ref) => []);
+
+ static final imageFileProvider = StateProvider<XFile?>((ref) => null);
 
 
 

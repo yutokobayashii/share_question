@@ -13,6 +13,8 @@ class BaseTextFieldWidget extends HookConsumerWidget {
     required this.maxLength,
     required this.onChanged,
     required this.onSubmitted,
+    required this.controller,
+
      this.height = 80,
      this.rightWidget = const SizedBox(),
 
@@ -24,6 +26,7 @@ class BaseTextFieldWidget extends HookConsumerWidget {
   final Widget rightWidget;
   final void Function(String) onChanged;
   final void Function(String) onSubmitted;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
@@ -53,7 +56,7 @@ class BaseTextFieldWidget extends HookConsumerWidget {
           child: TextField(
             maxLength: maxLength,
             cursorColor: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
-            controller: TextEditingController(),
+            controller: controller,
             decoration:  InputDecoration(
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),

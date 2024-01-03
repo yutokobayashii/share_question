@@ -92,6 +92,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                     title: '問題集名',
                     maxLength: 30,
                     rightWidget: const IsRequiredWidget(),
+                    controller: TextEditingController(),
                      onChanged: (text) {
                       ref.watch(InitialMakeQuestionProvider.questionNameProvider.notifier).update((state) => text);
                      },
@@ -105,6 +106,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                     title: '作成者名',
                     maxLength: 15,
                     rightWidget: const IsRequiredWidget(),
+                    controller: TextEditingController(),
                     onChanged: (text) {
                       ref.watch(InitialMakeQuestionProvider.authorProvider.notifier).update((state) => text);
                     },
@@ -117,6 +119,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                   BaseTextFieldWidget(
                     title: '問題集の説明',
                     maxLength: 100,
+                    controller: TextEditingController(),
                     onChanged: (text) {
                       ref.watch(InitialMakeQuestionProvider.explainProvider.notifier).update((state) => text);
                     },
@@ -128,6 +131,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                   BaseTextFieldWidget(
                     title: '解答した人へのコメント',
                     maxLength: 100,
+                    controller: TextEditingController(),
                     onChanged: (text) {
                       ref.watch(InitialMakeQuestionProvider.commentProvider.notifier).update((state) => text);
                     },

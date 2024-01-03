@@ -20,7 +20,6 @@ import '../../widgets/dialog_widget.dart';
 import 'make_question_widgets/confirm_question_page.dart';
 import 'make_question_widgets/option_make_question_page.dart';
 
-final imageFileProvider = StateProvider<XFile?>((ref) => null);
 
 class OptionMakeQuestionPage extends HookConsumerWidget {
   const OptionMakeQuestionPage({super.key});
@@ -29,7 +28,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
     final isOptionAnswerTypeState = useState(false);
     final questionNumber = useState(1);
-    final controller = OptionMakeQuestionController();
+    final controller = OptionMakeQuestionController(ref);
 
      QuestionDetail? temList;
 
@@ -41,14 +40,33 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
         home: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
-            leading: GestureDetector(
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: GestureDetector(
                 onTap: () {
-               Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context1) => AlertDialogWidget(
+                      title: '作問を中止しますか？',
+                      content: '中止すると入力した項目は保存されません',
+                      leftText: '中止する',
+                      rightText: '続ける',
+                      rightAction: () {
+                        Navigator.pop(context1);
+                      },
+                      leftAction: () {
+                        Navigator.pop(context1);
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                      },
+
+                    ),
+                  );
                 },
-                child: const Icon(
-                  Icons.arrow_back,
-                  size: 28,
-                )
+                child: const Icon(Icons.close,
+                  size: 30,
+                  color: Colors.black,
+                ),
+              ),
             ),
             title: Center(child: Text('${questionNumber.value}問目')),
             actions: [
@@ -79,34 +97,6 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: GestureDetector(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context1) => AlertDialogWidget(
-                        title: '作問を中止しますか？',
-                        content: '中止すると入力した項目は保存されません',
-                        leftText: '中止する',
-                        rightText: '続ける',
-                        rightAction: () {
-                          Navigator.pop(context1);
-                        },
-                        leftAction: () {
-                          Navigator.pop(context1);
-                          Navigator.popUntil(context, (route) => route.isFirst);
-                        },
-        
-                      ),
-                    );
-                  },
-                  child: const Icon(Icons.close,
-                    size: 28,
-                    color: Colors.black,
-                  ),
-                ),
-              )
             ],
         
           ),
@@ -216,6 +206,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           title: '問題',
                           maxLength: 100,
                           height: 70.h,
+                          controller: OptionMakeQuestionController.questionController,
                           onChanged: (text) {
                             ref.watch(MakeQuestionProvider.questionProvider.notifier).update((state) => text);
                           },
@@ -231,7 +222,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                             pickImage(ImageSource.gallery,ref);
                           },),
 
-                        (ref.watch(imageFileProvider) != null) ?
+                        (ref.watch(MakeQuestionProvider.imageFileProvider) != null) ?
                             Column(
                               children: [
                                 SizedBox(height: 20.h,),
@@ -243,7 +234,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                                     height: 200.h,
                                     child: Stack(
                                       children: [
-                                        Image.file(File(ref.watch(imageFileProvider)!.path),
+                                        Image.file(File(ref.watch(MakeQuestionProvider.imageFileProvider)!.path),
                                           fit: BoxFit.contain,),
 
                                         Positioned(
@@ -251,7 +242,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                                           right: 0, // Containerの外側に配置
                                           child:  GestureDetector(
                                             onTap: () {
-                                              ref.watch(imageFileProvider.notifier).update((state) => null);
+                                              ref.watch(MakeQuestionProvider.imageFileProvider.notifier).update((state) => null);
                                             },
                                             child: Container(
                                                 decoration: BoxDecoration(
@@ -288,6 +279,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           title: '正解',
                           maxLength: 30,
                           height: 70.h,
+                          controller: OptionMakeQuestionController.correctController,
                           onChanged: (text) {
                             ref.watch(MakeQuestionProvider.correctProvider.notifier).update((state) => text);
                           },
@@ -300,6 +292,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           title: '解説',
                           maxLength: 30,
                           height: 70.h,
+                          controller: OptionMakeQuestionController.commentController,
                           onChanged: (text) {
                             ref.watch(MakeQuestionProvider.commentProvider.notifier).update((state) => text);
                           },
@@ -331,33 +324,57 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                               title: '${questionNumber.value + 1}問目へ',
                               width: MediaQuery.of(context).size.width  /2 -35.w,
                               action: () {
-                                questionNumber.value ++;
-
-                                temList = QuestionDetail(
-                                    isOptional: isOptionAnswerTypeState.value,
-                                    questionName: ref.watch(MakeQuestionProvider.questionProvider),
-                                    image: ref.watch(MakeQuestionProvider.imageProvider),
-                                    correctAnswer: ref.watch(MakeQuestionProvider.correctProvider),
-                                    explanation: ref.watch(MakeQuestionProvider.commentProvider),
-                                    optionalList: (isOptionAnswerTypeState.value) ?
-                                    [
-                                      for(int i = 0; i<ref.watch(MakeQuestionProvider.optionalNumber); i++) ...{
-                                        OptionalQuestion(optional: ref.watch(MakeQuestionProvider.optionalProvider(i+1)))
-                                      }
-                                    ]
-                                     : []
-                                );
-                                
-                                ref.watch(MakeQuestionProvider.questionDetailListProvider).add(temList!);
-
-                                ref.watch(MakeQuestionProvider.questionDetailListProvider.notifier).update((state) => ref.watch(MakeQuestionProvider.questionDetailListProvider));
-
-                                controller.clearControllers();
-
-                                isOptionAnswerTypeState.value = false;
 
 
+                                if (OptionMakeQuestionController.commentController.text.isEmpty || OptionMakeQuestionController.correctController.text.isEmpty|| OptionMakeQuestionController.questionController.text.isEmpty) {
 
+                                  controller.getSnackBar(context,ref);
+
+                                }
+                                else {
+                                  questionNumber.value ++;
+
+                                  temList = QuestionDetail(
+                                      isOptional: isOptionAnswerTypeState.value,
+                                      questionName: ref.watch(
+                                          MakeQuestionProvider
+                                              .questionProvider),
+                                      image: ref.watch(
+                                          MakeQuestionProvider.imageProvider),
+                                      correctAnswer: ref.watch(
+                                          MakeQuestionProvider.correctProvider),
+                                      explanation: ref.watch(
+                                          MakeQuestionProvider.commentProvider),
+                                      optionalList: (isOptionAnswerTypeState
+                                          .value) ?
+                                      [
+                                        for(int i = 0; i < ref.watch(
+                                            MakeQuestionProvider
+                                                .optionalNumber); i++) ...{
+                                          OptionalQuestion(optional: ref.watch(
+                                              MakeQuestionProvider
+                                                  .optionalProvider(i + 1)))
+                                        }
+                                      ]
+                                          : []
+                                  );
+
+                                  ref.watch(MakeQuestionProvider
+                                      .questionDetailListProvider).add(
+                                      temList!);
+
+                                  ref.watch(MakeQuestionProvider
+                                      .questionDetailListProvider.notifier)
+                                      .update((state) => ref.watch(
+                                      MakeQuestionProvider
+                                          .questionDetailListProvider));
+
+
+                                  controller.clearControllers();
+
+                                  isOptionAnswerTypeState.value = false;
+
+                                }
                               },
                             ),
                           ],

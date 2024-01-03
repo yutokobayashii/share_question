@@ -47,6 +47,7 @@ class InputPasswordPage extends HookConsumerWidget {
                 child: BaseTextFieldWidget(
                   title: 'パスワードを入力する',
                   maxLength: 15,
+                  controller: TextEditingController(),
                   onChanged: (text) {
 
                   },
