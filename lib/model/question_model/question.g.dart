@@ -1,0 +1,64 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'question.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
+    _$QuestionImpl(
+      token: json['token'] as int,
+      name: json['name'] as String,
+      author: json['author'] as String,
+      explain: json['explain'] as String,
+      comment: json['comment'] as String,
+      questionDetailList: (json['questionDetailList'] as List<dynamic>)
+          .map((e) => QuestionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+      'name': instance.name,
+      'author': instance.author,
+      'explain': instance.explain,
+      'comment': instance.comment,
+      'questionDetailList': instance.questionDetailList,
+    };
+
+_$QuestionDetailImpl _$$QuestionDetailImplFromJson(Map<String, dynamic> json) =>
+    _$QuestionDetailImpl(
+      isOptional: json['isOptional'] as bool,
+      questionName: json['questionName'] as String,
+      image: json['image'] as String,
+      correctAnswer: json['correctAnswer'] as String,
+      explanation: json['explanation'] as String,
+      optionalList: (json['optionalList'] as List<dynamic>)
+          .map((e) => OptionalQuestion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$QuestionDetailImplToJson(
+        _$QuestionDetailImpl instance) =>
+    <String, dynamic>{
+      'isOptional': instance.isOptional,
+      'questionName': instance.questionName,
+      'image': instance.image,
+      'correctAnswer': instance.correctAnswer,
+      'explanation': instance.explanation,
+      'optionalList': instance.optionalList,
+    };
+
+_$OptionalQuestionImpl _$$OptionalQuestionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OptionalQuestionImpl(
+      optional: json['optional'] as String,
+    );
+
+Map<String, dynamic> _$$OptionalQuestionImplToJson(
+        _$OptionalQuestionImpl instance) =>
+    <String, dynamic>{
+      'optional': instance.optional,
+    };

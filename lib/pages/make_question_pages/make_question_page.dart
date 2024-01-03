@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/model/question_model/question.dart';
+import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../controller/make_question_controller/make_question_controller.dart';
 import '../../provider/shared_prefrence_provider.dart';
@@ -26,6 +28,11 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     final isOptionAnswerTypeState = useState(false);
+    final questionNumber = useState(1);
+    final controller = OptionMakeQuestionController();
+
+     QuestionDetail? temList;
+
 
     return ScreenUtilInit(
       designSize: const Size(393, 852),
@@ -43,7 +50,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                   size: 28,
                 )
             ),
-            title: const Center(child: Text('N問目')),
+            title: Center(child: Text('${questionNumber.value}問目')),
             actions: [
               GestureDetector(
                 onTap: () {
@@ -210,7 +217,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           maxLength: 100,
                           height: 70.h,
                           onChanged: (text) {
-
+                            ref.watch(MakeQuestionProvider.questionProvider.notifier).update((state) => text);
                           },
                           onSubmitted: (text) {
 
@@ -282,7 +289,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           maxLength: 30,
                           height: 70.h,
                           onChanged: (text) {
-
+                            ref.watch(MakeQuestionProvider.correctProvider.notifier).update((state) => text);
                           },
                           onSubmitted: (text) {
 
@@ -294,7 +301,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           maxLength: 30,
                           height: 70.h,
                           onChanged: (text) {
-
+                            ref.watch(MakeQuestionProvider.commentProvider.notifier).update((state) => text);
                           },
                           onSubmitted: (text) {
 
@@ -310,6 +317,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                               title: '最終確認へ',
                               width: MediaQuery.of(context).size.width  /2 -35.w,
                               action: () {
+                                questionNumber.value = 1;
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => const ConfirmQuestionPage()),
@@ -320,9 +328,35 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                             SizedBox(width: 20.w,),
 
                             BasicButtonWidget(
-                              title: 'N問目へ',
+                              title: '${questionNumber.value + 1}問目へ',
                               width: MediaQuery.of(context).size.width  /2 -35.w,
                               action: () {
+                                questionNumber.value ++;
+
+                                temList = QuestionDetail(
+                                    isOptional: isOptionAnswerTypeState.value,
+                                    questionName: ref.watch(MakeQuestionProvider.questionProvider),
+                                    image: ref.watch(MakeQuestionProvider.imageProvider),
+                                    correctAnswer: ref.watch(MakeQuestionProvider.correctProvider),
+                                    explanation: ref.watch(MakeQuestionProvider.commentProvider),
+                                    optionalList: (isOptionAnswerTypeState.value) ?
+                                    [
+                                      for(int i = 0; i<ref.watch(MakeQuestionProvider.optionalNumber); i++) ...{
+                                        OptionalQuestion(optional: ref.watch(MakeQuestionProvider.optionalProvider(i+1)))
+                                      }
+                                    ]
+                                     : []
+                                );
+                                
+                                ref.watch(MakeQuestionProvider.questionDetailListProvider).add(temList!);
+
+                                ref.watch(MakeQuestionProvider.questionDetailListProvider.notifier).update((state) => ref.watch(MakeQuestionProvider.questionDetailListProvider));
+
+                                controller.clearControllers();
+
+                                isOptionAnswerTypeState.value = false;
+
+
 
                               },
                             ),

@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../../provider/shared_prefrence_provider.dart';
 import '../../../widgets/base_textfield_widget.dart';
@@ -29,7 +30,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               height: 70.h,
               rightWidget: const IsRequiredWidget(),
               onChanged: (text) {
-
+                ref.watch(MakeQuestionProvider.optionalProvider(1).notifier).update((state) => text);
               },
               onSubmitted: (text) {
 
@@ -42,7 +43,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               height: 70.h,
               rightWidget: const IsRequiredWidget(),
               onChanged: (text) {
-
+                ref.watch(MakeQuestionProvider.optionalProvider(2).notifier).update((state) => text);
               },
               onSubmitted: (text) {
 
@@ -75,7 +76,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
                   ),
                 ),
                 onChanged: (text) {
-
+                  ref.watch(MakeQuestionProvider.optionalProvider(i+1).notifier).update((state) => text);
               },
                 onSubmitted: (text) {
 
@@ -89,6 +90,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               action: () {
                 if (addOptionNumber.value < 6) {
                   addOptionNumber.value++;
+                  ref.watch(MakeQuestionProvider.optionalNumber.notifier).update((state) => addOptionNumber.value);
                 }
               },
              ),

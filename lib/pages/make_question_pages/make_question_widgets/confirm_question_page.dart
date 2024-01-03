@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
+import 'package:share_question/provider/make_question_provider.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
 import '../../../constant/color_constant.dart';
@@ -14,18 +15,38 @@ class ConfirmQuestionPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
+    print("ssssssss${ref.watch(MakeQuestionProvider.questionDetailListProvider)}");
     return  MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          leading: GestureDetector(
+          leading:   Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: GestureDetector(
               onTap: () {
-                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context1) => AlertDialogWidget(
+                    title: '作問を中止しますか？',
+                    content: '中止すると入力した項目は保存されません',
+                    leftText: '中止する',
+                    rightText: '続ける',
+                    rightAction: () {
+                      Navigator.pop(context1);
+                    },
+                    leftAction: () {
+                      Navigator.pop(context1);
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                    },
+
+                  ),
+                );
               },
-              child: const Icon(
-                Icons.arrow_back,
+              child: const Icon(Icons.close,
                 size: 25,
-              )
+                color: Colors.black,
+              ),
+            ),
           ),
           title: const Align(
             alignment: Alignment.center,
@@ -58,34 +79,6 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 15),
-              child: GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context1) => AlertDialogWidget(
-                      title: '作問を中止しますか？',
-                      content: '中止すると入力した項目は保存されません',
-                      leftText: '中止する',
-                      rightText: '続ける',
-                      rightAction: () {
-                        Navigator.pop(context1);
-                      },
-                      leftAction: () {
-                        Navigator.pop(context1);
-                        Navigator.popUntil(context, (route) => route.isFirst);
-                      },
-
-                    ),
-                  );
-                },
-                child: const Icon(Icons.close,
-                  size: 25,
-                  color: Colors.black,
-                ),
-              ),
-            )
           ],
 
         ),
@@ -96,7 +89,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
               children: [
                 SizedBox(height: 20.h,),
 
-                for(int i = 0; i<2; i++) ...{
+                for(int i = 0; i<ref.watch(MakeQuestionProvider.questionDetailListProvider).length; i++) ...{
 
                   Align(
                     alignment: Alignment.center,
@@ -151,27 +144,39 @@ class ConfirmQuestionPage extends HookConsumerWidget {
 
                                 SizedBox(height: 5.h,),
 
-                                Text('ああああああああああああああああああああああああああああああああああああああああああ',
+                                Text(ref.watch(MakeQuestionProvider.questionDetailListProvider)[i].questionName,
                                   style: normalTextStyle,
                                 ),
 
                                 SizedBox(height: 15.h,),
 
-                                for(int i = 0; i<4; i++) ...{
+                                (ref.watch(MakeQuestionProvider.questionDetailListProvider)[i].isOptional) ?
 
-                                  Text('選択肢${i+1}',
-                                      style: boldTextStyle
-                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      for(int i2 = 0; i2<ref.watch(MakeQuestionProvider.questionDetailListProvider)[i].optionalList.length; i2++) ...{
 
-                                  SizedBox(height: 5.h,),
+                                        Text('選択肢${i2+1}',
+                                            style: boldTextStyle),
 
-                                  Text('ああああああああああああああああ',
-                                    style: normalTextStyle,
-                                  ),
+                                        SizedBox(height: 5.h,),
 
-                                  SizedBox(height: 15.h,),
+                                        Text(ref.watch(MakeQuestionProvider.questionDetailListProvider)[i].optionalList[i2].optional,
+                                          style: normalTextStyle,
+                                        ),
 
-                                },
+                                        SizedBox(height: 15.h,),
+
+                                      },
+
+                                    ],
+                                   )
+
+                                    : const SizedBox(),
+
+
+
 
                                 Text('解答',
                                     style: boldTextStyle
@@ -179,9 +184,11 @@ class ConfirmQuestionPage extends HookConsumerWidget {
 
                                 SizedBox(height: 5.h,),
 
-                                Text('ああああああああああああああああああああああああああああああああああああああああああ',
+                                Text(ref.watch(MakeQuestionProvider.questionDetailListProvider)[i].correctAnswer,
                                   style: normalTextStyle,
                                 ),
+
+                                SizedBox(height: 15.h,),
 
                                 Text('解説',
                                     style: boldTextStyle
@@ -189,7 +196,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
 
                                 SizedBox(height: 5.h,),
 
-                                Text('ああああああああああああああああああああああああああああああああああああああああああ',
+                                Text(ref.watch(MakeQuestionProvider.questionDetailListProvider)[i].explanation,
                                   style: normalTextStyle,
                                 ),
 

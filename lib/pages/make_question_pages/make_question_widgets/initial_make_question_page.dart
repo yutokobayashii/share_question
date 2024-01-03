@@ -1,17 +1,20 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/provider/initial_question_provider.dart';
 
 import '../../../widgets/base_textfield_widget.dart';
 import '../../../widgets/basic_floating_button.dart';
 import '../../../widgets/dialog_widget.dart';
 import '../make_question_page.dart';
 
-class InitialMakeQuestionPage extends StatelessWidget {
+class InitialMakeQuestionPage extends HookConsumerWidget {
   const InitialMakeQuestionPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return ScreenUtilInit(
       designSize: const Size(393, 852),
     builder: (_ , child) {
@@ -90,7 +93,7 @@ class InitialMakeQuestionPage extends StatelessWidget {
                     maxLength: 30,
                     rightWidget: const IsRequiredWidget(),
                      onChanged: (text) {
-
+                      ref.watch(InitialMakeQuestionProvider.questionNameProvider.notifier).update((state) => text);
                      },
                     onSubmitted: (text) {
 
@@ -103,7 +106,7 @@ class InitialMakeQuestionPage extends StatelessWidget {
                     maxLength: 15,
                     rightWidget: const IsRequiredWidget(),
                     onChanged: (text) {
-
+                      ref.watch(InitialMakeQuestionProvider.authorProvider.notifier).update((state) => text);
                     },
                     onSubmitted: (text) {
 
@@ -115,7 +118,7 @@ class InitialMakeQuestionPage extends StatelessWidget {
                     title: '問題集の説明',
                     maxLength: 100,
                     onChanged: (text) {
-
+                      ref.watch(InitialMakeQuestionProvider.explainProvider.notifier).update((state) => text);
                     },
                     onSubmitted: (text) {
 
@@ -126,7 +129,7 @@ class InitialMakeQuestionPage extends StatelessWidget {
                     title: '解答した人へのコメント',
                     maxLength: 100,
                     onChanged: (text) {
-
+                      ref.watch(InitialMakeQuestionProvider.commentProvider.notifier).update((state) => text);
                     },
                     onSubmitted: (text) {
 
@@ -137,7 +140,7 @@ class InitialMakeQuestionPage extends StatelessWidget {
           ),
           floatingActionButton: BasicFloatingButtonWidget(
             text: '次へ',
-            action: () {
+            action: () async{
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const OptionMakeQuestionPage()),
