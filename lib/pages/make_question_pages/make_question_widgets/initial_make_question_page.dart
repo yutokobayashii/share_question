@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/controller/initial_question_controller/initial_question_controller.dart';
 import 'package:share_question/provider/initial_question_provider.dart';
 
 import '../../../widgets/base_textfield_widget.dart';
@@ -15,6 +16,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
+    final controller = InitialQuestionController(ref);
     return ScreenUtilInit(
       designSize: const Size(393, 852),
     builder: (_ , child) {
@@ -92,7 +94,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                     title: '問題集名',
                     maxLength: 30,
                     rightWidget: const IsRequiredWidget(),
-                    controller: TextEditingController(),
+                    controller: InitialQuestionController.questionNameController,
                      onChanged: (text) {
                       ref.watch(InitialMakeQuestionProvider.questionNameProvider.notifier).update((state) => text);
                      },
@@ -106,7 +108,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                     title: '作成者名',
                     maxLength: 15,
                     rightWidget: const IsRequiredWidget(),
-                    controller: TextEditingController(),
+                    controller: InitialQuestionController.authorController,
                     onChanged: (text) {
                       ref.watch(InitialMakeQuestionProvider.authorProvider.notifier).update((state) => text);
                     },
@@ -119,7 +121,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                   BaseTextFieldWidget(
                     title: '問題集の説明',
                     maxLength: 100,
-                    controller: TextEditingController(),
+                    controller: InitialQuestionController.explainController,
                     onChanged: (text) {
                       ref.watch(InitialMakeQuestionProvider.explainProvider.notifier).update((state) => text);
                     },
@@ -131,7 +133,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                   BaseTextFieldWidget(
                     title: '解答した人へのコメント',
                     maxLength: 100,
-                    controller: TextEditingController(),
+                    controller: InitialQuestionController.commentController,
                     onChanged: (text) {
                       ref.watch(InitialMakeQuestionProvider.commentProvider.notifier).update((state) => text);
                     },
@@ -145,10 +147,23 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
           floatingActionButton: BasicFloatingButtonWidget(
             text: '次へ',
             action: () async{
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const OptionMakeQuestionPage()),
-              );
+
+              if (InitialQuestionController.questionNameController.text.isEmpty || InitialQuestionController.authorController.text.isEmpty) {
+
+                controller.getSnackBar(context, ref);
+
+              } else {
+
+                controller.clearControllers();
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const OptionMakeQuestionPage()),
+                );
+              }
+
+
+
             },)
         ),
       );
