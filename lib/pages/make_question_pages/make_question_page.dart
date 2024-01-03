@@ -310,11 +310,27 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                               title: '最終確認へ',
                               width: MediaQuery.of(context).size.width  /2 -35.w,
                               action: () {
-                                questionNumber.value = 1;
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const ConfirmQuestionPage()),
-                                );
+                                if (OptionMakeQuestionController.commentController.text.isEmpty || OptionMakeQuestionController.correctController.text.isEmpty|| OptionMakeQuestionController.questionController.text.isEmpty) {
+
+                                  controller.getSnackBar(context,ref);
+
+                                } else {
+
+                                  controller.inputData(ref,temList,isOptionAnswerTypeState);
+
+                                  questionNumber.value = 1;
+
+                                  controller.clearControllers();
+
+                                  isOptionAnswerTypeState.value = false;
+
+
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const ConfirmQuestionPage()),
+                                  );
+
+                                }
 
                               },
                             ),
@@ -334,41 +350,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                                 else {
                                   questionNumber.value ++;
 
-                                  temList = QuestionDetail(
-                                      isOptional: isOptionAnswerTypeState.value,
-                                      questionName: ref.watch(
-                                          MakeQuestionProvider
-                                              .questionProvider),
-                                      image: ref.watch(
-                                          MakeQuestionProvider.imageProvider),
-                                      correctAnswer: ref.watch(
-                                          MakeQuestionProvider.correctProvider),
-                                      explanation: ref.watch(
-                                          MakeQuestionProvider.commentProvider),
-                                      optionalList: (isOptionAnswerTypeState
-                                          .value) ?
-                                      [
-                                        for(int i = 0; i < ref.watch(
-                                            MakeQuestionProvider
-                                                .optionalNumber); i++) ...{
-                                          OptionalQuestion(optional: ref.watch(
-                                              MakeQuestionProvider
-                                                  .optionalProvider(i + 1)))
-                                        }
-                                      ]
-                                          : []
-                                  );
-
-                                  ref.watch(MakeQuestionProvider
-                                      .questionDetailListProvider).add(
-                                      temList!);
-
-                                  ref.watch(MakeQuestionProvider
-                                      .questionDetailListProvider.notifier)
-                                      .update((state) => ref.watch(
-                                      MakeQuestionProvider
-                                          .questionDetailListProvider));
-
+                                  controller.inputData(ref,temList,isOptionAnswerTypeState);
 
                                   controller.clearControllers();
 

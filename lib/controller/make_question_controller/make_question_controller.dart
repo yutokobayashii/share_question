@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../constant/color_constant.dart';
+import '../../model/question_model/question.dart';
 import '../../provider/shared_prefrence_provider.dart';
 
 
@@ -33,6 +34,46 @@ class OptionMakeQuestionController {
     commentController.clear();
   }
 
+  void inputData(WidgetRef ref,QuestionDetail? temList,ValueNotifier<bool> isOptionAnswerTypeState) {
+    temList = QuestionDetail(
+        isOptional: isOptionAnswerTypeState.value,
+        questionName: ref.watch(
+            MakeQuestionProvider
+                .questionProvider),
+        image: ref.watch(
+            MakeQuestionProvider.imageProvider),
+        correctAnswer: ref.watch(
+            MakeQuestionProvider.correctProvider),
+        explanation: ref.watch(
+            MakeQuestionProvider.commentProvider),
+        optionalList: (isOptionAnswerTypeState
+            .value) ?
+        [
+          for(int i = 0; i < ref.watch(
+              MakeQuestionProvider
+                  .optionalNumber); i++) ...{
+            OptionalQuestion(optional: ref.watch(
+                MakeQuestionProvider
+                    .optionalProvider(i + 1)))
+          }
+        ]
+            : []
+    );
+
+    ref.watch(MakeQuestionProvider
+        .questionDetailListProvider).add(
+        temList);
+
+    ref.watch(MakeQuestionProvider
+        .questionDetailListProvider.notifier)
+        .update((state) => ref.watch(
+        MakeQuestionProvider
+            .questionDetailListProvider));
+
+  }
+
+
+
   void getSnackBar(BuildContext context,WidgetRef ref) {
     if (questionController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -45,7 +86,7 @@ class OptionMakeQuestionController {
                 fontWeight: FontWeight.w600
 
             ),),
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.white70
         ),
       );
     }
@@ -60,7 +101,7 @@ class OptionMakeQuestionController {
                 fontWeight: FontWeight.w600
 
             ),),
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.white70,
         ),
       );
     }
@@ -75,7 +116,7 @@ class OptionMakeQuestionController {
                 fontWeight: FontWeight.w600
 
           ),),
-          backgroundColor: Colors.grey,
+          backgroundColor: Colors.white70,
         ),
       );
     }
