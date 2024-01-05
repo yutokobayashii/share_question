@@ -19,9 +19,9 @@ Future<void> pickImage(ImageSource source,WidgetRef ref) async {
 
 
 
-class OptionMakeQuestionController {
+class MakeQuestionController {
 
-  OptionMakeQuestionController(WidgetRef ref);
+  MakeQuestionController(WidgetRef ref);
 
  static final questionController = TextEditingController();
   static final correctController = TextEditingController();

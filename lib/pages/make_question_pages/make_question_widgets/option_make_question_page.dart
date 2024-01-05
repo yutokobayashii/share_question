@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/controller/optional_make_question_controller/optional_make_question_controller.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../../provider/shared_prefrence_provider.dart';
@@ -28,7 +29,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               title: '選択肢1',
               maxLength: 30,
               height: 70.h,
-              controller: TextEditingController(),
+              controller: OptionalMakeQuestionController.optionalController1,
               rightWidget: const IsRequiredWidget(),
               onChanged: (text) {
                 ref.watch(MakeQuestionProvider.optionalProvider(1).notifier).update((state) => text);
@@ -42,7 +43,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               title: '選択肢2',
               maxLength: 30,
               height: 70.h,
-              controller: TextEditingController(),
+              controller: OptionalMakeQuestionController.optionalController2,
               rightWidget: const IsRequiredWidget(),
               onChanged: (text) {
                 ref.watch(MakeQuestionProvider.optionalProvider(2).notifier).update((state) => text);
@@ -57,7 +58,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
                 title: '選択肢${i+1}',
                 maxLength: 30,
                 height: 70.h,
-                controller: TextEditingController(),
+                controller:TextEditingController(),
                 rightWidget: GestureDetector(
                   onTap: () {
                     addOptionNumber.value--;

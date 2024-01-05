@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/controller/optional_make_question_controller/optional_make_question_controller.dart';
 import 'package:share_question/model/question_model/question.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 
@@ -28,7 +29,8 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
     final isOptionAnswerTypeState = useState(false);
     final questionNumber = useState(1);
-    final controller = OptionMakeQuestionController(ref);
+    final controller = MakeQuestionController(ref);
+    final optionalController = OptionalMakeQuestionController(ref);
 
      QuestionDetail? temList;
 
@@ -206,7 +208,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           title: '問題',
                           maxLength: 100,
                           height: 70.h,
-                          controller: OptionMakeQuestionController.questionController,
+                          controller: MakeQuestionController.questionController,
                           onChanged: (text) {
                             ref.watch(MakeQuestionProvider.questionProvider.notifier).update((state) => text);
                           },
@@ -279,7 +281,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           title: '正解',
                           maxLength: 30,
                           height: 70.h,
-                          controller: OptionMakeQuestionController.correctController,
+                          controller: MakeQuestionController.correctController,
                           onChanged: (text) {
                             ref.watch(MakeQuestionProvider.correctProvider.notifier).update((state) => text);
                           },
@@ -292,7 +294,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           title: '解説',
                           maxLength: 30,
                           height: 70.h,
-                          controller: OptionMakeQuestionController.commentController,
+                          controller: MakeQuestionController.commentController,
                           onChanged: (text) {
                             ref.watch(MakeQuestionProvider.commentProvider.notifier).update((state) => text);
                           },
@@ -310,9 +312,16 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                               title: '最終確認へ',
                               width: MediaQuery.of(context).size.width  /2 -35.w,
                               action: () {
-                                if (OptionMakeQuestionController.commentController.text.isEmpty || OptionMakeQuestionController.correctController.text.isEmpty|| OptionMakeQuestionController.questionController.text.isEmpty) {
+                                if (MakeQuestionController.commentController.text.isEmpty
+                                    || MakeQuestionController.correctController.text.isEmpty
+                                    || MakeQuestionController.questionController.text.isEmpty
+                                    || OptionalMakeQuestionController.optionalController1.text.isEmpty
+                                    || OptionalMakeQuestionController.optionalController2.text.isEmpty
+                                ) {
 
                                   controller.getSnackBar(context,ref);
+
+                                  optionalController.getSnackBar(context, ref);
 
                                 } else {
 
@@ -342,9 +351,15 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                               action: () {
 
 
-                                if (OptionMakeQuestionController.commentController.text.isEmpty || OptionMakeQuestionController.correctController.text.isEmpty|| OptionMakeQuestionController.questionController.text.isEmpty) {
+                                if (MakeQuestionController.commentController.text.isEmpty
+                                    || MakeQuestionController.correctController.text.isEmpty
+                                    || MakeQuestionController.questionController.text.isEmpty
+                                    || OptionalMakeQuestionController.optionalController1.text.isEmpty
+                                    || OptionalMakeQuestionController.optionalController2.text.isEmpty) {
 
                                   controller.getSnackBar(context,ref);
+
+                                  optionalController.getSnackBar(context, ref);
 
                                 }
                                 else {
