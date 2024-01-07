@@ -19,8 +19,9 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     final addOptionNumber = useState(2);
+    List<String> tempList = [];
 
-    return  Column(
+    return Column(
           children: [
 
              SizedBox(height: 15.h,),
@@ -83,7 +84,8 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
                   ref.watch(MakeQuestionProvider.optionalProvider(i+1).notifier).update((state) => text);
               },
                 onSubmitted: (text) {
-
+                  tempList = [ref.watch(MakeQuestionProvider.optionalProvider(1)),ref.watch(MakeQuestionProvider.optionalProvider(2)),ref.watch(MakeQuestionProvider.optionalProvider(i+1))];
+                  ref.watch(MakeQuestionProvider.optionalListProvider.notifier).update((state) => tempList);
               },
               ),
             },

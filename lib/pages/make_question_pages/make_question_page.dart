@@ -20,6 +20,7 @@ import '../../widgets/basic_button_widget.dart';
 import '../../widgets/dialog_widget.dart';
 import 'make_question_widgets/confirm_question_page.dart';
 import 'make_question_widgets/option_make_question_page.dart';
+import 'make_question_widgets/select_optional_widget.dart';
 
 
 class OptionMakeQuestionPage extends HookConsumerWidget {
@@ -276,7 +277,12 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                           SizedBox(height: 15.h,),
 
 
-
+                        (isOptionAnswerTypeState.value) ?
+                        const Align(
+                          alignment: Alignment.topLeft,
+                            child: SelectOptionalWidget()
+                        )
+                        :
                         BaseTextFieldWidget(
                           title: '正解',
                           maxLength: 30,
@@ -331,6 +337,8 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
 
                                   controller.clearControllers();
 
+                                  optionalController.clearControllers();
+
                                   isOptionAnswerTypeState.value = false;
 
 
@@ -368,6 +376,8 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                                   controller.inputData(ref,temList,isOptionAnswerTypeState);
 
                                   controller.clearControllers();
+
+                                  optionalController.clearControllers();
 
                                   isOptionAnswerTypeState.value = false;
 

@@ -23,6 +23,6 @@ class MakeQuestionProvider {
 
  static final imageFileProvider = StateProvider<XFile?>((ref) => null);
 
-
+ static final optionalListProvider = StateProvider<List<String>>((ref) => [ref.watch(optionalProvider(1)),ref.watch(optionalProvider(2))]);
 
 }

@@ -127,7 +127,8 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                     },
                     onSubmitted: (text) {
 
-                  },),
+                  },
+                  ),
 
                   SizedBox(height: 10.h,),
                   BaseTextFieldWidget(
@@ -139,7 +140,8 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                     },
                     onSubmitted: (text) {
 
-                    },),
+                    },
+                  ),
                 ],
               ),
             ),
