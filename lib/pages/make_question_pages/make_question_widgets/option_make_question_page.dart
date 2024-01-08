@@ -20,6 +20,91 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
     final addOptionNumber = useState(2);
     List<String> tempList = [];
+    final controllers = useState<List<TextEditingController>>([]);
+    final currentList = ref.watch(MakeQuestionProvider.optionalListProvider);
+
+    void removeItem(WidgetRef ref, String item) {
+      ref.read(MakeQuestionProvider.optionalListProvider.notifier).update((state) =>
+          state.where((i) => i != item).toList()
+      );
+    }
+
+
+    useEffect(() {
+      // 項目が追加された場合、新しいコントローラーを追加
+      while (controllers.value.length < addOptionNumber.value) {
+        controllers.value.add(TextEditingController());
+      }
+
+      // 項目が削除された場合、余分なコントローラーを破棄して削除
+      while (controllers.value.length > addOptionNumber.value) {
+        controllers.value.removeLast().dispose();
+      }
+
+      // 破棄処理
+      return () {
+        // for (final controller in controllers.value) {
+        //   controller.dispose();
+        // }
+      };
+    }, [addOptionNumber.value]);
+
+    List<Widget> additionalOptionWidget() {
+     return List.generate(addOptionNumber.value -2, (i) {
+        return BaseTextFieldWidget(
+          title: '選択肢${i + 3}',
+          maxLength: 30,
+          height: 70.h,
+          controller: controllers.value[i],
+          rightWidget: GestureDetector(
+            onTap: () {
+              addOptionNumber.value--;
+              removeItem(ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
+              ref.watch(MakeQuestionProvider.optionalProvider(i + 3).notifier).update((state) => "");
+              controllers.value[i].clear();
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Color(
+                        ref.watch(colorSharedPreferencesProvider).getInt(
+                            "color") ?? baseColor.value),
+                    width: 1,
+                  ),
+                ),
+                child: Icon(
+                  Icons.close,
+                  color: Color(ref.watch(colorSharedPreferencesProvider).getInt(
+                      "color") ?? baseColor.value),
+                  size: 20,
+                )
+            ),
+          ),
+          onChanged: (text) {
+
+            if (text == "") {
+              removeItem(ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
+            }
+
+            ref.watch(MakeQuestionProvider.optionalProvider(i + 3).notifier).update((state) => text);
+
+          },
+          onSubmitted: (text) {
+            tempList = [
+              ...currentList,
+              ref.watch(MakeQuestionProvider.optionalProvider(i + 3))
+            ];
+
+            ref.watch(MakeQuestionProvider.optionalListProvider.notifier).update((state) => tempList);
+
+          },
+        );
+      }
+      );
+    }
+
 
     return Column(
           children: [
@@ -54,41 +139,12 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               },
             ),
 
-            for(int i = 2; i<addOptionNumber.value; i++) ...{
-              BaseTextFieldWidget(
-                title: '選択肢${i+1}',
-                maxLength: 30,
-                height: 70.h,
-                controller:TextEditingController(),
-                rightWidget: GestureDetector(
-                  onTap: () {
-                    addOptionNumber.value--;
-                  },
-                  child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
-                          width: 1,
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
-                        size: 20,
-                      )
-                  ),
-                ),
-                onChanged: (text) {
-                  ref.watch(MakeQuestionProvider.optionalProvider(i+1).notifier).update((state) => text);
-              },
-                onSubmitted: (text) {
-                  tempList = [ref.watch(MakeQuestionProvider.optionalProvider(1)),ref.watch(MakeQuestionProvider.optionalProvider(2)),ref.watch(MakeQuestionProvider.optionalProvider(i+1))];
-                  ref.watch(MakeQuestionProvider.optionalListProvider.notifier).update((state) => tempList);
-              },
-              ),
-            },
+
+
+            Column(
+              children: additionalOptionWidget(),
+            ),
+
 
              BasicAddWidget(
               text: '選択肢を追加',

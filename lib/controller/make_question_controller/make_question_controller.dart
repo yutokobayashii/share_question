@@ -74,7 +74,7 @@ class MakeQuestionController {
 
 
 
-  void getSnackBar(BuildContext context,WidgetRef ref) {
+  void getSnackBar(BuildContext context,WidgetRef ref,ValueNotifier<bool> isOptionAnswerTypeState) {
     if (questionController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -90,7 +90,7 @@ class MakeQuestionController {
         ),
       );
     }
-    if (correctController.text.isEmpty) {
+    if (correctController.text.isEmpty && isOptionAnswerTypeState.value  == false) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -105,6 +105,22 @@ class MakeQuestionController {
         ),
       );
     }
+    else if (ref.watch(MakeQuestionProvider.correctProvider) == "" && isOptionAnswerTypeState.value  == true) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '正解に値が入力されていません',
+            style: TextStyle(
+                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600
+
+            ),),
+          backgroundColor: Colors.white70,
+        ),
+      );
+    }
+
     if (commentController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
          SnackBar(

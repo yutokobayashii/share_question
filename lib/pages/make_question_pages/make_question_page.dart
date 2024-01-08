@@ -318,36 +318,77 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                               title: '最終確認へ',
                               width: MediaQuery.of(context).size.width  /2 -35.w,
                               action: () {
-                                if (MakeQuestionController.commentController.text.isEmpty
-                                    || MakeQuestionController.correctController.text.isEmpty
-                                    || MakeQuestionController.questionController.text.isEmpty
-                                    || OptionalMakeQuestionController.optionalController1.text.isEmpty
-                                    || OptionalMakeQuestionController.optionalController2.text.isEmpty
-                                ) {
 
-                                  controller.getSnackBar(context,ref);
+                                  if (isOptionAnswerTypeState.value == true) {
 
-                                  optionalController.getSnackBar(context, ref);
+                                    if (MakeQuestionController.commentController.text.isEmpty
+                                        || MakeQuestionController.questionController.text.isEmpty
+                                        || ref.watch(MakeQuestionProvider.correctProvider) == ""
+                                        || OptionalMakeQuestionController.optionalController1.text.isEmpty
+                                        || OptionalMakeQuestionController.optionalController2.text.isEmpty
+                                    ) {
 
-                                } else {
+                                      controller.getSnackBar(context,ref,isOptionAnswerTypeState);
 
-                                  controller.inputData(ref,temList,isOptionAnswerTypeState);
+                                      optionalController.getSnackBar(context, ref);
 
-                                  questionNumber.value = 1;
+                                    } else {
 
-                                  controller.clearControllers();
+                                      controller.inputData(ref,temList,isOptionAnswerTypeState);
 
-                                  optionalController.clearControllers();
+                                      questionNumber.value = 1;
 
-                                  isOptionAnswerTypeState.value = false;
+                                      controller.clearControllers();
+
+                                      optionalController.clearControllers();
+
+                                      isOptionAnswerTypeState.value = false;
 
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const ConfirmQuestionPage()),
-                                  );
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const ConfirmQuestionPage()),
+                                      );
 
-                                }
+                                    }
+
+                                  } else {
+
+                                    if (MakeQuestionController.commentController.text.isEmpty
+                                        || MakeQuestionController.questionController.text.isEmpty
+                                        || ref.watch(MakeQuestionProvider.correctProvider) == ""
+
+                                    ) {
+
+
+
+                                      controller.getSnackBar(context,ref,isOptionAnswerTypeState);
+
+                                      optionalController.getSnackBar(context, ref);
+
+                                    } else {
+
+                                      controller.inputData(ref,temList,isOptionAnswerTypeState);
+
+                                      questionNumber.value = 1;
+
+                                      controller.clearControllers();
+
+                                      optionalController.clearControllers();
+
+                                      isOptionAnswerTypeState.value = false;
+
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => const ConfirmQuestionPage()),
+                                      );
+
+                                    }
+
+                                  }
+
+
 
                               },
                             ),
@@ -358,30 +399,60 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                               width: MediaQuery.of(context).size.width  /2 -35.w,
                               action: () {
 
+                                if (isOptionAnswerTypeState.value == true) {
 
-                                if (MakeQuestionController.commentController.text.isEmpty
-                                    || MakeQuestionController.correctController.text.isEmpty
-                                    || MakeQuestionController.questionController.text.isEmpty
-                                    || OptionalMakeQuestionController.optionalController1.text.isEmpty
-                                    || OptionalMakeQuestionController.optionalController2.text.isEmpty) {
+                                  if (MakeQuestionController.commentController.text.isEmpty
+                                      || MakeQuestionController.questionController.text.isEmpty
+                                      || ref.watch(MakeQuestionProvider.correctProvider) == ""
+                                      || OptionalMakeQuestionController.optionalController1.text.isEmpty
+                                      || OptionalMakeQuestionController.optionalController2.text.isEmpty) {
 
-                                  controller.getSnackBar(context,ref);
+                                    controller.getSnackBar(context,ref,isOptionAnswerTypeState);
 
-                                  optionalController.getSnackBar(context, ref);
+                                    optionalController.getSnackBar(context, ref);
+
+                                  }
+                                  else {
+                                    questionNumber.value ++;
+
+                                    controller.inputData(ref,temList,isOptionAnswerTypeState);
+
+                                    controller.clearControllers();
+
+                                    optionalController.clearControllers();
+
+                                    isOptionAnswerTypeState.value = false;
+
+                                  }
+
+                                } else {
+
+                                  if (MakeQuestionController.commentController.text.isEmpty
+                                      || MakeQuestionController.questionController.text.isEmpty
+                                      || ref.watch(MakeQuestionProvider.correctProvider) == ""
+                                      ) {
+
+                                    controller.getSnackBar(context,ref,isOptionAnswerTypeState);
+
+                                    optionalController.getSnackBar(context, ref);
+
+                                  }
+                                  else {
+                                    questionNumber.value ++;
+
+                                    controller.inputData(ref,temList,isOptionAnswerTypeState);
+
+                                    controller.clearControllers();
+
+                                    optionalController.clearControllers();
+
+                                    isOptionAnswerTypeState.value = false;
+
+                                  }
 
                                 }
-                                else {
-                                  questionNumber.value ++;
 
-                                  controller.inputData(ref,temList,isOptionAnswerTypeState);
 
-                                  controller.clearControllers();
-
-                                  optionalController.clearControllers();
-
-                                  isOptionAnswerTypeState.value = false;
-
-                                }
                               },
                             ),
                           ],

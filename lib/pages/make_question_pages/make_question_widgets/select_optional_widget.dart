@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,6 +40,8 @@ class SelectOptionalWidget extends HookConsumerWidget {
               ],
               onChanged: (text) {
                 isSelectedItem.value = text!;
+                ref.watch(MakeQuestionProvider.correctProvider.notifier).update((state) => ref.watch(MakeQuestionProvider.optionalListProvider)[int.parse(text)]);
+
               },
               value: isSelectedItem.value,
             ),
