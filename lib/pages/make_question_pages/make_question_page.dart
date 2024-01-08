@@ -10,6 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/controller/optional_make_question_controller/optional_make_question_controller.dart';
+import 'package:share_question/controller/remove_data_controller/remove_data_controller.dart';
 import 'package:share_question/model/question_model/question.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 
@@ -32,6 +33,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
     final questionNumber = useState(1);
     final controller = MakeQuestionController(ref);
     final optionalController = OptionalMakeQuestionController(ref);
+    final removeQuestionDataController = RemoveDataController();
 
      QuestionDetail? temList;
 
@@ -417,6 +419,8 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
 
                                     controller.inputData(ref,temList,isOptionAnswerTypeState);
 
+                                    removeQuestionDataController.removeOptionData(ref);
+
                                     controller.clearControllers();
 
                                     optionalController.clearControllers();
@@ -441,6 +445,8 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                                     questionNumber.value ++;
 
                                     controller.inputData(ref,temList,isOptionAnswerTypeState);
+
+                                    removeQuestionDataController.removeOptionData(ref);
 
                                     controller.clearControllers();
 
