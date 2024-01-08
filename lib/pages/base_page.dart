@@ -56,9 +56,9 @@ class BasePage extends HookConsumerWidget {
             // ③ 選択済なら第一階層まで pop / 未選択なら currentTab に指定
             final selectedTab = TabItem.values[index];
             if (currentTab.value == selectedTab) {
-              _navigatorKeys[selectedTab]
-                  ?.currentState
-                  ?.popUntil((route) => route.isFirst);
+              // _navigatorKeys[selectedTab]
+              //     ?.currentState
+              //     ?.popUntil((route) => route.isFirst);
             } else {
               currentTab.value = selectedTab;
             }

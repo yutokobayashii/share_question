@@ -2,7 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/controller/make_question_controller/make_question_controller.dart';
 import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
+import 'package:share_question/provider/initial_question_provider.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
@@ -15,7 +17,8 @@ class ConfirmQuestionPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
-    print("ssssssss${ref.watch(MakeQuestionProvider.questionDetailListProvider)}");
+   final questionDetailList  =  ref.watch(MakeQuestionProvider.questionDetailListProvider);
+
     return  MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -222,11 +225,53 @@ class ConfirmQuestionPage extends HookConsumerWidget {
         ),
         floatingActionButton: BasicFloatingButtonWidget(
           text: '共有',
-          action: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ShareQuestionPage()),
-            );
+          action: () async {
+
+            Map<String, dynamic> createQuestionData() {
+              return {
+                'name': ref.watch(InitialMakeQuestionProvider.questionNameProvider),
+                'author': ref.watch(InitialMakeQuestionProvider.authorProvider),
+                'explain': ref.watch(InitialMakeQuestionProvider.explainProvider),
+                'comment': ref.watch(InitialMakeQuestionProvider.commentProvider),
+                'questionDetailList': [
+
+                  for(int i = 0; i< questionDetailList.length; i++) ...{
+                    {
+                      'isOptional': questionDetailList[i].isOptional,
+                      'questionName': questionDetailList[i].questionName,
+                      'image': questionDetailList[i].image,
+                      'correctAnswer': questionDetailList[i].correctAnswer,
+                      'explanation': questionDetailList[i].explanation,
+                      'optionalList': [
+                        for(int i2 = 0; i2< questionDetailList[i].optionalList.length; i2++) ...{
+                          {'optional': questionDetailList[i].optionalList[i2].optional},
+                        }
+
+                        // 他のOptionalQuestion...
+                      ],
+                    },
+                  }
+                ],
+              };
+            }
+
+
+
+
+            try {
+              final id = await SaveData().saveQuestion(createQuestionData());
+
+              if (context.mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShareQuestionPage(id: id,)),
+                );
+              }
+            } catch (error) {
+
+              debugPrint('Error writing document: $error');
+
+            }
           },
         )
       ),

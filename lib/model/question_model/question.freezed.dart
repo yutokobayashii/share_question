@@ -20,7 +20,6 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Question {
-  int get token => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   String get explain => throw _privateConstructorUsedError;
@@ -40,8 +39,7 @@ abstract class $QuestionCopyWith<$Res> {
       _$QuestionCopyWithImpl<$Res, Question>;
   @useResult
   $Res call(
-      {int token,
-      String name,
+      {String name,
       String author,
       String explain,
       String comment,
@@ -61,7 +59,6 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = null,
     Object? name = null,
     Object? author = null,
     Object? explain = null,
@@ -69,10 +66,6 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? questionDetailList = null,
   }) {
     return _then(_value.copyWith(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -106,8 +99,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int token,
-      String name,
+      {String name,
       String author,
       String explain,
       String comment,
@@ -125,7 +117,6 @@ class __$$QuestionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? token = null,
     Object? name = null,
     Object? author = null,
     Object? explain = null,
@@ -133,10 +124,6 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? questionDetailList = null,
   }) {
     return _then(_$QuestionImpl(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -165,8 +152,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$QuestionImpl implements _Question {
   const _$QuestionImpl(
-      {required this.token,
-      required this.name,
+      {required this.name,
       required this.author,
       required this.explain,
       required this.comment,
@@ -176,8 +162,6 @@ class _$QuestionImpl implements _Question {
   factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionImplFromJson(json);
 
-  @override
-  final int token;
   @override
   final String name;
   @override
@@ -197,7 +181,7 @@ class _$QuestionImpl implements _Question {
 
   @override
   String toString() {
-    return 'Question(token: $token, name: $name, author: $author, explain: $explain, comment: $comment, questionDetailList: $questionDetailList)';
+    return 'Question(name: $name, author: $author, explain: $explain, comment: $comment, questionDetailList: $questionDetailList)';
   }
 
   @override
@@ -205,7 +189,6 @@ class _$QuestionImpl implements _Question {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$QuestionImpl &&
-            (identical(other.token, token) || other.token == token) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.explain, explain) || other.explain == explain) &&
@@ -216,8 +199,8 @@ class _$QuestionImpl implements _Question {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, token, name, author, explain,
-      comment, const DeepCollectionEquality().hash(_questionDetailList));
+  int get hashCode => Object.hash(runtimeType, name, author, explain, comment,
+      const DeepCollectionEquality().hash(_questionDetailList));
 
   @JsonKey(ignore: true)
   @override
@@ -235,8 +218,7 @@ class _$QuestionImpl implements _Question {
 
 abstract class _Question implements Question {
   const factory _Question(
-      {required final int token,
-      required final String name,
+      {required final String name,
       required final String author,
       required final String explain,
       required final String comment,
@@ -245,8 +227,6 @@ abstract class _Question implements Question {
   factory _Question.fromJson(Map<String, dynamic> json) =
       _$QuestionImpl.fromJson;
 
-  @override
-  int get token;
   @override
   String get name;
   @override

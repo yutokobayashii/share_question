@@ -8,7 +8,12 @@ import '../../../controller/share_controller.dart';
 import '../../../widgets/basic_button_widget.dart';
 
 class ShareQuestionPage extends StatelessWidget {
-  const ShareQuestionPage({super.key});
+  const ShareQuestionPage({
+    super.key,
+    required this.id
+  });
+
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +74,8 @@ class ShareQuestionPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                   const CopyTextIcon(textToCopy: 'nc8eugbv8rnome9b8vbcrifunv8r',),
-                    Text('nc8eugbv8rnome9b8vbcrifunv8r',
+                    CopyTextIcon(textToCopy: id,),
+                    Text(id,
                       style: normalTextStyle,),
                   ],
                 ),
