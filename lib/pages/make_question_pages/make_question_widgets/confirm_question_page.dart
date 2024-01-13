@@ -230,7 +230,9 @@ class ConfirmQuestionPage extends HookConsumerWidget {
 
             try {
 
-              final id = await SaveData().saveQuestion(controller.createQuestionData(ref));
+              final data = controller.createQuestionData(ref);
+
+              final id = await SaveData().saveQuestion(data);
 
               if (context.mounted) {
                 Navigator.push(

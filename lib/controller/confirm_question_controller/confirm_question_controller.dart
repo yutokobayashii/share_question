@@ -22,6 +22,7 @@ class ConfirmQuestionController {
       'author': ref.watch(InitialMakeQuestionProvider.authorProvider),
       'explain': ref.watch(InitialMakeQuestionProvider.explainProvider),
       'comment': ref.watch(InitialMakeQuestionProvider.commentProvider),
+      'createdAt':DateTime.now(),
       'questionDetailList': [
 
         for(int i = 0; i< questionDetailList.length; i++) ...{

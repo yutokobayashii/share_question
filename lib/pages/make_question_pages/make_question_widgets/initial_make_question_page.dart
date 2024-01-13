@@ -83,66 +83,68 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
             ],
 
           ),
-          body: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  SizedBox(height: 15.h,),
-                  BaseTextFieldWidget(
-                    title: '問題集名',
-                    maxLength: 30,
-                    rightWidget: const IsRequiredWidget(),
-                    controller: InitialQuestionController.questionNameController,
-                     onChanged: (text) {
-                      ref.watch(InitialMakeQuestionProvider.questionNameProvider.notifier).update((state) => text);
-                     },
-                    onSubmitted: (text) {
-
+          body: SingleChildScrollView(
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    SizedBox(height: 15.h,),
+                    BaseTextFieldWidget(
+                      title: '問題集名',
+                      maxLength: 30,
+                      rightWidget: const IsRequiredWidget(),
+                      controller: InitialQuestionController.questionNameController,
+                       onChanged: (text) {
+                        ref.watch(InitialMakeQuestionProvider.questionNameProvider.notifier).update((state) => text);
+                       },
+                      onSubmitted: (text) {
+            
+                      },
+                    ),
+            
+                    SizedBox(height: 10.h,),
+                    BaseTextFieldWidget(
+                      title: '作成者名',
+                      maxLength: 15,
+                      rightWidget: const IsRequiredWidget(),
+                      controller: InitialQuestionController.authorController,
+                      onChanged: (text) {
+                        ref.watch(InitialMakeQuestionProvider.authorProvider.notifier).update((state) => text);
+                      },
+                      onSubmitted: (text) {
+            
+                      },
+                    ),
+            
+                    SizedBox(height: 10.h,),
+                    BaseTextFieldWidget(
+                      title: '問題集の説明',
+                      maxLength: 100,
+                      controller: InitialQuestionController.explainController,
+                      onChanged: (text) {
+                        ref.watch(InitialMakeQuestionProvider.explainProvider.notifier).update((state) => text);
+                      },
+                      onSubmitted: (text) {
+            
                     },
-                  ),
-
-                  SizedBox(height: 10.h,),
-                  BaseTextFieldWidget(
-                    title: '作成者名',
-                    maxLength: 15,
-                    rightWidget: const IsRequiredWidget(),
-                    controller: InitialQuestionController.authorController,
-                    onChanged: (text) {
-                      ref.watch(InitialMakeQuestionProvider.authorProvider.notifier).update((state) => text);
-                    },
-                    onSubmitted: (text) {
-
-                    },
-                  ),
-
-                  SizedBox(height: 10.h,),
-                  BaseTextFieldWidget(
-                    title: '問題集の説明',
-                    maxLength: 100,
-                    controller: InitialQuestionController.explainController,
-                    onChanged: (text) {
-                      ref.watch(InitialMakeQuestionProvider.explainProvider.notifier).update((state) => text);
-                    },
-                    onSubmitted: (text) {
-
-                  },
-                  ),
-
-                  SizedBox(height: 10.h,),
-                  BaseTextFieldWidget(
-                    title: '解答した人へのコメント',
-                    maxLength: 100,
-                    controller: InitialQuestionController.commentController,
-                    onChanged: (text) {
-                      ref.watch(InitialMakeQuestionProvider.commentProvider.notifier).update((state) => text);
-                    },
-                    onSubmitted: (text) {
-
-                    },
-                  ),
-                ],
+                    ),
+            
+                    SizedBox(height: 10.h,),
+                    BaseTextFieldWidget(
+                      title: '解答した人へのコメント',
+                      maxLength: 100,
+                      controller: InitialQuestionController.commentController,
+                      onChanged: (text) {
+                        ref.watch(InitialMakeQuestionProvider.commentProvider.notifier).update((state) => text);
+                      },
+                      onSubmitted: (text) {
+            
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
