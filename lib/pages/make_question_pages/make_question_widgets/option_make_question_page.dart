@@ -42,11 +42,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
       }
 
       // 破棄処理
-      return () {
-        // for (final controller in controllers.value) {
-        //   controller.dispose();
-        // }
-      };
+      return () {};
     }, [addOptionNumber.value]);
 
     List<Widget> additionalOptionWidget() {
@@ -59,9 +55,11 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
           rightWidget: GestureDetector(
             onTap: () {
               addOptionNumber.value--;
+              ref.watch(MakeQuestionProvider.optionalNumber.notifier).update((state) => addOptionNumber.value);
               removeItem(ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
               ref.watch(MakeQuestionProvider.optionalProvider(i + 3).notifier).update((state) => "");
               controllers.value[i].clear();
+              ref.watch(MakeQuestionProvider.isSelectedItemProvider.notifier).update((state) => "0");
             },
             child: Container(
                 decoration: BoxDecoration(
@@ -84,9 +82,9 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
           ),
           onChanged: (text) {
 
-            if (text == "") {
+
               removeItem(ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
-            }
+
 
             ref.watch(MakeQuestionProvider.optionalProvider(i + 3).notifier).update((state) => text);
 
@@ -150,7 +148,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               text: '選択肢を追加',
               icon: Icons.add,
               action: () {
-                if (addOptionNumber.value < 6) {
+                if (addOptionNumber.value < 10) {
                   addOptionNumber.value++;
                   ref.watch(MakeQuestionProvider.optionalNumber.notifier).update((state) => addOptionNumber.value);
                 }
