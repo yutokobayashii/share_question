@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/controller/make_question_controller/make_question_controller.dart';
+import 'package:share_question/db/cloud_db.dart';
 import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
@@ -20,6 +20,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
      final controller = ConfirmQuestionController();
      final removeDataController = RemoveDataController();
+     final cloudDb = CloudDB();
     return  MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -232,7 +233,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
 
               final data = controller.createQuestionData(ref);
 
-              final id = await SaveData().saveQuestion(data);
+              final id = await cloudDb.saveQuestion(data);
 
               if (context.mounted) {
                 Navigator.push(

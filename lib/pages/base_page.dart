@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../constant/color_constant.dart';
-import '../model/tabbar_model/tab_item_data.dart';
+import '../entity/tabbar_data/tab_item_data.dart';
 import '../provider/shared_prefrence_provider.dart';
 
 final _navigatorKeys = <TabItem, GlobalKey<NavigatorState>>{

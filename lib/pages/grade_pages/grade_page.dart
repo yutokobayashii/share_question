@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../constant/color_constant.dart';
-import '../../model/tabbar_model/tab_item_data.dart';
-import '../../provider/shared_prefrence_provider.dart';
 import '../grade_display_pages/grade_display_page.dart';
 
 class GradePage extends StatelessWidget {
@@ -73,7 +71,6 @@ class GradeListWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
-   final colors = Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: GestureDetector(

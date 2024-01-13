@@ -4,10 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_question/provider/make_question_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../constant/color_constant.dart';
-import '../../model/question_model/question.dart';
+import '../../entity/question_data/question.dart';
 import '../../provider/shared_prefrence_provider.dart';
 
 
@@ -134,15 +133,3 @@ class MakeQuestionController {
 }
 
 
-class SaveData {
-
-  Future<String> saveQuestion(Map<String, dynamic> questionData) async {
-    FirebaseFirestore fireStore = FirebaseFirestore.instance;
-
-    // Firestoreにデータを保存
-    DocumentReference docRef = await fireStore.collection('questionList').add(questionData);
-
-    return docRef.id;
-  }
-
-}

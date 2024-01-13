@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
-import 'package:share_question/provider/shared_prefrence_provider.dart';
 
-
-import '../../model/tabbar_model/tab_item_data.dart';
 import '../answer_question_pages/answer_question_page.dart';
 import '../home_pages/home_widgets/main_home_widget.dart';
 import '../input_password_pages/input_password_page.dart';
