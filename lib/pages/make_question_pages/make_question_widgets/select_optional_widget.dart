@@ -59,7 +59,7 @@ class SelectOptionalWidget extends HookConsumerWidget {
                       .isSelectedItemProvider.notifier)
                       .update((state) => text.toString());
                   ref.watch(MakeQuestionProvider
-                      .correctProvider.notifier).update((state) => ref.watch(MakeQuestionProvider.optionalListProvider)[int.parse(text.toString())]);
+                      .correctProvider.notifier).update((state) => ref.watch(MakeQuestionProvider.optionalListProvider)[int.parse(text.toString()) -1]);
 
 
                 }

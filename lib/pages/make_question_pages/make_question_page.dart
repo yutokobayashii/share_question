@@ -25,8 +25,8 @@ import 'make_question_widgets/option_make_question_page.dart';
 import 'make_question_widgets/select_optional_widget.dart';
 
 
-class OptionMakeQuestionPage extends HookConsumerWidget {
-  const OptionMakeQuestionPage({super.key});
+class MakeQuestionPage extends HookConsumerWidget {
+  const MakeQuestionPage({super.key});
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
@@ -63,6 +63,11 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                       leftAction: () {
                         Navigator.pop(context1);
                         Navigator.popUntil(context, (route) => route.isFirst);
+                        controller.clearControllers();
+                        removeQuestionDataController.removeInitialQuestionData(ref);
+                        removeQuestionDataController.removeOptionData(ref);
+                        removeQuestionDataController.removeMakeQuestionData(ref);
+                        optionalController.clearControllers();
                       },
 
                     ),
