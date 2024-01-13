@@ -14,6 +14,7 @@ import 'package:share_question/controller/remove_data_controller/remove_data_con
 import 'package:share_question/model/question_model/question.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 
+import '../../controller/confirm_question_controller/confirm_question_controller.dart';
 import '../../controller/make_question_controller/make_question_controller.dart';
 import '../../provider/shared_prefrence_provider.dart';
 import '../../widgets/base_textfield_widget.dart';
@@ -223,8 +224,18 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                         BasicAddWidget(
                           text: '画像を追加',
                           icon: Icons.add,
-                          action: () {
-                            pickImage(ImageSource.gallery,ref);
+                          action: () async {
+
+                           await pickImage(ImageSource.gallery,ref);
+
+                            if (ref.watch(MakeQuestionProvider.imageFileProvider) != null) {
+
+                              final stringUrl = await ConfirmQuestionController.uploadImageToFirebase(ref.watch(MakeQuestionProvider.imageFileProvider)!);
+
+                              ref.watch(MakeQuestionProvider.imageProvider.notifier).update((state) => stringUrl);
+
+                              print("ddddd${ref.watch(MakeQuestionProvider.imageProvider)}");
+                            }
                           },),
 
                         (ref.watch(MakeQuestionProvider.imageFileProvider) != null) ?
@@ -248,6 +259,7 @@ class OptionMakeQuestionPage extends HookConsumerWidget {
                                           child:  GestureDetector(
                                             onTap: () {
                                               ref.watch(MakeQuestionProvider.imageFileProvider.notifier).update((state) => null);
+                                              ref.watch(MakeQuestionProvider.imageProvider.notifier).update((state) => "");
                                             },
                                             child: Container(
                                                 decoration: BoxDecoration(

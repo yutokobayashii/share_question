@@ -49,6 +49,10 @@ class RemoveDataController {
 
     ref.watch(MakeQuestionProvider.correctProvider.notifier).update((state) => "");
 
+    ref.watch(MakeQuestionProvider.imageProvider.notifier).update((state) => "");
+
+    ref.watch(MakeQuestionProvider.imageFileProvider.notifier).update((state) => null);
+
     ref.watch(MakeQuestionProvider.optionalListProvider.notifier).update((state) => []);
   }
 

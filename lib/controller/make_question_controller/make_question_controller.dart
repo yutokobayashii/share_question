@@ -39,24 +39,15 @@ class MakeQuestionController {
   void inputData(WidgetRef ref,QuestionDetail? temList,ValueNotifier<bool> isOptionAnswerTypeState) {
     temList = QuestionDetail(
         isOptional: isOptionAnswerTypeState.value,
-        questionName: ref.watch(
-            MakeQuestionProvider
-                .questionProvider),
-        image: ref.watch(
-            MakeQuestionProvider.imageProvider),
-        correctAnswer: ref.watch(
-            MakeQuestionProvider.correctProvider),
-        explanation: ref.watch(
-            MakeQuestionProvider.commentProvider),
-        optionalList: (isOptionAnswerTypeState
-            .value) ?
+        questionName: ref.watch(MakeQuestionProvider.questionProvider),
+        image: ref.watch(MakeQuestionProvider.imageProvider),
+        correctAnswer: ref.watch(MakeQuestionProvider.correctProvider),
+        explanation: ref.watch(MakeQuestionProvider.commentProvider),
+        optionalList: (isOptionAnswerTypeState.value) ?
         [
           for(int i = 0; i < ref.watch(
-              MakeQuestionProvider
-                  .optionalNumber); i++) ...{
-            OptionalQuestion(optional: ref.watch(
-                MakeQuestionProvider
-                    .optionalProvider(i + 1)))
+              MakeQuestionProvider.optionalNumber); i++) ...{
+            OptionalQuestion(optional: ref.watch(MakeQuestionProvider.optionalProvider(i + 1)))
           }
         ]
             : []

@@ -18,7 +18,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
-     final controller = CreateQuestionDataController();
+     final controller = ConfirmQuestionController();
      final removeDataController = RemoveDataController();
     return  MaterialApp(
       home: Scaffold(
