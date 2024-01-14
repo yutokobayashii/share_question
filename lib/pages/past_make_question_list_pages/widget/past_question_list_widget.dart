@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_detail_page.dart';
+import 'package:share_question/pages/past_question_detail_page/past_question_detail_page.dart';
 
 import '../../../collection/token.dart';
 import '../../../constant/color.dart';

@@ -1,6 +1,9 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../helpers/time_stamp_converter.dart';
 
 
 part 'question.freezed.dart';
@@ -13,6 +16,7 @@ class Question with _$Question {
     required String author,
     required String explain,
     required String comment,
+    @TimestampConverter() required DateTime createdAt,
     required List<QuestionDetail> questionDetailList,
   }) = _Question;
 

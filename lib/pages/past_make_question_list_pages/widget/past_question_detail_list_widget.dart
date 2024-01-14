@@ -3,20 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../constant/style.dart';
+import '../../../entity/question_data/question.dart';
+import 'optional_widget.dart';
 
 class PastQuestionDetailListWidget extends StatelessWidget {
   const PastQuestionDetailListWidget({
     super.key,
-    required this.isOptional,
-    required this.isImage,
+    required this.questionList,
+    required this.i,
+
   });
 
-  final bool isOptional;
-  final bool isImage;
+
+  final List<QuestionDetail> questionList;
+  final int i;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width - 20.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
@@ -32,17 +37,17 @@ class PastQuestionDetailListWidget extends StatelessWidget {
           children: [
             SizedBox(height: 15.h,),
 
-            Text('１問目',style: boldTextStyle,),
+            Text('${i+1}問目',style: boldTextStyle,),
 
             SizedBox(height: 15.h,),
 
             Text('問題:',style: boldTextStyle,),
             SizedBox(height: 10.h,),
-            Text('問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題問題',style: normalTextStyle,),
+            Text(questionList[i].questionName,style: normalTextStyle,),
 
             SizedBox(height: 15.h,),
 
-            isImage ?
+            (questionList[i].image != "") ?
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -51,7 +56,7 @@ class PastQuestionDetailListWidget extends StatelessWidget {
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: 200.h,
-                      child: Image.network("https://dist.micres.cyberowl.jp/u/gallery/8399/s/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCTjRTa0FFPSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--1d0f7ceb5af678638f9fe679ee8ae4e53c729f74/q/80/r/1280x1280"),
+                      child: Image.network(questionList[i].image),
                     ),
                   ],
                 )
@@ -61,20 +66,20 @@ class PastQuestionDetailListWidget extends StatelessWidget {
 
             SizedBox(height: 15.h,),
 
-            isOptional ?
-            const OptionalWidget()
+            questionList[i].isOptional ?
+             OptionalWidget(optionalList: questionList[i].optionalList,)
                 :
             const SizedBox(),
 
             Text('解答:',style: boldTextStyle,),
             SizedBox(height: 10.h,),
-            Text('解答解答解答解答解答解答解答解答解答',style: normalTextStyle,),
+            Text(questionList[i].correctAnswer,style: normalTextStyle,),
 
             SizedBox(height: 15.h,),
 
             Text('解説:',style: boldTextStyle,),
             SizedBox(height: 10.h,),
-            Text('解説解説解説解説解説解説解説解説解説解説解説解説',style: normalTextStyle,),
+            Text(questionList[i].explanation,style: normalTextStyle,),
 
 
 
@@ -88,26 +93,3 @@ class PastQuestionDetailListWidget extends StatelessWidget {
   }
 }
 
-class OptionalWidget extends StatelessWidget {
-  const OptionalWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for(int i = 0; i<3; i++)... {
-
-          Text('選択肢${i+1}:',style: boldTextStyle,),
-          SizedBox(height: 10.h,),
-          Text('選択肢${i+1}選択肢${i+1}選択肢${i+1}',style: normalTextStyle,),
-
-          SizedBox(height: 15.h,),
-
-        },
-      ],
-    );
-  }
-}

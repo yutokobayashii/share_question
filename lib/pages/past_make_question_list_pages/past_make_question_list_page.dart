@@ -2,14 +2,11 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/data/local/isar_dao.dart';
-import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_detail_page.dart';
 import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_list_widget.dart';
 
-import '../../collection/token.dart';
 import '../../constant/color.dart';
 import '../../provider/shared_prefrence_provider.dart';
 
@@ -18,30 +15,6 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
-     List<Token> tokenList = [];
-
-    useEffect(()  {
-      void fetchData() async {
-        final tokens = await TokenDao.tokenFindAll();
-        tokenList = tokens;
-        print('sssssss$tokenList');
-      }
-
-      fetchData();
-
-      print(tokenList.length);
-
-      for(int i = 0; i<tokenList.length; i++) {
-
-        print(tokenList[i].questionName);
-        print('bkccdc');
-
-      }
-
-
-
-      return null;
-    }, [tokenList]);
 
     return MaterialApp(
       home: Scaffold(
@@ -74,15 +47,29 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
               );
 
             }
+            else if (snapshot.data!.isEmpty) {
+
+             return const Center(child:
+             Column(
+               mainAxisAlignment: MainAxisAlignment.center,
+               crossAxisAlignment: CrossAxisAlignment.center,
+               children: [
+                 Text('まだ作問実績がありません。',style: TextStyle(color: Colors.grey),),
+                 Text('作問画面から問題を作成しましょう',style: TextStyle(color: Colors.grey),)
+               ],
+             ));
+
+            }
             else if (snapshot.hasError) {
               // エラーが発生した場合はエラーメッセージを表示
-              return Text('Error: ${snapshot.error}');
+              return Center(child: Text('Error: ${snapshot.error}'));
             }
             else if (snapshot.hasData) {
-
+              print(snapshot.data!.length);
               return Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [

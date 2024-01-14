@@ -3,6 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../constant/error.dart';
+import '../../entity/question_data/question.dart';
+
 class CloudDao {
 
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
@@ -17,18 +20,19 @@ class CloudDao {
 
 
 
-  Future<Map<String, dynamic>?> getQuestion(String documentId) async {
+  Future<Question> getQuestion(String documentId) async {
     try {
       DocumentSnapshot docSnapshot = await fireStore.collection('questionList').doc(documentId).get();
 
       if (docSnapshot.exists) {
-        return docSnapshot.data() as Map<String, dynamic>?;
+        Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+        return Question.fromJson(data);
       } else {
-        return null;
+       throw Exception(getFirebaseError);
       }
     } catch (e) {
       debugPrint(e.toString());
-      return null;
+      throw Exception(getFirebaseError);
     }
   }
 
@@ -39,7 +43,7 @@ class CloudDao {
       await fireStore.collection('questionList').doc(documentId).delete();
       return true;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return false;
     }
   }

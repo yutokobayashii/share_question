@@ -24,6 +24,8 @@ mixin _$Question {
   String get author => throw _privateConstructorUsedError;
   String get explain => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
+  @TimestampConverter()
+  DateTime get createdAt => throw _privateConstructorUsedError;
   List<QuestionDetail> get questionDetailList =>
       throw _privateConstructorUsedError;
 
@@ -43,6 +45,7 @@ abstract class $QuestionCopyWith<$Res> {
       String author,
       String explain,
       String comment,
+      @TimestampConverter() DateTime createdAt,
       List<QuestionDetail> questionDetailList});
 }
 
@@ -63,6 +66,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? author = null,
     Object? explain = null,
     Object? comment = null,
+    Object? createdAt = null,
     Object? questionDetailList = null,
   }) {
     return _then(_value.copyWith(
@@ -82,6 +86,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       questionDetailList: null == questionDetailList
           ? _value.questionDetailList
           : questionDetailList // ignore: cast_nullable_to_non_nullable
@@ -103,6 +111,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
       String author,
       String explain,
       String comment,
+      @TimestampConverter() DateTime createdAt,
       List<QuestionDetail> questionDetailList});
 }
 
@@ -121,6 +130,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? author = null,
     Object? explain = null,
     Object? comment = null,
+    Object? createdAt = null,
     Object? questionDetailList = null,
   }) {
     return _then(_$QuestionImpl(
@@ -140,6 +150,10 @@ class __$$QuestionImplCopyWithImpl<$Res>
           ? _value.comment
           : comment // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       questionDetailList: null == questionDetailList
           ? _value._questionDetailList
           : questionDetailList // ignore: cast_nullable_to_non_nullable
@@ -156,6 +170,7 @@ class _$QuestionImpl implements _Question {
       required this.author,
       required this.explain,
       required this.comment,
+      @TimestampConverter() required this.createdAt,
       required final List<QuestionDetail> questionDetailList})
       : _questionDetailList = questionDetailList;
 
@@ -170,6 +185,9 @@ class _$QuestionImpl implements _Question {
   final String explain;
   @override
   final String comment;
+  @override
+  @TimestampConverter()
+  final DateTime createdAt;
   final List<QuestionDetail> _questionDetailList;
   @override
   List<QuestionDetail> get questionDetailList {
@@ -181,7 +199,7 @@ class _$QuestionImpl implements _Question {
 
   @override
   String toString() {
-    return 'Question(name: $name, author: $author, explain: $explain, comment: $comment, questionDetailList: $questionDetailList)';
+    return 'Question(name: $name, author: $author, explain: $explain, comment: $comment, createdAt: $createdAt, questionDetailList: $questionDetailList)';
   }
 
   @override
@@ -193,6 +211,8 @@ class _$QuestionImpl implements _Question {
             (identical(other.author, author) || other.author == author) &&
             (identical(other.explain, explain) || other.explain == explain) &&
             (identical(other.comment, comment) || other.comment == comment) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             const DeepCollectionEquality()
                 .equals(other._questionDetailList, _questionDetailList));
   }
@@ -200,7 +220,7 @@ class _$QuestionImpl implements _Question {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, name, author, explain, comment,
-      const DeepCollectionEquality().hash(_questionDetailList));
+      createdAt, const DeepCollectionEquality().hash(_questionDetailList));
 
   @JsonKey(ignore: true)
   @override
@@ -222,6 +242,7 @@ abstract class _Question implements Question {
       required final String author,
       required final String explain,
       required final String comment,
+      @TimestampConverter() required final DateTime createdAt,
       required final List<QuestionDetail> questionDetailList}) = _$QuestionImpl;
 
   factory _Question.fromJson(Map<String, dynamic> json) =
@@ -235,6 +256,9 @@ abstract class _Question implements Question {
   String get explain;
   @override
   String get comment;
+  @override
+  @TimestampConverter()
+  DateTime get createdAt;
   @override
   List<QuestionDetail> get questionDetailList;
   @override
