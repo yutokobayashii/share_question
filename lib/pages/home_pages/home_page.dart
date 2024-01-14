@@ -94,10 +94,6 @@ class HomePage extends StatelessWidget {
                         title: '使い方ガイド',
                         content: 'lineや各種SNSで作った問題をみんなに共有し、\n学校の授業、部活動、家族や会社で活用しよう！',
                         action: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => const GuidePage()),
-                          // );
                           showModalBottomSheet(
                             context: context,
                             isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定

@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
-class StorageDB {
+class StorageDao {
 
   static Future<String> uploadImageToFirebase(XFile imageFile) async {
     try {

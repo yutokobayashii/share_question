@@ -3,6 +3,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 
+import '../../collection/token.dart';
+import '../../data/local/isar_dao.dart';
 import '../../provider/initial_question_provider.dart';
 import '../../provider/make_question_provider.dart';
 
@@ -40,6 +42,24 @@ class ConfirmQuestionController {
     };
   }
 
+
+
+
+  Future<void> putQuestionDataToIsar (String id,WidgetRef ref) async {
+
+    final newToken = Token();
+    final tokenDao = TokenDao();
+
+    newToken.token = id;
+    newToken.questionName = ref.watch(InitialMakeQuestionProvider.questionNameProvider);
+    newToken.author = ref.watch(InitialMakeQuestionProvider.authorProvider);
+    newToken.createdAt = DateTime.now();
+    newToken.explain = ref.watch(InitialMakeQuestionProvider.commentProvider);
+
+
+    await tokenDao.putTokenData(newToken);
+
+  }
 
 
 

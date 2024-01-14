@@ -14,7 +14,7 @@ import 'package:share_question/controller/remove_data_controller/remove_data_con
 import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../controller/make_question_controller/make_question_controller.dart';
-import '../../db/storage_db.dart';
+import '../../data/remote/storage_dao.dart';
 import '../../entity/question_data/question.dart';
 import '../../provider/shared_prefrence_provider.dart';
 import '../../widgets/base_textfield_widget.dart';
@@ -235,7 +235,7 @@ class MakeQuestionPage extends HookConsumerWidget {
 
                             if (ref.watch(MakeQuestionProvider.imageFileProvider) != null) {
 
-                              final stringUrl = await StorageDB.uploadImageToFirebase(ref.watch(MakeQuestionProvider.imageFileProvider)!);
+                              final stringUrl = await StorageDao.uploadImageToFirebase(ref.watch(MakeQuestionProvider.imageFileProvider)!);
 
                               ref.watch(MakeQuestionProvider.imageProvider.notifier).update((state) => stringUrl);
 
