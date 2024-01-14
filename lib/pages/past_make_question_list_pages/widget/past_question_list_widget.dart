@@ -5,7 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_detail_page.dart';
 
 import '../../../collection/token.dart';
-import '../../../constant/color_constant.dart';
+import '../../../constant/color.dart';
+import '../../../constant/style.dart';
 import '../../../provider/shared_prefrence_provider.dart';
 
 class PastQuestionListWidget extends HookConsumerWidget {
@@ -25,7 +26,7 @@ class PastQuestionListWidget extends HookConsumerWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const PastQuestionDetailPage()),
+          MaterialPageRoute(builder: (context) => PastQuestionDetailPage(list[i].token)),
         );
 
       },

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/widgets/base_textfield_widget.dart';
 
+import '../../constant/style.dart';
 import '../../widgets/basic_button_widget.dart';
 import '../answer_question_pages/answer_question_page.dart';
 

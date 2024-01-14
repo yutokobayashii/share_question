@@ -7,7 +7,8 @@ import 'package:share_question/pages/make_question_pages/make_question_widgets/s
 import 'package:share_question/provider/make_question_provider.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
-import '../../../constant/color_constant.dart';
+import '../../../constant/color.dart';
+import '../../../constant/style.dart';
 import '../../../controller/confirm_question_controller/confirm_question_controller.dart';
 import '../../../controller/remove_data_controller/remove_data_controller.dart';
 import '../../../provider/shared_prefrence_provider.dart';

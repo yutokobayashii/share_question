@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../constant/color_constant.dart';
+import '../../constant/style.dart';
 import '../grade_display_pages/grade_display_page.dart';
 
 class GradePage extends StatelessWidget {

@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../constant/color_constant.dart';
-import '../../../provider/shared_prefrence_provider.dart';
+import '../../../constant/style.dart';
 import '../../../widgets/dialog_widget.dart';
-import '../../answer_question_pages/answer_question_page.dart';
 import '../answer_page.dart';
 
 

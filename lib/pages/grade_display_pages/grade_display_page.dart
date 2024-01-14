@@ -4,10 +4,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/constant/color.dart';
 import 'package:share_question/pages/grade_display_pages/question_result_list_widget.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
+import '../../constant/style.dart';
 import '../../provider/shared_prefrence_provider.dart';
 
 

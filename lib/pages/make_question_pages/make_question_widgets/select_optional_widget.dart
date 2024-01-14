@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/provider/make_question_provider.dart';
+
+import '../../../constant/style.dart';
 
 class SelectOptionalWidget extends HookConsumerWidget {
   const SelectOptionalWidget({

@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/pages/guide_pages/guide_widget/guide_page_widget.dart';
+
+import '../../constant/style.dart';
 
 
 

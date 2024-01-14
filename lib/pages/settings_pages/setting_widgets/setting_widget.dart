@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../constant/color_constant.dart';
+import '../../../constant/style.dart';
 
 class SettingWidget extends StatelessWidget {
   const SettingWidget({

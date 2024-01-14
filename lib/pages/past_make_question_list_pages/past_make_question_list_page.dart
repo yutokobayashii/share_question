@@ -10,7 +10,7 @@ import 'package:share_question/pages/past_make_question_list_pages/widget/past_q
 import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_list_widget.dart';
 
 import '../../collection/token.dart';
-import '../../constant/color_constant.dart';
+import '../../constant/color.dart';
 import '../../provider/shared_prefrence_provider.dart';
 
 class PastMakeQuestionListPage extends HookConsumerWidget {

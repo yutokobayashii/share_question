@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:share_question/constant/color_constant.dart';
+
+import '../../../constant/style.dart';
 
 class PastQuestionDetailListWidget extends StatelessWidget {
   const PastQuestionDetailListWidget({

@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/widgets/copy_text_icon.dart';
 
+import '../../../constant/style.dart';
 import '../../../controller/share_controller.dart';
 import '../../../widgets/basic_button_widget.dart';
 

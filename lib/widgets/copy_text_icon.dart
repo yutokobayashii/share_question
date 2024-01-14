@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/constant/color_constant.dart';
+import 'package:share_question/constant/color.dart';
 
 import '../provider/shared_prefrence_provider.dart';
 
