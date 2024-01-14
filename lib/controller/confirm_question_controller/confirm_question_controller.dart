@@ -57,7 +57,11 @@ class ConfirmQuestionController {
     newToken.explain = ref.watch(InitialMakeQuestionProvider.commentProvider);
 
 
-    await tokenDao.putTokenData(newToken);
+   await tokenDao.putTokenData(newToken);
+
+   final list = await TokenDao.tokenFindAll();
+
+   print(list);
 
   }
 

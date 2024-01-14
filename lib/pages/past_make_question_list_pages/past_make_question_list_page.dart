@@ -2,18 +2,47 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/pages/past_make_question_list_pages/past_question_detail_page.dart';
+import 'package:share_question/data/local/isar_dao.dart';
+import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_detail_page.dart';
+import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_list_widget.dart';
 
+import '../../collection/token.dart';
 import '../../constant/color_constant.dart';
 import '../../provider/shared_prefrence_provider.dart';
 
-class PastMakeQuestionListPage extends StatelessWidget {
+class PastMakeQuestionListPage extends HookConsumerWidget {
   const PastMakeQuestionListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+     List<Token> tokenList = [];
+
+    useEffect(()  {
+      void fetchData() async {
+        final tokens = await TokenDao.tokenFindAll();
+        tokenList = tokens;
+        print('sssssss$tokenList');
+      }
+
+      fetchData();
+
+      print(tokenList.length);
+
+      for(int i = 0; i<tokenList.length; i++) {
+
+        print(tokenList[i].questionName);
+        print('bkccdc');
+
+      }
+
+
+
+      return null;
+    }, [tokenList]);
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -35,121 +64,49 @@ class PastMakeQuestionListPage extends StatelessWidget {
             )
           ],
         ),
-        body: Container(
-          color: Colors.white,
-          width: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 30.h,),
-            
-                for(int i = 0; i<3; i++)... {
-                  const PastQuestionListWidget(),
-                  SizedBox(height: 20.h,),
-            
-                }
-              ],
-            ),
-          ),
+        body: FutureBuilder(
+          future: TokenDao.tokenFindAll(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+
+              return CircularProgressIndicator(
+                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+              );
+
+            }
+            else if (snapshot.hasError) {
+              // エラーが発生した場合はエラーメッセージを表示
+              return Text('Error: ${snapshot.error}');
+            }
+            else if (snapshot.hasData) {
+
+              return Container(
+                color: Colors.white,
+                width: MediaQuery.of(context).size.width,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 30.h,),
+
+                      for(int i = 0; i<snapshot.data!.length; i++)... {
+                         PastQuestionListWidget(list: snapshot.data!, i: i,),
+                        SizedBox(height: 20.h,),
+
+                      }
+                    ],
+                  ),
+                ),
+              );
+            }
+            else {
+              // その他の状態
+              return const Center(child: Text('No data'));
+            }
+          },
         ),
       ),
     );
   }
 }
 
-class PastQuestionListWidget extends HookConsumerWidget {
-  const PastQuestionListWidget({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context,WidgetRef ref) {
-   final colors = Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value);
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const PastQuestionDetailPage()),
-        );
-
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width - 50.w,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          border: Border.all(
-            color: Colors.grey,
-            width: 1,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              SizedBox(height: 15.h,),
-
-              Text('問題名:',
-                  style: colorBoldTextStyle(colors)),
-
-              Text("dddddddddddd",
-                style: boldTextStyle,),
-
-              SizedBox(height: 15.h,),
-
-              Row(
-                children: [
-                  Text('作成者:',
-                      style: colorBoldTextStyle(colors)),
-
-                  SizedBox(width: 5.w,),
-
-                  Text("小林優斗",
-                    style: boldTextStyle,),
-                ],
-              ),
-
-              SizedBox(height: 15.h,),
-
-
-
-              Row(
-                children: [
-                  Text('作成日:',
-                      style: colorBoldTextStyle(colors)),
-
-                  SizedBox(width: 5.w,),
-
-                  Text("2023/04/24",
-                    style: boldTextStyle,),
-                ],
-              ),
-
-              SizedBox(height: 15.h,),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('説明:',
-                      style: colorBoldTextStyle(colors)),
-
-                  SizedBox(width: 5.w,),
-
-                  Text("あああああああああああああああああああああああああああああああああああああ",
-                    style: boldTextStyle,),
-                ],
-              ),
-
-              SizedBox(height: 15.h,),
-
-
-            ],
-          ),
-        ),
-
-      ),
-    );
-  }
-}

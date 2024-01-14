@@ -5,11 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color_constant.dart';
 import 'package:share_question/controller/share_controller.dart';
-import 'package:share_question/pages/past_make_question_list_pages/past_question_detail_list_widget.dart';
+import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_detail_list_widget.dart';
 import 'package:share_question/widgets/basic_button_widget.dart';
 
-import '../../provider/shared_prefrence_provider.dart';
-import '../../widgets/copy_text_icon.dart';
+import '../../../provider/shared_prefrence_provider.dart';
+import '../../../widgets/copy_text_icon.dart';
 
 class PastQuestionDetailPage extends HookConsumerWidget {
   const PastQuestionDetailPage({super.key});
