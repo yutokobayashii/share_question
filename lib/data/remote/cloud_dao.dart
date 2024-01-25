@@ -20,7 +20,7 @@ class CloudDao {
 
 
 
-  Future<Question> getQuestion(String documentId) async {
+  Future<Question?> getQuestion(String documentId) async {
     try {
       DocumentSnapshot docSnapshot = await fireStore.collection('questionList').doc(documentId).get();
 
@@ -28,7 +28,7 @@ class CloudDao {
         Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
         return Question.fromJson(data);
       } else {
-       throw Exception(getFirebaseError);
+      return null;
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -45,6 +45,20 @@ class CloudDao {
     } catch (e) {
       debugPrint(e.toString());
       return false;
+    }
+  }
+
+//todo:実装予定
+  Future<void> incrementLikes(String documentId) async {
+    try {
+      DocumentReference docRef = fireStore.collection('questionList').doc(documentId);
+
+      await docRef.update({
+        'favorite': FieldValue.increment(1)
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+      throw Exception('Firebase increment error');
     }
   }
 

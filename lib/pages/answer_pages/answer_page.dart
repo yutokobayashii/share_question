@@ -83,7 +83,6 @@ class AnswerPage extends HookConsumerWidget {
                 )
                 :
                   QuestionListWidget(
-                    ref: ref,
                     removeContent:'一度削除すると再度パスワードを入力しないと問題にアクセスできません',
                     action: () {
                       Navigator.push(

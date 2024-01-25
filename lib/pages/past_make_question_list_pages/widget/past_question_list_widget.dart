@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/pages/past_question_detail_page/past_question_detail_page.dart';
 
-import '../../../collection/token.dart';
+import '../../../collection/token/token.dart';
 import '../../../constant/color.dart';
 import '../../../constant/style.dart';
 import '../../../provider/shared_prefrence_provider.dart';
@@ -79,7 +79,7 @@ class PastQuestionListWidget extends HookConsumerWidget {
 
                   SizedBox(width: 5.w,),
 
-                  Text("${list[i].createdAt.year}/${list[i].createdAt.month}/${list[i].createdAt.day}",
+                  Text(list[i].createdAt,
                     style: boldTextStyle,),
                 ],
               ),

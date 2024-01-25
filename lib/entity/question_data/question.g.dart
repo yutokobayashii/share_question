@@ -12,8 +12,7 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
       author: json['author'] as String,
       explain: json['explain'] as String,
       comment: json['comment'] as String,
-      createdAt:
-          const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
+      createdAt: json['createdAt'] as String,
       questionDetailList: (json['questionDetailList'] as List<dynamic>)
           .map((e) => QuestionDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -25,7 +24,7 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
       'author': instance.author,
       'explain': instance.explain,
       'comment': instance.comment,
-      'createdAt': const TimestampConverter().toJson(instance.createdAt),
+      'createdAt': instance.createdAt,
       'questionDetailList': instance.questionDetailList,
     };
 

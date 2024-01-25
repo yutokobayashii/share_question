@@ -2,8 +2,7 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-
-import '../collection/token.dart';
+import '../collection/token/token.dart';
 
 class IsarDB {
   static final IsarDB _instance = IsarDB._init();
@@ -18,6 +17,7 @@ class IsarDB {
       _instance._database = await Isar.open(
         [
           TokenSchema,
+
         ],
         directory: dir.path,
       );

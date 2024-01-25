@@ -106,7 +106,7 @@ class PastQuestionDetailWidget extends HookConsumerWidget {
 
             SizedBox(width: 5.w,),
 
-            Text("${question.createdAt.year}/${question.createdAt.month}/${question.createdAt.day}",
+            Text(question.createdAt,
               style: boldTextStyle,),
 
           ],

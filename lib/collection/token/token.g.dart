@@ -25,7 +25,7 @@ const TokenSchema = CollectionSchema(
     r'createdAt': PropertySchema(
       id: 1,
       name: r'createdAt',
-      type: IsarType.dateTime,
+      type: IsarType.string,
     ),
     r'explain': PropertySchema(
       id: 2,
@@ -64,6 +64,7 @@ int _tokenEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.author.length * 3;
+  bytesCount += 3 + object.createdAt.length * 3;
   bytesCount += 3 + object.explain.length * 3;
   bytesCount += 3 + object.questionName.length * 3;
   bytesCount += 3 + object.token.length * 3;
@@ -77,7 +78,7 @@ void _tokenSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.author);
-  writer.writeDateTime(offsets[1], object.createdAt);
+  writer.writeString(offsets[1], object.createdAt);
   writer.writeString(offsets[2], object.explain);
   writer.writeString(offsets[3], object.questionName);
   writer.writeString(offsets[4], object.token);
@@ -91,7 +92,7 @@ Token _tokenDeserialize(
 ) {
   final object = Token();
   object.author = reader.readString(offsets[0]);
-  object.createdAt = reader.readDateTime(offsets[1]);
+  object.createdAt = reader.readString(offsets[1]);
   object.explain = reader.readString(offsets[2]);
   object.id = id;
   object.questionName = reader.readString(offsets[3]);
@@ -109,7 +110,7 @@ P _tokenDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readDateTime(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
@@ -339,46 +340,54 @@ extension TokenQueryFilter on QueryBuilder<Token, Token, QFilterCondition> {
   }
 
   QueryBuilder<Token, Token, QAfterFilterCondition> createdAtEqualTo(
-      DateTime value) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'createdAt',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Token, Token, QAfterFilterCondition> createdAtGreaterThan(
-    DateTime value, {
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'createdAt',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Token, Token, QAfterFilterCondition> createdAtLessThan(
-    DateTime value, {
+    String value, {
     bool include = false,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'createdAt',
         value: value,
+        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Token, Token, QAfterFilterCondition> createdAtBetween(
-    DateTime lower,
-    DateTime upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
+    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -387,6 +396,75 @@ extension TokenQueryFilter on QueryBuilder<Token, Token, QFilterCondition> {
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Token, Token, QAfterFilterCondition> createdAtStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'createdAt',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Token, Token, QAfterFilterCondition> createdAtEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'createdAt',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Token, Token, QAfterFilterCondition> createdAtContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'createdAt',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Token, Token, QAfterFilterCondition> createdAtMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'createdAt',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Token, Token, QAfterFilterCondition> createdAtIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Token, Token, QAfterFilterCondition> createdAtIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'createdAt',
+        value: '',
       ));
     });
   }
@@ -980,9 +1058,10 @@ extension TokenQueryWhereDistinct on QueryBuilder<Token, Token, QDistinct> {
     });
   }
 
-  QueryBuilder<Token, Token, QDistinct> distinctByCreatedAt() {
+  QueryBuilder<Token, Token, QDistinct> distinctByCreatedAt(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'createdAt');
+      return query.addDistinctBy(r'createdAt', caseSensitive: caseSensitive);
     });
   }
 
@@ -1021,7 +1100,7 @@ extension TokenQueryProperty on QueryBuilder<Token, Token, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Token, DateTime, QQueryOperations> createdAtProperty() {
+  QueryBuilder<Token, String, QQueryOperations> createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
     });

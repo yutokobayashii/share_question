@@ -4,7 +4,7 @@
 import 'package:isar/isar.dart';
 
 
-import '../../collection/token.dart';
+import '../../collection/token/token.dart';
 import '../../db/isar_db.dart';
 
 class TokenDao {

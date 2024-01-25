@@ -12,7 +12,7 @@ class Token {
 
   late String author;
 
-  late DateTime createdAt;
+  late String createdAt;
 
   late String explain;
 }

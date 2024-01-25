@@ -49,7 +49,7 @@ class MakeQuestionController {
             OptionalQuestion(optional: ref.watch(MakeQuestionProvider.optionalProvider(i + 1)))
           }
         ]
-            : []
+            : [],
     );
 
     ref.watch(MakeQuestionProvider

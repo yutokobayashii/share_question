@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/data/local/isar_dao.dart';
+import 'package:share_question/data/local/token_isar_dao.dart';
 import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_list_widget.dart';
 
 import '../../constant/color.dart';

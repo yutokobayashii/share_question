@@ -24,8 +24,7 @@ mixin _$Question {
   String get author => throw _privateConstructorUsedError;
   String get explain => throw _privateConstructorUsedError;
   String get comment => throw _privateConstructorUsedError;
-  @TimestampConverter()
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  String get createdAt => throw _privateConstructorUsedError;
   List<QuestionDetail> get questionDetailList =>
       throw _privateConstructorUsedError;
 
@@ -45,7 +44,7 @@ abstract class $QuestionCopyWith<$Res> {
       String author,
       String explain,
       String comment,
-      @TimestampConverter() DateTime createdAt,
+      String createdAt,
       List<QuestionDetail> questionDetailList});
 }
 
@@ -89,7 +88,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       questionDetailList: null == questionDetailList
           ? _value.questionDetailList
           : questionDetailList // ignore: cast_nullable_to_non_nullable
@@ -111,7 +110,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
       String author,
       String explain,
       String comment,
-      @TimestampConverter() DateTime createdAt,
+      String createdAt,
       List<QuestionDetail> questionDetailList});
 }
 
@@ -153,7 +152,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String,
       questionDetailList: null == questionDetailList
           ? _value._questionDetailList
           : questionDetailList // ignore: cast_nullable_to_non_nullable
@@ -170,7 +169,7 @@ class _$QuestionImpl implements _Question {
       required this.author,
       required this.explain,
       required this.comment,
-      @TimestampConverter() required this.createdAt,
+      required this.createdAt,
       required final List<QuestionDetail> questionDetailList})
       : _questionDetailList = questionDetailList;
 
@@ -186,8 +185,7 @@ class _$QuestionImpl implements _Question {
   @override
   final String comment;
   @override
-  @TimestampConverter()
-  final DateTime createdAt;
+  final String createdAt;
   final List<QuestionDetail> _questionDetailList;
   @override
   List<QuestionDetail> get questionDetailList {
@@ -242,7 +240,7 @@ abstract class _Question implements Question {
       required final String author,
       required final String explain,
       required final String comment,
-      @TimestampConverter() required final DateTime createdAt,
+      required final String createdAt,
       required final List<QuestionDetail> questionDetailList}) = _$QuestionImpl;
 
   factory _Question.fromJson(Map<String, dynamic> json) =
@@ -257,8 +255,7 @@ abstract class _Question implements Question {
   @override
   String get comment;
   @override
-  @TimestampConverter()
-  DateTime get createdAt;
+  String get createdAt;
   @override
   List<QuestionDetail> get questionDetailList;
   @override
