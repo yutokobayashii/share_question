@@ -3,6 +3,7 @@
 
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../provider/initial_question_provider.dart';
 import '../provider/make_question_provider.dart';
@@ -19,6 +20,7 @@ class QuestionDataRepositoryImp implements QuestionDataRepository {
 
     final questionDetailList  =  ref.watch(MakeQuestionProvider.questionDetailListProvider);
     return {
+      'uuid':const Uuid().v4(),
       'name': ref.watch(InitialMakeQuestionProvider.questionNameProvider),
       'author': ref.watch(InitialMakeQuestionProvider.authorProvider),
       'explain': ref.watch(InitialMakeQuestionProvider.explainProvider),

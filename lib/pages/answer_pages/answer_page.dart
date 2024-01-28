@@ -72,22 +72,12 @@ class AnswerPage extends HookConsumerWidget {
 
             SizedBox(height: 20.h,),
 
-            (ref.watch(testList).isEmpty) ?
-
-                const Center(
-                  child: Text('あなたが解答可能な問題はありません。\n誰かが作成した問題を解くために、\nパスワードを共有してもらいましょう。',
-                    style: TextStyle(
-                      color: Colors.black54
-                    ),
-                  ),
-                )
-                :
-                  QuestionListWidget(
-                    removeContent:'一度削除すると再度パスワードを入力しないと問題にアクセスできません',
-                    action: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const AnswerQuestionPage()),
+            QuestionListWidget(
+              removeContent:'一度削除すると再度パスワードを入力しないと問題にアクセスできません',
+              action: () {
+                 Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AnswerQuestionPage()),
                       );
                     }, )
           ],

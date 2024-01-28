@@ -11,6 +11,8 @@ import 'package:share_question/widgets/base_textfield_widget.dart';
 
 import '../../constant/style.dart';
 import '../../data/local/question_sqflite_dao.dart';
+import '../../notifier/library_data_notifier.dart';
+import '../../repository/library_data_repoditory.dart';
 import '../../widgets/basic_button_widget.dart';
 import '../answer_question_pages/answer_question_page.dart';
 import 'input_password_widget/new_question_widget.dart';
@@ -111,9 +113,14 @@ class InputPasswordPage extends HookConsumerWidget {
 
                    final id = await questionSqfliteDao.addQuestionToDatabase(questionData.value!);
 
-                    ref.watch(sharedPreferencesProvider).setInt("libraryId", id);
 
-                    ref.watch(libraryIdProvider.notifier).update((state) => id);
+
+                   ref.refresh(libraryDataProvider).isRefreshing;
+
+
+                    // ref.watch(sharedPreferencesProvider).setInt("libraryId", id);
+                    //
+                    // ref.watch(libraryIdProvider.notifier).update((state) => id);
 
 
                     if (context.mounted) {

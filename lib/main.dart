@@ -25,10 +25,10 @@ void main() async{
   runApp(
        ProviderScope(
           overrides: [
-            sharedPreferencesProvider.overrideWithValue(
-              // ここでインスタンス化し、Providerの値を上書きします
-              await SharedPreferences.getInstance(),
-            ),
+            // sharedPreferencesProvider.overrideWithValue(
+            //   // ここでインスタンス化し、Providerの値を上書きします
+            //   await SharedPreferences.getInstance(),
+            // ),
            colorSharedPreferencesProvider.overrideWithValue(
              await SharedPreferences.getInstance(),
   ),
