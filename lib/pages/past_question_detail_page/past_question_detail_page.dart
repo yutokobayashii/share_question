@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,9 +7,7 @@ import 'package:share_question/data/remote/cloud_dao.dart';
 import 'package:share_question/pages/past_question_detail_page/past_question_detail_widget.dart';
 import 'package:share_question/widgets/basic_button_widget.dart';
 
-import '../../constant/color.dart';
-import '../../provider/shared_prefrence_provider.dart';
-
+import '../../data/local/color_shared_preference_service.dart';
 
 
 class PastQuestionDetailPage extends HookConsumerWidget {
@@ -53,7 +49,7 @@ class PastQuestionDetailPage extends HookConsumerWidget {
 
               return Center(
                 child: CircularProgressIndicator(
-                  color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                  color: ColorSharedPreferenceService().getColor(),
                 ),
               );
 

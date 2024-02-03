@@ -1,6 +1,4 @@
 
-
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,15 +6,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:share_question/constant/color.dart';
 import 'package:share_question/controller/optional_make_question_controller/optional_make_question_controller.dart';
 import 'package:share_question/controller/remove_data_controller/remove_data_controller.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../controller/make_question_controller/make_question_controller.dart';
+import '../../data/local/color_shared_preference_service.dart';
 import '../../data/remote/storage_dao.dart';
 import '../../entity/question_data/question.dart';
-import '../../provider/shared_prefrence_provider.dart';
 import '../../widgets/base_textfield_widget.dart';
 import '../../widgets/basic_button_widget.dart';
 import '../../widgets/dialog_widget.dart';
@@ -158,7 +155,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                           height: 12.5.h,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                                            color: ColorSharedPreferenceService().getColor(),
                                           ),
                                         ),
                                       ) : null,
@@ -195,7 +192,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                           height: 12.5.h,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
-                                            color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                                            color: ColorSharedPreferenceService().getColor(),
                                           ),
                                         ),
                                       ),
@@ -270,13 +267,13 @@ class MakeQuestionPage extends HookConsumerWidget {
                                                   shape: BoxShape.circle,
                                                   color: Colors.white,
                                                   border: Border.all(
-                                                    color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                                                    color: ColorSharedPreferenceService().getColor(),
                                                     width: 1,
                                                   ),
                                                 ),
                                                 child: Icon(
                                                   Icons.close,
-                                                  color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                                                  color: ColorSharedPreferenceService().getColor(),
                                                 )
                                             ),
                                           ),

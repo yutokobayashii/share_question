@@ -1,11 +1,9 @@
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../constant/color.dart';
-import '../../../provider/shared_prefrence_provider.dart';
+import '../../../data/local/color_shared_preference_service.dart';
 
 class GuidePageWidget extends HookConsumerWidget {
   const GuidePageWidget(  {
@@ -64,7 +62,7 @@ class GuidePageWidget extends HookConsumerWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: currentPage.value == index
-                        ? Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value) // 現在のページ
+                        ? ColorSharedPreferenceService().getColor()// 現在のページ
                         : Colors.grey, // 他のページ
                   ),
                 ),

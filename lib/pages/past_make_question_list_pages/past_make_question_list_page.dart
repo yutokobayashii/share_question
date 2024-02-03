@@ -1,14 +1,11 @@
 
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/data/local/token_isar_dao.dart';
 import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_list_widget.dart';
 
-import '../../constant/color.dart';
-import '../../provider/shared_prefrence_provider.dart';
+import '../../data/local/color_shared_preference_service.dart';
 
 class PastMakeQuestionListPage extends HookConsumerWidget {
   const PastMakeQuestionListPage({super.key});
@@ -43,7 +40,7 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
 
               return CircularProgressIndicator(
-                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                color: ColorSharedPreferenceService().getColor(),
               );
 
             }
@@ -65,7 +62,6 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
               return Center(child: Text('Error: ${snapshot.error}'));
             }
             else if (snapshot.hasData) {
-              print(snapshot.data!.length);
               return Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,

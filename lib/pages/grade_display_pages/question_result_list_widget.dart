@@ -1,25 +1,19 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../constant/color.dart';
 import '../../constant/style.dart';
+import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/grade_data/grade.dart';
-import '../../provider/shared_prefrence_provider.dart';
 
 class QuestionResultListWidget extends HookConsumerWidget {
-  const QuestionResultListWidget({
-    super.key,
-    required this.data
-  });
+  const QuestionResultListWidget({super.key, required this.data});
 
   final Grade data;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-    final colors = Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = ColorSharedPreferenceService().getColor();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       width: MediaQuery.of(context).size.width,
@@ -34,66 +28,78 @@ class QuestionResultListWidget extends HookConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          for(int i = 0; i<data.gradeDetailList.length; i++) ...{
-
-
-            SizedBox(height: 15.h,),
-
-            //todo:正解不正解を制御するロジックは今後変更するかも
-            (data.gradeDetailList[i].yourAnswer == data.gradeDetailList[i].correct) ?
-
-              const Icon(Icons.circle_outlined,
-                size: 45,
-                color: Colors.red,
-                )
-
-                :
-
-            const Icon(Icons.close,
-              size: 45,
-              color: Colors.blue,
+          for (int i = 0; i < data.gradeDetailList.length; i++) ...{
+            SizedBox(
+              height: 15.h,
             ),
 
-            SizedBox(height: 15.h,),
+            //todo:正解不正解を制御するロジックは今後変更するかも
+            (data.gradeDetailList[i].yourAnswer ==
+                    data.gradeDetailList[i].correct)
+                ? const Icon(
+                    Icons.circle_outlined,
+                    size: 45,
+                    color: Colors.red,
+                  )
+                : const Icon(
+                    Icons.close,
+                    size: 45,
+                    color: Colors.blue,
+                  ),
 
-            Text('問題名:',
-                style: colorBoldTextStyle(colors)),
+            SizedBox(
+              height: 15.h,
+            ),
 
-            Text(data.gradeDetailList[i].questionName,
-              style: boldTextStyle,),
+            Text('問題名:', style: colorBoldTextStyle(colors)),
 
-            SizedBox(height: 15.h,),
+            Text(
+              data.gradeDetailList[i].questionName,
+              style: boldTextStyle,
+            ),
 
-            Text('あなたの回答:',
-                style: colorBoldTextStyle(colors)),
+            SizedBox(
+              height: 15.h,
+            ),
 
-            Text(data.gradeDetailList[i].yourAnswer,
-              style: boldTextStyle,),
+            Text('あなたの回答:', style: colorBoldTextStyle(colors)),
 
-            SizedBox(height: 15.h,),
+            Text(
+              data.gradeDetailList[i].yourAnswer,
+              style: boldTextStyle,
+            ),
 
-            Text('正解:',
-                style: colorBoldTextStyle(colors)),
+            SizedBox(
+              height: 15.h,
+            ),
 
-            Text(data.gradeDetailList[i].correct,
-              style: boldTextStyle,),
+            Text('正解:', style: colorBoldTextStyle(colors)),
 
-            SizedBox(height: 15.h,),
+            Text(
+              data.gradeDetailList[i].correct,
+              style: boldTextStyle,
+            ),
 
-            Text('解説:',
-                style: colorBoldTextStyle(colors)),
+            SizedBox(
+              height: 15.h,
+            ),
 
-            Text(data.gradeDetailList[i].explain,
-              style: boldTextStyle,),
+            Text('解説:', style: colorBoldTextStyle(colors)),
 
-            SizedBox(height: 30.h,),
+            Text(
+              data.gradeDetailList[i].explain,
+              style: boldTextStyle,
+            ),
 
-            (i != data.gradeDetailList.length -1) ?//最後の問題以外はDividerを実装
-            const Divider()
-                :
-            const SizedBox(),
+            SizedBox(
+              height: 30.h,
+            ),
+
+            (i != data.gradeDetailList.length - 1)
+                ? //最後の問題以外はDividerを実装
+                const Divider()
+                : const SizedBox(),
           }
-
         ],
       ),
     );

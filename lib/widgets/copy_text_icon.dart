@@ -2,9 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/constant/color.dart';
 
-import '../provider/shared_prefrence_provider.dart';
+import '../data/local/color_shared_preference_service.dart';
 
 class CopyTextIcon extends HookConsumerWidget {
   final String textToCopy;
@@ -18,7 +17,7 @@ class CopyTextIcon extends HookConsumerWidget {
       onPressed: () {
         Clipboard.setData(ClipboardData(text: textToCopy));
         ScaffoldMessenger.of(context).showSnackBar(
-           SnackBar(content: Text('テキストをコピーしました',style: TextStyle(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),),backgroundColor: Colors.white,),
+           SnackBar(content: Text('テキストをコピーしました',style: TextStyle(color: ColorSharedPreferenceService().getColor(),),),backgroundColor: Colors.white,),
         );
       },
     );

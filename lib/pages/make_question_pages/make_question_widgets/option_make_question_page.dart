@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/constant/color.dart';
 import 'package:share_question/controller/optional_make_question_controller/optional_make_question_controller.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 
-import '../../../provider/shared_prefrence_provider.dart';
+import '../../../data/local/color_shared_preference_service.dart';
 import '../../../widgets/base_textfield_widget.dart';
 import 'initial_make_question_page.dart';
 
@@ -66,16 +65,13 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
                   shape: BoxShape.circle,
                   color: Colors.white,
                   border: Border.all(
-                    color: Color(
-                        ref.watch(colorSharedPreferencesProvider).getInt(
-                            "color") ?? baseColor.value),
+                    color: ColorSharedPreferenceService().getColor(),
                     width: 1,
                   ),
                 ),
                 child: Icon(
                   Icons.close,
-                  color: Color(ref.watch(colorSharedPreferencesProvider).getInt(
-                      "color") ?? baseColor.value),
+                  color: ColorSharedPreferenceService().getColor(),
                   size: 20,
                 )
             ),
@@ -194,13 +190,13 @@ class BasicAddWidget extends HookConsumerWidget {
                 shape: BoxShape.circle,
                 color: Colors.white,
                 border: Border.all(
-                  color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                  color: ColorSharedPreferenceService().getColor(),
                   width: 1,
                 ),
               ),
               child: Icon(
                 icon,
-                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                color: ColorSharedPreferenceService().getColor(),
               )
           ),
 

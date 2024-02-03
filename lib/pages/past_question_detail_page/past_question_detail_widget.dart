@@ -1,16 +1,10 @@
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../constant/color.dart';
 import '../../constant/style.dart';
+import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/question_data/question.dart';
-import '../../provider/shared_prefrence_provider.dart';
 import '../../widgets/copy_text_icon.dart';
 import '../past_make_question_list_pages/widget/past_question_detail_list_widget.dart';
 
@@ -69,7 +63,7 @@ class PastQuestionDetailWidget extends HookConsumerWidget {
 
         Row(
           children: [
-            Icon(Icons.star,color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),),
+            Icon(Icons.star,color: ColorSharedPreferenceService().getColor(),),
             SizedBox(width: 5.w,),
             Text('いいね数:5',
               style: boldTextStyle,),

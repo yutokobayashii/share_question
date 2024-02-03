@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../constant/color.dart';
-import '../provider/shared_prefrence_provider.dart';
+import '../data/local/color_shared_preference_service.dart';
 
 class BasicFloatingButtonWidget extends HookConsumerWidget {
   const BasicFloatingButtonWidget({
@@ -26,7 +25,7 @@ class BasicFloatingButtonWidget extends HookConsumerWidget {
         width: 70.0,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+          color: ColorSharedPreferenceService().getColor(),
         ),
         child: Center(child:
         Text(

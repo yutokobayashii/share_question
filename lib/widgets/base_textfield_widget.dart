@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../constant/color.dart';
-import '../provider/shared_prefrence_provider.dart';
+import '../data/local/color_shared_preference_service.dart';
 
 class BaseTextFieldWidget extends HookConsumerWidget {
   const BaseTextFieldWidget({
@@ -55,14 +54,14 @@ class BaseTextFieldWidget extends HookConsumerWidget {
           height: height,
           child: TextField(
             maxLength: maxLength,
-            cursorColor: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+            cursorColor: ColorSharedPreferenceService().getColor(),
             controller: controller,
             decoration:  InputDecoration(
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
+                borderSide: BorderSide(color: ColorSharedPreferenceService().getColor(),),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
+                borderSide: BorderSide(color: ColorSharedPreferenceService().getColor(),),
               ),
             ),
             onChanged: onChanged,

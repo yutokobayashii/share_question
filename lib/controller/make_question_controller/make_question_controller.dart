@@ -5,9 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 
-import '../../constant/color.dart';
+import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/question_data/question.dart';
-import '../../provider/shared_prefrence_provider.dart';
 
 
 Future<void> pickImage(ImageSource source,WidgetRef ref) async {
@@ -73,7 +72,7 @@ class MakeQuestionController {
           content: Text(
             '問題に値が入力されていません',
             style: TextStyle(
-                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                color: ColorSharedPreferenceService().getColor(),
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600
 
@@ -88,7 +87,7 @@ class MakeQuestionController {
           content: Text(
             '正解に値が入力されていません',
             style: TextStyle(
-                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                color: ColorSharedPreferenceService().getColor(),
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600
 
@@ -103,7 +102,7 @@ class MakeQuestionController {
           content: Text(
             '正解に値が入力されていません',
             style: TextStyle(
-                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                color: ColorSharedPreferenceService().getColor(),
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600
 
@@ -119,7 +118,7 @@ class MakeQuestionController {
           content: Text(
             '解説に値が入力されていません',
             style: TextStyle(
-            color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+            color:ColorSharedPreferenceService().getColor(),
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600
 

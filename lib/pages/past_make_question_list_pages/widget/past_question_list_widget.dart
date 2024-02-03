@@ -5,9 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/pages/past_question_detail_page/past_question_detail_page.dart';
 
 import '../../../collection/token/token.dart';
-import '../../../constant/color.dart';
 import '../../../constant/style.dart';
-import '../../../provider/shared_prefrence_provider.dart';
+import '../../../data/local/color_shared_preference_service.dart';
 
 class PastQuestionListWidget extends HookConsumerWidget {
   const PastQuestionListWidget({
@@ -21,7 +20,7 @@ class PastQuestionListWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
-    final colors = Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value);
+    final colors = ColorSharedPreferenceService().getColor();
     return GestureDetector(
       onTap: () {
         Navigator.push(

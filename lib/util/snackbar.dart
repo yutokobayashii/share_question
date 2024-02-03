@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../constant/color.dart';
-import '../provider/shared_prefrence_provider.dart';
+import '../data/local/color_shared_preference_service.dart';
 
 void displayErrorSnackBar (WidgetRef ref,BuildContext context,String text) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -13,7 +12,7 @@ void displayErrorSnackBar (WidgetRef ref,BuildContext context,String text) {
           content: Text(
             text,
             style: TextStyle(
-                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
+                color: ColorSharedPreferenceService().getColor(),
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600
 

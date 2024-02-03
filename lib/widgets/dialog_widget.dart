@@ -1,11 +1,7 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/constant/color.dart';
 
-import '../provider/shared_prefrence_provider.dart';
+import '../data/local/color_shared_preference_service.dart';
 
 class AlertDialogWidget extends HookConsumerWidget {
 
@@ -38,7 +34,7 @@ class AlertDialogWidget extends HookConsumerWidget {
           onPressed: leftAction,
           child: Text(leftText,
             style: TextStyle(
-              color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)
+              color: ColorSharedPreferenceService().getColor(),
             ),
           ),
         ),
@@ -46,7 +42,7 @@ class AlertDialogWidget extends HookConsumerWidget {
           onPressed: rightAction,
           child: Text(rightText,
             style: TextStyle(
-                color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)
+                color: ColorSharedPreferenceService().getColor(),
             ),
           ),
         ),

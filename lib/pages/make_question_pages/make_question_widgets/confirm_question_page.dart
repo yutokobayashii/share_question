@@ -8,11 +8,10 @@ import 'package:share_question/provider/make_question_provider.dart';
 import 'package:share_question/repository/question_data_repository.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
-import '../../../constant/color.dart';
 import '../../../constant/style.dart';
 import '../../../controller/confirm_question_controller/confirm_question_controller.dart';
 import '../../../controller/remove_data_controller/remove_data_controller.dart';
-import '../../../provider/shared_prefrence_provider.dart';
+import '../../../data/local/color_shared_preference_service.dart';
 import '../../../widgets/dialog_widget.dart';
 
 class ConfirmQuestionPage extends HookConsumerWidget {
@@ -137,7 +136,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                                             ),
                                           ),
 
-                                          Icon(Icons.edit_outlined, color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),)
+                                          Icon(Icons.edit_outlined, color: ColorSharedPreferenceService().getColor(),)
                                         ],
                                       ),
                                     )

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/constant/color.dart';
 import 'package:share_question/notifier/grade/correct_number_notifier.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
 import '../../constant/style.dart';
+import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/grade/grade_data_notifier.dart';
-import '../../provider/shared_prefrence_provider.dart';
 import '../../usecase/grade_data_usecase.dart';
 import '../grade_display_pages/grade_display_page.dart';
 import 'optional_answer_widget.dart';
@@ -73,12 +72,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
                                   const BorderRadius.all(Radius.circular(5)),
                               child: LinearProgressIndicator(
                                 value: currentIndex.value / maxNumber,
-                                valueColor: AlwaysStoppedAnimation<Color>(Color(
-                                    ref
-                                            .watch(
-                                                colorSharedPreferencesProvider)
-                                            .getInt("color") ??
-                                        baseColor.value)),
+                                valueColor: AlwaysStoppedAnimation<Color>(ColorSharedPreferenceService().getColor(),),
                                 backgroundColor: Colors.black12,
                                 minHeight: 20,
                               ),
@@ -135,27 +129,16 @@ class AnswerQuestionPage extends HookConsumerWidget {
                                 keyboardType: TextInputType.multiline,
                                 maxLines: null,
                                 maxLength: 50,
-                                cursorColor: Color(ref
-                                        .watch(colorSharedPreferencesProvider)
-                                        .getInt("color") ??
-                                    baseColor.value),
+                                cursorColor: ColorSharedPreferenceService().getColor(),
                                 controller: TextEditingController(),
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Color(ref
-                                                .watch(
-                                                    colorSharedPreferencesProvider)
-                                                .getInt("color") ??
-                                            baseColor.value)),
+                                        color: ColorSharedPreferenceService().getColor(),),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Color(ref
-                                                .watch(
-                                                    colorSharedPreferencesProvider)
-                                                .getInt("color") ??
-                                            baseColor.value)),
+                                        color: ColorSharedPreferenceService().getColor(),),
                                   ),
                                 ),
                                 onChanged: (text) {},

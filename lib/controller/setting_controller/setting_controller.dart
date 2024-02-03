@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../pages/settings_pages/settings_page.dart';
-import '../../provider/shared_prefrence_provider.dart';
+import '../../data/local/color_shared_preference_service.dart';
 
-void showColorPalette(BuildContext context,WidgetRef ref) {
+void showColorPalette(BuildContext context, WidgetRef ref) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
@@ -15,14 +13,10 @@ void showColorPalette(BuildContext context,WidgetRef ref) {
           crossAxisCount: 5, // 1行あたりの色の数
           children: paletteColors.map((color) {
             return InkWell(
-              onTap: () async{
-
+              onTap: () async {
                 Navigator.pop(context);
 
-                ref.read(colorSharedPreferencesProvider).setInt("color", color.value);
-
-                ref.watch(colorProvider.notifier).update((state) => ref.watch(colorSharedPreferencesProvider).getInt("color")!);
-
+                ColorSharedPreferenceService().setColor(color.value);
               },
               child: Container(
                 margin: const EdgeInsets.all(10.0),
@@ -38,8 +32,6 @@ void showColorPalette(BuildContext context,WidgetRef ref) {
     },
   );
 }
-
-
 
 final List<Color> paletteColors = [
   Colors.red,
