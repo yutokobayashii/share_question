@@ -9,7 +9,6 @@ import '../input_password_pages/input_password_page.dart';
 import 'answer_widgets/question_list_page.dart';
 
 
-final testList = StateProvider((ref) => ["問題集１","問題集２","問題集３"]);
 
 class AnswerPage extends HookConsumerWidget {
   const AnswerPage({super.key});
@@ -72,14 +71,9 @@ class AnswerPage extends HookConsumerWidget {
 
             SizedBox(height: 20.h,),
 
-            QuestionListWidget(
+            const QuestionListWidget(
               removeContent:'一度削除すると再度パスワードを入力しないと問題にアクセスできません',
-              action: () {
-                 Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const AnswerQuestionPage()),
-                      );
-                    }, )
+              )
           ],
         ),
       ),

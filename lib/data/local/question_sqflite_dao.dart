@@ -1,8 +1,6 @@
-
-
 import 'dart:convert';
 
-import '../../db/sq_flite_db.dart';
+import '../../db/question_sq_flite_db.dart';
 import '../../entity/question_data/question.dart';
 
 class QuestionSqfliteDao {
@@ -16,14 +14,14 @@ class QuestionSqfliteDao {
 
   // データベースへの保存
   Future<int> addQuestionToDatabase(Question question) async {
-    final db = await SqFliteDB.database;
+    final db = await QuestionSqFliteDB.database;
     final questionJson = _serializeQuestion(question);
     return await db.insert('Questions', {'data': questionJson});
   }
 
   // データベースからの読み取り（単一のQuestion）
   Future<Question> getQuestionFromDatabase(int id) async {
-    final db = await SqFliteDB.database;
+    final db = await QuestionSqFliteDB.database;
     final maps = await db.query('Questions', where: 'id = ?', whereArgs: [id]);
     if (maps.isNotEmpty) {
       return _deserializeQuestion(maps.first['data'] as String);
@@ -33,16 +31,19 @@ class QuestionSqfliteDao {
 
   // データベースからの読み取り（Questionのリスト）
   Future<List<Question>> getAllQuestionsFromDatabase() async {
-    final db = await SqFliteDB.database;
+    final db = await QuestionSqFliteDB.database;
     final maps = await db.query('Questions');
     if (maps.isNotEmpty) {
-      return maps.map((map) => _deserializeQuestion(map['data'] as String)).toList();
+      return maps
+          .map((map) => _deserializeQuestion(map['data'] as String))
+          .toList();
     }
     return []; // 空のリストを返すか、エラーを投げるかは要件に応じて選択
   }
 
   Future<void> deleteQuestionByUuid(String uuid) async {
-    final db = await SqFliteDB.database; // SqFliteDB.databaseはデータベースへの接続を提供する想定
+    final db = await QuestionSqFliteDB
+        .database; // SqFliteDB.databaseはデータベースへの接続を提供する想定
 
     // QuestionsテーブルからすべてのQuestionデータを取得
     List<Map> questions = await db.query('Questions');
@@ -62,5 +63,4 @@ class QuestionSqfliteDao {
       }
     }
   }
-
 }

@@ -9,27 +9,32 @@ import 'package:share_question/pages/grade_display_pages/question_result_list_wi
 import 'package:share_question/widgets/basic_floating_button.dart';
 
 import '../../constant/style.dart';
+import '../../entity/grade_data/grade.dart';
 import '../../provider/shared_prefrence_provider.dart';
 
 
 class GradeDisplayPage extends HookConsumerWidget {
   const GradeDisplayPage({
     super.key,
-    required this.isFromGradePage
+    required this.isFromGradePage,
+    required this.gradeData
   });
 
   final bool isFromGradePage;
+  final Grade gradeData;
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
-    const double score = 7;
-    const double total = 10;
+    final int score = gradeData.correctNumber;
+    final int total = gradeData.questionNumber;
+    print(score);
+    print(total);
     double percentage = score / total;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Center(child: Text('問題集名')),
+          title:  Text(gradeData.name),
           centerTitle:true,
           leading: (isFromGradePage) ?
           GestureDetector(
@@ -39,12 +44,6 @@ class GradeDisplayPage extends HookConsumerWidget {
             child: const Icon(Icons.arrow_back, size: 28,))
               : Opacity(opacity: 0, child: Container()),
 
-          actions: const [
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(Icons.lightbulb_outline,size: 28,),
-            )
-          ],
 
         ),
         body: Container(
@@ -99,17 +98,20 @@ class GradeDisplayPage extends HookConsumerWidget {
 
                    SizedBox(height: 30.h,),
 
-                   Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('作成者からのコメント',
-                        style: boldTextStyle,),
-                      SizedBox(height: 10.h,),
-                      Text('作成者からのコメント作成者からのコメント作成者からのコメント作成者からのコメント作成者からのコメント作成者からのコメント作成者からのコメント',
-                        style: normalTextStyle,
-                      )
-                    ],
-                  ),
+                   Align(
+                     alignment: Alignment.centerLeft,
+                     child: Column(
+                       crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('作成者からのコメント',
+                          style: boldTextStyle,),
+                        SizedBox(height: 10.h,),
+                        Text(gradeData.comment,
+                          style: normalTextStyle,
+                        )
+                      ],
+                                       ),
+                   ),
 
                   SizedBox(height: 25.h,),
 
@@ -122,7 +124,7 @@ class GradeDisplayPage extends HookConsumerWidget {
 
                   SizedBox(height: 15.h,),
 
-                  const QuestionResultListWidget(),
+                   QuestionResultListWidget(data: gradeData,),
 
                   SizedBox(height: 100.h,),
                 ],

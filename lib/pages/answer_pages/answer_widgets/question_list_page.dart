@@ -8,16 +8,15 @@ import '../../../constant/style.dart';
 import '../../../data/local/question_sqflite_dao.dart';
 import '../../../repository/library_data_repoditory.dart';
 import '../../../widgets/dialog_widget.dart';
+import '../../answer_question_pages/answer_question_page.dart';
 
 
 class QuestionListWidget extends HookConsumerWidget {
   const QuestionListWidget({
     super.key,
-    required this.action,
     required this.removeContent,
   });
 
-  final VoidCallback action;
   final String removeContent;
 
   @override
@@ -36,7 +35,6 @@ class QuestionListWidget extends HookConsumerWidget {
          return const Center(child: CircularProgressIndicator());
        },
         data: (data) {
-          print('data$data');
          if(data.isEmpty) {
            return const Text(
              'あなたが解答可能な問題はありません。\n誰かが作成した問題を解くために、\nパスワードを共有してもらいましょう。',
@@ -46,10 +44,12 @@ class QuestionListWidget extends HookConsumerWidget {
            );
 
          } else{
+           print('data$data');
            return Expanded(
              child: ListView.builder(
                itemCount: data.length,
                itemBuilder: (context, index) {
+                 print(index);
                  return Dismissible(
                    direction: DismissDirection.startToEnd,
                    key: UniqueKey(),
@@ -79,9 +79,8 @@ class QuestionListWidget extends HookConsumerWidget {
 
                     await questionSqfliteDao.deleteQuestionByUuid(data[index].uuid);
 
-                   final list = await questionSqfliteDao.getAllQuestionsFromDatabase();
+                    await questionSqfliteDao.getAllQuestionsFromDatabase();
 
-                   print(list);
 
                    },
                    background: Container(
@@ -96,7 +95,13 @@ class QuestionListWidget extends HookConsumerWidget {
                      ),
                    ),
                    child: GestureDetector(
-                     onTap: action,
+                     onTap: (){
+
+                       Navigator.push(
+                         context,
+                         MaterialPageRoute(builder: (context) =>  AnswerQuestionPage(data: data[index],)),
+                       );
+                     },
                      child: Container(
                        width: MediaQuery
                            .of(context)

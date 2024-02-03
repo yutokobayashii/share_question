@@ -75,10 +75,10 @@ class GradeListWidget extends HookConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>  const GradeDisplayPage(isFromGradePage: true,)),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) =>  const GradeDisplayPage(isFromGradePage: true, gradeData: ,)),
+          // );
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15),

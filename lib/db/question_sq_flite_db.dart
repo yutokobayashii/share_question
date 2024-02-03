@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-class SqFliteDB {
+class QuestionSqFliteDB {
   static Database? _database;
 
   static Future<void> init() async {

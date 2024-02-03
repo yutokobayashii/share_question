@@ -1,32 +1,33 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color.dart';
+import 'package:share_question/notifier/grade/correct_number_notifier.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
 import '../../constant/style.dart';
+import '../../entity/question_data/question.dart';
+import '../../notifier/grade/grade_data_notifier.dart';
 import '../../provider/shared_prefrence_provider.dart';
+import '../../usecase/grade_data_usecase.dart';
 import '../grade_display_pages/grade_display_page.dart';
-
+import 'optional_answer_widget.dart';
 
 class AnswerQuestionPage extends HookConsumerWidget {
-  const AnswerQuestionPage({super.key});
+  const AnswerQuestionPage({super.key, required this.data});
+
+  final Question data;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-    const maxNumber = 15;
-    const currentNumber = 3;
-    const isOptional = false;
-    final selectedOption = useState('選択肢 1');
+  Widget build(BuildContext context, WidgetRef ref) {
+    final maxNumber = data.questionDetailList.length;
+    final currentIndex = useState(0);
+    final yourAnswer = useState("");
+    final gradeDataUseCase = GradeDataUseCase();
 
-    final List<String> options = [
-      '選択肢 1',
-      '選択肢 2',
-      '選択肢 3',
-      '選択肢 4',
-    ];
+    final questionData = data.questionDetailList[currentIndex.value];
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -38,13 +39,15 @@ class AnswerQuestionPage extends HookConsumerWidget {
               child: const Icon(
                 Icons.arrow_back,
                 size: 28,
-              )
-          ),
+              )),
           title: const Center(child: Text('解答')),
           actions: const [
             Padding(
               padding: EdgeInsets.only(right: 20),
-              child: Icon(Icons.close,size: 28,),
+              child: Icon(
+                Icons.close,
+                size: 28,
+              ),
             )
           ],
         ),
@@ -55,84 +58,117 @@ class AnswerQuestionPage extends HookConsumerWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: 30.h,),
-              
-               Align(
-                 alignment: Alignment.center,
-                 child: SizedBox(
-                   width: MediaQuery.of(context).size.width - 50.w,
-                   child: Row(
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.all(Radius.circular(5)),
-                          child: LinearProgressIndicator(
-                            value: currentNumber / maxNumber,
-                            valueColor: AlwaysStoppedAnimation<Color>(Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
-                            backgroundColor: Colors.black12,
-                            minHeight: 20,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10.w,),
-                      Text('${currentNumber.toString()}/$maxNumber',
-                        style: boldTextStyle,
-                      ),
-                      ],),
-                 ),
-               ),
-                  SizedBox(height: 30.h,),
-                  Text('あああああああああああああああああああああああああああああ',
-                    style: boldTextStyle,),
-              
-                  SizedBox(height: 15.h,),
-                  
-                  Container(
-                    color: Colors.white,
-                    width: MediaQuery.of(context).size.width - 50.w,
-                    height: 200.h,
-                    child: Image.network("https://dist.micres.cyberowl.jp/u/gallery/8408/s/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCT2NTa0FFPSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--177fe61e5cbef8804c81765abb09e65ff4bd914d/q/80/r/1280x1280"),
+                  SizedBox(
+                    height: 30.h,
                   ),
-
-                  isOptional ?
-                  OptionalAnswerWidget(options: options, selectedOption: selectedOption, ref: ref,)
-                      :
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('記入欄',
-                        style: boldTextStyle,),
-                      SizedBox(height: 15.h,),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 50.w,
-                        child: TextField(
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          maxLength: 50,
-                          cursorColor: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
-                          controller: TextEditingController(),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value)),
+                  Align(
+                    alignment: Alignment.center,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width - 50.w,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(5)),
+                              child: LinearProgressIndicator(
+                                value: currentIndex.value / maxNumber,
+                                valueColor: AlwaysStoppedAnimation<Color>(Color(
+                                    ref
+                                            .watch(
+                                                colorSharedPreferencesProvider)
+                                            .getInt("color") ??
+                                        baseColor.value)),
+                                backgroundColor: Colors.black12,
+                                minHeight: 20,
+                              ),
                             ),
                           ),
-                          onChanged: (text) {
-
-                          },
-                          onSubmitted: (text) {
-
-                          },
-                        ),
-                      )
-                    ],
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Text(
+                            '${currentIndex.value.toString()}/$maxNumber',
+                            style: boldTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-
-
-
-                    SizedBox(height: 100.h,),
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  Text(
+                    questionData.questionName,
+                    style: boldTextStyle,
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  (questionData.image != "")
+                      ? Container(
+                          color: Colors.white,
+                          width: MediaQuery.of(context).size.width - 50.w,
+                          height: 200.h,
+                          child: Image.network(questionData.image))
+                      : const SizedBox(
+                          height: 15,
+                        ),
+                  questionData.isOptional
+                      ? OptionalAnswerWidget(
+                          options: questionData.optionalList,
+                          yourAnswer: yourAnswer,
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '記入欄',
+                              style: boldTextStyle,
+                            ),
+                            SizedBox(
+                              height: 15.h,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width - 50.w,
+                              child: TextField(
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                maxLength: 50,
+                                cursorColor: Color(ref
+                                        .watch(colorSharedPreferencesProvider)
+                                        .getInt("color") ??
+                                    baseColor.value),
+                                controller: TextEditingController(),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(ref
+                                                .watch(
+                                                    colorSharedPreferencesProvider)
+                                                .getInt("color") ??
+                                            baseColor.value)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(ref
+                                                .watch(
+                                                    colorSharedPreferencesProvider)
+                                                .getInt("color") ??
+                                            baseColor.value)),
+                                  ),
+                                ),
+                                onChanged: (text) {},
+                                onSubmitted: (text) {
+                                  yourAnswer.value = text;
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                  SizedBox(
+                    height: 100.h,
+                  ),
                 ],
               ),
             ),
@@ -140,48 +176,50 @@ class AnswerQuestionPage extends HookConsumerWidget {
         ),
         floatingActionButton: BasicFloatingButtonWidget(
           text: '次へ',
-          action: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const GradeDisplayPage(isFromGradePage: false,)),
-            );
+          action: () async {
+            ///GradeDetailクラスにデータを格納
+            ref.watch(gradeListProvider.notifier).addGradeDetail(
+                questionData.questionName,
+                questionData.correctAnswer,
+                yourAnswer.value,
+                questionData.explanation);
 
-          },),
+
+            ///正解数のカウント
+            if (questionData.isOptional) {
+              ref.watch(correctNumberProvider.notifier).optionalIncrement(
+                  yourAnswer.value, questionData.correctAnswer);
+            } else {
+              ref.watch(correctNumberProvider.notifier).commentIncrement(
+                  yourAnswer.value, questionData.correctAnswer);
+            }
+
+            if (currentIndex.value == maxNumber - 1) {
+              //indexを追加する前なので-1で調整
+              ///最終問題だった場合
+
+              final grade = gradeDataUseCase.getGrade(ref, data); //Gradeに変換
+
+              await gradeDataUseCase.addGradeToSqFlite(ref, data); //sqfliteに保存
+              
+              if (context.mounted) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => GradeDisplayPage(
+                            isFromGradePage: false,
+                            gradeData: grade,
+                          )),
+                );
+              }
+            } else {
+              ///最終問題でない場合
+
+              currentIndex.value++;
+            }
+          },
+        ),
       ),
     );
-  }
-}
-
-class OptionalAnswerWidget extends StatelessWidget {
-  const OptionalAnswerWidget({
-    super.key,
-    required this.options,
-    required this.selectedOption,
-    required this.ref,
-  });
-
-  final List<String> options;
-  final ValueNotifier<String> selectedOption;
-  final WidgetRef ref;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-     children: options.map((String option) {
-       return ListTile(
-         contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
-         title: Text(option,
-           style: boldTextStyle,),
-         leading: Radio<String>(
-         activeColor: Color(ref.watch(colorSharedPreferencesProvider).getInt("color") ?? baseColor.value),
-         value: option,
-         groupValue: selectedOption.value,
-         onChanged: (String? value) {
-             selectedOption.value = value!;
-           },
-          ),
-         );
-        }).toList(),
-       );
   }
 }

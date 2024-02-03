@@ -41,15 +41,17 @@ class DraftListPage extends HookConsumerWidget {
           child: Column(
             children: [
               SizedBox(height: 30.h,),
-              QuestionListWidget(
+              //todo:下書きをどう設計するかは考える
+              const QuestionListWidget(
                 removeContent: '下書きを削除すると再度アクセスすることはできません',
-                action: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const InitialMakeQuestionPage()),
-                  );
-
-                },),
+                // action: () {
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => const InitialMakeQuestionPage()),
+                //   );
+                //
+                // },
+              ),
 
               SizedBox(height: 30.h,),
             ],
