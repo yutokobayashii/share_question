@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -24,7 +23,7 @@ class QuestionListWidget extends HookConsumerWidget {
 
     final questionSqfliteDao = QuestionSqfliteDao();
 
-    final data = ref.watch(libraryDataProvider);
+    final data = ref.watch(libraryRepositoryProvider);
 
 
     return data.when(

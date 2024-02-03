@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../data/local/question_sqflite_dao.dart';
 import '../entity/question_data/question.dart';
 
-final libraryDataProvider = FutureProvider<List<Question>>((ref) async {
+final libraryRepositoryProvider = FutureProvider<List<Question>>((ref) async {
   final data = LibraryDataRepositoryImp();
   return await data.getQuestion(); // ここは Future<List<Question>> を返します
 });

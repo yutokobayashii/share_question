@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/controller/input_password_controller/input_password_controller.dart';
 import 'package:share_question/data/remote/cloud_dao.dart';
 import 'package:share_question/entity/question_data/question.dart';
 import 'package:share_question/widgets/base_textfield_widget.dart';
@@ -11,6 +10,8 @@ import 'package:share_question/widgets/base_textfield_widget.dart';
 import '../../constant/style.dart';
 import '../../data/local/question_sqflite_dao.dart';
 import '../../repository/library_data_repoditory.dart';
+import '../../usecase/check_new_question_exist_usecase.dart';
+import '../../util/snackbar.dart';
 import '../../widgets/basic_button_widget.dart';
 import 'input_password_widget/new_question_widget.dart';
 
@@ -20,6 +21,7 @@ class InputPasswordPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     final questionData = useState<Question?>(null);
+    final isQuestionExist = useState(false);
     final cloudDao = CloudDao();
    final questionSqfliteDao = QuestionSqfliteDao();
     return MaterialApp(
@@ -59,21 +61,34 @@ class InputPasswordPage extends HookConsumerWidget {
 
                   },
                   onSubmitted: (text) async {
+                    ///todo:ここですでに追加されている問題の場合のチェックをする
                    questionData.value = await cloudDao.getQuestion(text);
 
+                   ///トークンが存在しない場合のスナックバーを出す。
                    if (questionData.value == null) {
                      if (context.mounted) {
-                       displayErrorSnackBar(ref,context);
+                       displayErrorSnackBar(ref,context,'入力したパスワードが正しくありません');
                      }
 
                    }
+
+                   if (CheckNewQuestionExistUseCase().checkExist(ref, questionData.value!)) {
+                     isQuestionExist.value = true;
+                     if (context.mounted) {
+                       displayErrorSnackBar(ref,context,'すでにライブラリに登録されています');
+                     }
+                   }
+
+
+
+
                   },
                 ),
               ),
 
               SizedBox(height: 30.h,),
 
-              if (questionData.value != null) ...{
+              if (questionData.value != null && isQuestionExist.value == false) ...{
                  NewQuestionWidget(questionData: questionData.value!,)
               } else ...{
                 Text('パスワードを入力して問題をライブラリに追加しましょう',
@@ -83,7 +98,7 @@ class InputPasswordPage extends HookConsumerWidget {
 
               SizedBox(height: 50.h,),
 
-              (questionData.value != null) ?
+              (questionData.value != null && isQuestionExist.value == false) ?
 
               BasicButtonWidget(
                 title: 'ライブラリに追加する',
@@ -94,7 +109,7 @@ class InputPasswordPage extends HookConsumerWidget {
 
                 await questionSqfliteDao.addQuestionToDatabase(questionData.value!);
 
-                ref.refresh(libraryDataProvider).isRefreshing;
+                ref.refresh(libraryRepositoryProvider).isRefreshing;
 
 
                 if (context.mounted) {

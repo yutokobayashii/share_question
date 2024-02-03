@@ -201,7 +201,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
               final grade = gradeDataUseCase.getGrade(ref, data); //Gradeに変換
 
               await gradeDataUseCase.addGradeToSqFlite(ref, data); //sqfliteに保存
-              
+
               if (context.mounted) {
                 Navigator.push(
                   context,
