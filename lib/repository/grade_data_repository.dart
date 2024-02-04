@@ -17,7 +17,7 @@ abstract class GradeDataRepository {
 class GradeDataRepositoryImp implements GradeDataRepository {
   @override
   Grade getGradeData(WidgetRef ref, Question data) {
-    final gradeList = ref.watch(gradeListProvider);
+    final gradeList = ref.watch(gradeDetailListProvider);
     final correctNumber = ref.watch(correctNumberProvider);
 
     return Grade(

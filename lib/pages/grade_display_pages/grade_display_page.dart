@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/notifier/grade/grade_notifier.dart';
 import 'package:share_question/pages/grade_display_pages/question_result_list_widget.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
@@ -135,6 +136,8 @@ class GradeDisplayPage extends HookConsumerWidget {
           text: '戻る',
           action: () {
             Navigator.popUntil(context, (route) => route.isFirst);
+            ref.invalidate(gradeListNotifierProvider);
+           ///todo: ここにGradeNotifierをrefreshする処理を書く ref.refresh()
           },
 
         ),

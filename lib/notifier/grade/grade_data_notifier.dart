@@ -3,9 +3,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/entity/grade_data/grade.dart';
 
-final gradeListProvider = NotifierProvider<GradeNotifier, List<GradeDetail>>(() => GradeNotifier());
+final gradeDetailListProvider = NotifierProvider<GradeDetailNotifier, List<GradeDetail>>(() => GradeDetailNotifier());
 
-class GradeNotifier extends Notifier<List<GradeDetail>> {
+class GradeDetailNotifier extends Notifier<List<GradeDetail>> {
   @override
   List<GradeDetail> build() {
 

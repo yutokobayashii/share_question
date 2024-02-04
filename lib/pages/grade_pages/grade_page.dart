@@ -4,15 +4,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../constant/style.dart';
 import '../../entity/grade_data/grade.dart';
-import '../../usecase/grade_data_usecase.dart';
+import '../../notifier/grade/grade_notifier.dart';
 
-class GradePage extends StatelessWidget {
+class GradePage extends ConsumerWidget{
   const GradePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final gradeDataUseCase = GradeDataUseCase();
-    final gradeData = gradeDataUseCase.getGradeFromSqLite();
+  Widget build(BuildContext context,WidgetRef ref) {
+
+    final gradeData = ref.watch(gradeListNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(

@@ -23,7 +23,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
     final maxNumber = data.questionDetailList.length;
     final currentIndex = useState(0);
     final yourAnswer = useState("");
-    final gradeDataUseCase = GradeDataUseCase();
+    final gradeDataUseCase = ref.watch(gradeDataUseCaseProvider);
     final textController = useTextEditingController();
 
     final questionData = data.questionDetailList[currentIndex.value];
@@ -150,12 +150,9 @@ class AnswerQuestionPage extends HookConsumerWidget {
                                     ),
                                   ),
                                 ),
-                                onChanged: (text) {
-                                 print(text);
-                                },
+                                onChanged: (text) {},
                                 onSubmitted: (text) {
                                   yourAnswer.value = text;
-                                  print(yourAnswer.value);
                                 },
                               ),
                             )
@@ -173,7 +170,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
           text: '次へ',
           action: () async {
             ///GradeDetailクラスにデータを格納
-            ref.watch(gradeListProvider.notifier).addGradeDetail(
+            ref.watch(gradeDetailListProvider.notifier).addGradeDetail(
                 questionData.questionName,
                 questionData.correctAnswer,
                 yourAnswer.value,
@@ -201,11 +198,8 @@ class AnswerQuestionPage extends HookConsumerWidget {
 
               if (isExist) {
                 await gradeDataUseCase.updateGradeFromSqLite(grade);
-                print('すでにあるデータなのでアップデート');
               } else {
-                await gradeDataUseCase.addGradeToSqFlite(
-                    ref, data); //sqfliteに保存
-                print('まだデータベースにないので、追加');
+                await gradeDataUseCase.addGradeToSqFlite(ref, data); //sqfliteに保存
               }
 
               if (context.mounted) {
