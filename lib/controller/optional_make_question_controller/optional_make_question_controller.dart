@@ -9,18 +9,11 @@ class OptionalMakeQuestionController {
 
   static final optionalController1 = TextEditingController();
   static final optionalController2 = TextEditingController();
-  static final optionalController3 = TextEditingController();
-  static final optionalController4 = TextEditingController();
-  static final optionalController5 = TextEditingController();
-  static final optionalController6 = TextEditingController();
+
 
   void clearControllers() {
     optionalController1.clear();
     optionalController2.clear();
-    optionalController3.clear();
-    optionalController4.clear();
-    optionalController5.clear();
-    optionalController6.clear();
   }
 
   void getSnackBar(BuildContext context, WidgetRef ref) {

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,18 +15,19 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-    final addOptionNumber = useState(2);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final addOptionNumber = useState(2);//選択肢1,2はデフォで登録されているので2
     List<String> tempList = [];
     final controllers = useState<List<TextEditingController>>([]);
     final currentList = ref.watch(MakeQuestionProvider.optionalListProvider);
+    ///todo:ここら辺を削除するいいタイミングで
+    ///todo:最終確認画面以外で選択肢を追加でエラーが出ないか確認＆でない場合はどこが違うのか確認する
 
     void removeItem(WidgetRef ref, String item) {
-      ref.read(MakeQuestionProvider.optionalListProvider.notifier).update((state) =>
-          state.where((i) => i != item).toList()
-      );
+      ref
+          .read(MakeQuestionProvider.optionalListProvider.notifier)
+          .update((state) => state.where((i) => i != item).toList());
     }
-
 
     useEffect(() {
       // 項目が追加された場合、新しいコントローラーを追加
@@ -45,7 +45,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
     }, [addOptionNumber.value]);
 
     List<Widget> additionalOptionWidget() {
-     return List.generate(addOptionNumber.value -2, (i) {
+      return List.generate(addOptionNumber.value - 2, (i) {
         return BaseTextFieldWidget(
           title: '選択肢${i + 3}',
           maxLength: 30,
@@ -54,11 +54,18 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
           rightWidget: GestureDetector(
             onTap: () {
               addOptionNumber.value--;
-              ref.watch(MakeQuestionProvider.optionalNumber.notifier).update((state) => addOptionNumber.value);
-              removeItem(ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
-              ref.watch(MakeQuestionProvider.optionalProvider(i + 3).notifier).update((state) => "");
+              ref
+                  .watch(MakeQuestionProvider.optionalNumber.notifier)
+                  .update((state) => addOptionNumber.value);
+              removeItem(
+                  ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
+              ref
+                  .watch(MakeQuestionProvider.optionalProvider(i + 3).notifier)
+                  .update((state) => "");
               controllers.value[i].clear();
-              ref.watch(MakeQuestionProvider.isSelectedItemProvider.notifier).update((state) => "0");
+              ref
+                  .watch(MakeQuestionProvider.isSelectedItemProvider.notifier)
+                  .update((state) => "0");
             },
             child: Container(
                 decoration: BoxDecoration(
@@ -73,17 +80,15 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
                   Icons.close,
                   color: ColorSharedPreferenceService().getColor(),
                   size: 20,
-                )
-            ),
+                )),
           ),
           onChanged: (text) {
+            removeItem(
+                ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
 
-
-              removeItem(ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
-
-
-            ref.watch(MakeQuestionProvider.optionalProvider(i + 3).notifier).update((state) => text);
-
+            ref
+                .watch(MakeQuestionProvider.optionalProvider(i + 3).notifier)
+                .update((state) => text);
           },
           onSubmitted: (text) {
             tempList = [
@@ -91,73 +96,67 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
               ref.watch(MakeQuestionProvider.optionalProvider(i + 3))
             ];
 
-            ref.watch(MakeQuestionProvider.optionalListProvider.notifier).update((state) => tempList);
-
+            ref
+                .watch(MakeQuestionProvider.optionalListProvider.notifier)
+                .update((state) => tempList);
           },
         );
-      }
-      );
+      });
     }
-
 
     return Column(
-          children: [
-
-             SizedBox(height: 15.h,),
-
-            BaseTextFieldWidget(
-              title: '選択肢1',
-              maxLength: 30,
-              height: 70.h,
-              controller: OptionalMakeQuestionController.optionalController1,
-              rightWidget: const IsRequiredWidget(),
-              onChanged: (text) {
-                ref.watch(MakeQuestionProvider.optionalProvider(1).notifier).update((state) => text);
-              },
-              onSubmitted: (text) {
-
-              },
-            ),
-
-            BaseTextFieldWidget(
-              title: '選択肢2',
-              maxLength: 30,
-              height: 70.h,
-              controller: OptionalMakeQuestionController.optionalController2,
-              rightWidget: const IsRequiredWidget(),
-              onChanged: (text) {
-                ref.watch(MakeQuestionProvider.optionalProvider(2).notifier).update((state) => text);
-              },
-              onSubmitted: (text) {
-
-              },
-            ),
-
-
-
-            Column(
-              children: additionalOptionWidget(),
-            ),
-
-
-             BasicAddWidget(
-              text: '選択肢を追加',
-              icon: Icons.add,
-              action: () {
-                if (addOptionNumber.value < 10) {
-                  addOptionNumber.value++;
-                  ref.watch(MakeQuestionProvider.optionalNumber.notifier).update((state) => addOptionNumber.value);
-                }
-              },
-             ),
-
-            SizedBox(height: 15.h,),
-
-
-          ],
-        );
-    }
+      children: [
+        SizedBox(
+          height: 15.h,
+        ),
+        BaseTextFieldWidget(
+          title: '選択肢1',
+          maxLength: 30,
+          height: 70.h,
+          controller: OptionalMakeQuestionController.optionalController1,
+          rightWidget: const IsRequiredWidget(),
+          onChanged: (text) {
+            ref
+                .watch(MakeQuestionProvider.optionalProvider(1).notifier)
+                .update((state) => text);
+          },
+          onSubmitted: (text) {},
+        ),
+        BaseTextFieldWidget(
+          title: '選択肢2',
+          maxLength: 30,
+          height: 70.h,
+          controller: OptionalMakeQuestionController.optionalController2,
+          rightWidget: const IsRequiredWidget(),
+          onChanged: (text) {
+            ref
+                .watch(MakeQuestionProvider.optionalProvider(2).notifier)
+                .update((state) => text);
+          },
+          onSubmitted: (text) {},
+        ),
+        Column(
+          children: additionalOptionWidget(),
+        ),
+        BasicAddWidget(
+          text: '選択肢を追加',
+          icon: Icons.add,
+          action: () {
+            if (addOptionNumber.value < 10) {
+              addOptionNumber.value++;
+              ref
+                  .watch(MakeQuestionProvider.optionalNumber.notifier)
+                  .update((state) => addOptionNumber.value);
+            }
+          },
+        ),
+        SizedBox(
+          height: 15.h,
+        ),
+      ],
+    );
   }
+}
 
 class BasicAddWidget extends HookConsumerWidget {
   const BasicAddWidget({
@@ -172,19 +171,18 @@ class BasicAddWidget extends HookConsumerWidget {
   final VoidCallback action;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: action,
       child: Row(
         children: [
           Text(
             text,
-            style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600
-            ),
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
           ),
-           SizedBox(width: 10.w,),
+          SizedBox(
+            width: 10.w,
+          ),
           Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -197,9 +195,7 @@ class BasicAddWidget extends HookConsumerWidget {
               child: Icon(
                 icon,
                 color: ColorSharedPreferenceService().getColor(),
-              )
-          ),
-
+              )),
         ],
       ),
     );
