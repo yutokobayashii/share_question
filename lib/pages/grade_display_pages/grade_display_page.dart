@@ -137,7 +137,6 @@ class GradeDisplayPage extends HookConsumerWidget {
           action: () {
             Navigator.popUntil(context, (route) => route.isFirst);
             ref.invalidate(gradeListNotifierProvider);
-           ///todo: ここにGradeNotifierをrefreshする処理を書く ref.refresh()
           },
 
         ),

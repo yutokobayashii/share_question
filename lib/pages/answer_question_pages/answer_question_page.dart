@@ -9,6 +9,7 @@ import '../../constant/style.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/grade/grade_data_notifier.dart';
+import '../../notifier/grade/grade_notifier.dart';
 import '../../usecase/grade_data_usecase.dart';
 import '../grade_display_pages/grade_display_page.dart';
 import 'optional_answer_widget.dart';
@@ -169,6 +170,9 @@ class AnswerQuestionPage extends HookConsumerWidget {
         floatingActionButton: BasicFloatingButtonWidget(
           text: '次へ',
           action: () async {
+
+            yourAnswer.value = textController.text;
+
             ///GradeDetailクラスにデータを格納
             ref.watch(gradeDetailListProvider.notifier).addGradeDetail(
                 questionData.questionName,
@@ -203,6 +207,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
               }
 
               if (context.mounted) {
+                ref.invalidate(gradeListNotifierProvider);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
