@@ -31,11 +31,12 @@ class GradeSqFliteDB {
   static Future _onCreate(Database db, int version) async {
 
     await db.execute('''
-    CREATE TABLE Grades(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      data TEXT
-    )
-  ''');
+  CREATE TABLE Grades(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    uuid TEXT UNIQUE,
+    data TEXT
+  )
+''');
 
   }
 }

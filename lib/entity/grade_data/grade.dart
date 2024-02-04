@@ -9,6 +9,7 @@ part 'grade.g.dart';
 @freezed
 class Grade with _$Grade {
   const factory Grade({
+    required String uuid,
     required String name,
     required String author,
     required String lastDate,

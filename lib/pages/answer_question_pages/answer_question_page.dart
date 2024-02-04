@@ -24,6 +24,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
     final currentIndex = useState(0);
     final yourAnswer = useState("");
     final gradeDataUseCase = GradeDataUseCase();
+    final textController = useTextEditingController();
 
     final questionData = data.questionDetailList[currentIndex.value];
 
@@ -72,7 +73,9 @@ class AnswerQuestionPage extends HookConsumerWidget {
                                   const BorderRadius.all(Radius.circular(5)),
                               child: LinearProgressIndicator(
                                 value: currentIndex.value / maxNumber,
-                                valueColor: AlwaysStoppedAnimation<Color>(ColorSharedPreferenceService().getColor(),),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  ColorSharedPreferenceService().getColor(),
+                                ),
                                 backgroundColor: Colors.black12,
                                 minHeight: 20,
                               ),
@@ -127,23 +130,32 @@ class AnswerQuestionPage extends HookConsumerWidget {
                               width: MediaQuery.of(context).size.width - 50.w,
                               child: TextField(
                                 keyboardType: TextInputType.multiline,
-                                maxLines: null,
+                                textInputAction: TextInputAction.done,
+                                maxLines: 3,
                                 maxLength: 50,
-                                cursorColor: ColorSharedPreferenceService().getColor(),
-                                controller: TextEditingController(),
+                                cursorColor:
+                                    ColorSharedPreferenceService().getColor(),
+                                controller: textController,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: ColorSharedPreferenceService().getColor(),),
+                                      color: ColorSharedPreferenceService()
+                                          .getColor(),
+                                    ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: ColorSharedPreferenceService().getColor(),),
+                                      color: ColorSharedPreferenceService()
+                                          .getColor(),
+                                    ),
                                   ),
                                 ),
-                                onChanged: (text) {},
+                                onChanged: (text) {
+                                 print(text);
+                                },
                                 onSubmitted: (text) {
                                   yourAnswer.value = text;
+                                  print(yourAnswer.value);
                                 },
                               ),
                             )
@@ -167,7 +179,6 @@ class AnswerQuestionPage extends HookConsumerWidget {
                 yourAnswer.value,
                 questionData.explanation);
 
-
             ///正解数のカウント
             if (questionData.isOptional) {
               ref.watch(correctNumberProvider.notifier).optionalIncrement(
@@ -183,7 +194,19 @@ class AnswerQuestionPage extends HookConsumerWidget {
 
               final grade = gradeDataUseCase.getGrade(ref, data); //Gradeに変換
 
-              await gradeDataUseCase.addGradeToSqFlite(ref, data); //sqfliteに保存
+              //todo:ここでuuidですでに登録されているかチェック
+
+              final isExist =
+                  await gradeDataUseCase.isGradeExistsInDatabase(grade.uuid);
+
+              if (isExist) {
+                await gradeDataUseCase.updateGradeFromSqLite(grade);
+                print('すでにあるデータなのでアップデート');
+              } else {
+                await gradeDataUseCase.addGradeToSqFlite(
+                    ref, data); //sqfliteに保存
+                print('まだデータベースにないので、追加');
+              }
 
               if (context.mounted) {
                 Navigator.push(

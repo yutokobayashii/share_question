@@ -20,6 +20,7 @@ Grade _$GradeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Grade {
+  String get uuid => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   String get lastDate => throw _privateConstructorUsedError;
@@ -39,7 +40,8 @@ abstract class $GradeCopyWith<$Res> {
       _$GradeCopyWithImpl<$Res, Grade>;
   @useResult
   $Res call(
-      {String name,
+      {String uuid,
+      String name,
       String author,
       String lastDate,
       int questionNumber,
@@ -61,6 +63,7 @@ class _$GradeCopyWithImpl<$Res, $Val extends Grade>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uuid = null,
     Object? name = null,
     Object? author = null,
     Object? lastDate = null,
@@ -70,6 +73,10 @@ class _$GradeCopyWithImpl<$Res, $Val extends Grade>
     Object? gradeDetailList = null,
   }) {
     return _then(_value.copyWith(
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -110,7 +117,8 @@ abstract class _$$GradeImplCopyWith<$Res> implements $GradeCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String name,
+      {String uuid,
+      String name,
       String author,
       String lastDate,
       int questionNumber,
@@ -130,6 +138,7 @@ class __$$GradeImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? uuid = null,
     Object? name = null,
     Object? author = null,
     Object? lastDate = null,
@@ -139,6 +148,10 @@ class __$$GradeImplCopyWithImpl<$Res>
     Object? gradeDetailList = null,
   }) {
     return _then(_$GradeImpl(
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -175,7 +188,8 @@ class __$$GradeImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GradeImpl implements _Grade {
   const _$GradeImpl(
-      {required this.name,
+      {required this.uuid,
+      required this.name,
       required this.author,
       required this.lastDate,
       required this.questionNumber,
@@ -187,6 +201,8 @@ class _$GradeImpl implements _Grade {
   factory _$GradeImpl.fromJson(Map<String, dynamic> json) =>
       _$$GradeImplFromJson(json);
 
+  @override
+  final String uuid;
   @override
   final String name;
   @override
@@ -209,7 +225,7 @@ class _$GradeImpl implements _Grade {
 
   @override
   String toString() {
-    return 'Grade(name: $name, author: $author, lastDate: $lastDate, questionNumber: $questionNumber, correctNumber: $correctNumber, comment: $comment, gradeDetailList: $gradeDetailList)';
+    return 'Grade(uuid: $uuid, name: $name, author: $author, lastDate: $lastDate, questionNumber: $questionNumber, correctNumber: $correctNumber, comment: $comment, gradeDetailList: $gradeDetailList)';
   }
 
   @override
@@ -217,6 +233,7 @@ class _$GradeImpl implements _Grade {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GradeImpl &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.lastDate, lastDate) ||
@@ -234,6 +251,7 @@ class _$GradeImpl implements _Grade {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      uuid,
       name,
       author,
       lastDate,
@@ -258,7 +276,8 @@ class _$GradeImpl implements _Grade {
 
 abstract class _Grade implements Grade {
   const factory _Grade(
-      {required final String name,
+      {required final String uuid,
+      required final String name,
       required final String author,
       required final String lastDate,
       required final int questionNumber,
@@ -268,6 +287,8 @@ abstract class _Grade implements Grade {
 
   factory _Grade.fromJson(Map<String, dynamic> json) = _$GradeImpl.fromJson;
 
+  @override
+  String get uuid;
   @override
   String get name;
   @override

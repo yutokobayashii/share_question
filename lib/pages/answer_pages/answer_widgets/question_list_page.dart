@@ -43,12 +43,10 @@ class QuestionListWidget extends HookConsumerWidget {
            );
 
          } else{
-           print('data$data');
            return Expanded(
              child: ListView.builder(
                itemCount: data.length,
                itemBuilder: (context, index) {
-                 print(index);
                  return Dismissible(
                    direction: DismissDirection.startToEnd,
                    key: UniqueKey(),

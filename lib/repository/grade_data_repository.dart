@@ -21,6 +21,7 @@ class GradeDataRepositoryImp implements GradeDataRepository {
     final correctNumber = ref.watch(correctNumberProvider);
 
     return Grade(
+      uuid: data.uuid,
       name: data.name,
       author: data.author,
       lastDate: formatDateTime(DateTime.now()),

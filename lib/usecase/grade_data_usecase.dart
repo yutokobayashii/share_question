@@ -8,6 +8,7 @@ import '../entity/question_data/question.dart';
 class GradeDataUseCase {
   final _gradeSqfliteDao = GradeSqfliteDao();
 
+  ///sqdliteにデータを格納
   Future<void> addGradeToSqFlite(WidgetRef ref, Question data) async {
     final gradeDataRepository = ref.watch(gradeDataRepositoryProvider);
 
@@ -16,14 +17,14 @@ class GradeDataUseCase {
     await _gradeSqfliteDao.addGradeToDatabase(grade);
   }
 
+  ///sqfliteに格納された全Gradeデータを取得
   Future<List<Grade>> getGradeFromSqLite() async {
-    final gradeSqfliteDao = GradeSqfliteDao();
-
-    final grade = await gradeSqfliteDao.getAllGradesFromDatabase();
+    final grade = await _gradeSqfliteDao.getAllGradesFromDatabase();
 
     return grade;
   }
 
+  ///単体のGradeデータを取得
   Grade getGrade(WidgetRef ref, Question data) {
     final gradeDataRepository = ref.watch(gradeDataRepositoryProvider);
 
@@ -32,5 +33,13 @@ class GradeDataUseCase {
     return grade;
   }
 
-//todo:ここにデータベースから取得するコードを書く
+  Future<int> updateGradeFromSqLite(Grade grade) async {
+    final id = await _gradeSqfliteDao.updateGradeToDatabase(grade);
+    return id;
+  }
+
+  Future<bool> isGradeExistsInDatabase(String uuid) async {
+    final status = await _gradeSqfliteDao.isGradeExistsInDatabase(uuid);
+    return status;
+  }
 }
