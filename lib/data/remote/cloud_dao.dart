@@ -48,7 +48,6 @@ class CloudDao {
     }
   }
 
-//todo:実装予定
   Future<void> incrementLikes(String documentId) async {
     try {
       DocumentReference docRef = fireStore.collection('questionList').doc(documentId);

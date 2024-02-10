@@ -1,5 +1,5 @@
-import '../entity/grade_data/grade.dart';
-import '../repository/calendar_repository.dart';
+import '../../entity/grade_data/grade.dart';
+import '../../repository/calendar/calendar_repository.dart';
 
 abstract class CalendarUseCase {
   Map<DateTime, List<Grade>> getCalendar(List<Grade> grades);

@@ -1,7 +1,7 @@
 
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/usecase/grade_data_usecase.dart';
+import 'package:share_question/usecase/grade/grade_data_usecase.dart';
 
 import '../../entity/grade_data/grade.dart';
 

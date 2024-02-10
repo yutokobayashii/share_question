@@ -1,9 +1,9 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/repository/grade_data_repository.dart';
+import 'package:share_question/repository/grade/grade_data_repository.dart';
 
-import '../data/local/grade_sqflite_dao.dart';
-import '../entity/grade_data/grade.dart';
-import '../entity/question_data/question.dart';
+import '../../data/local/grade_sqflite_dao.dart';
+import '../../entity/grade_data/grade.dart';
+import '../../entity/question_data/question.dart';
 
 final gradeDataUseCaseProvider = Provider<GradeDataUseCaseImp>((ref) {
  return GradeDataUseCaseImp();

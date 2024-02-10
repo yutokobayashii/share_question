@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/data/remote/cloud_dao.dart';
 import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
 import 'package:share_question/provider/make_question_provider.dart';
-import 'package:share_question/repository/question_data_repository.dart';
+import 'package:share_question/repository/question/question_data_repository.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
 import '../../../constant/style.dart';
@@ -13,6 +12,7 @@ import '../../../controller/make_question_controller/make_question_controller.da
 import '../../../controller/optional_make_question_controller/optional_make_question_controller.dart';
 import '../../../controller/remove_data_controller/remove_data_controller.dart';
 import '../../../data/local/color_shared_preference_service.dart';
+import '../../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
 import '../../../widgets/dialog_widget.dart';
 
 class ConfirmQuestionPage extends HookConsumerWidget {
@@ -23,7 +23,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
     final questionRepository = QuestionDataRepositoryImp();
     final controller = ConfirmQuestionController();
     final removeDataController = RemoveDataController();
-    final cloudDb = CloudDao();
+    final cloudFireStoreNotifier = ref.watch(cloudFireStoreNotifierProvider.notifier);
     final makeQuestionController = MakeQuestionController(ref);
     final optionalController = OptionalMakeQuestionController(ref);
     final removeQuestionDataController = RemoveDataController();
@@ -275,7 +275,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
               try {
                 final data = questionRepository.createQuestionData(ref);
 
-                final id = await cloudDb.saveQuestion(data);
+                final id = await cloudFireStoreNotifier.saveQuestion(data);
 
                 controller.putQuestionDataToIsar(id, ref);
 

@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/usecase/calendar_usecase.dart';
+import 'package:share_question/usecase/calendar/calendar_usecase.dart';
 
 import '../../entity/grade_data/grade.dart';
 

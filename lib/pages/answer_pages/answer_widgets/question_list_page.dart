@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../constant/style.dart';
 import '../../../data/local/question_sqflite_dao.dart';
-import '../../../repository/library_data_repoditory.dart';
+import '../../../repository/library/library_data_repoditory.dart';
 import '../../../widgets/dialog_widget.dart';
 import '../../answer_question_pages/answer_question_page.dart';
 

@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/entity/question_data/question.dart';
 
-import '../repository/library_data_repoditory.dart';
+import '../../repository/library/library_data_repoditory.dart';
 
 class CheckNewQuestionExistUseCase {
   bool checkExist(WidgetRef ref, Question newQuestion) {

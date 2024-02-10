@@ -1,8 +1,8 @@
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../data/local/question_sqflite_dao.dart';
-import '../entity/question_data/question.dart';
+import '../../data/local/question_sqflite_dao.dart';
+import '../../entity/question_data/question.dart';
 
 final libraryRepositoryProvider = FutureProvider<List<Question>>((ref) async {
   final data = LibraryDataRepositoryImp();

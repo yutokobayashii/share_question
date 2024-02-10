@@ -5,8 +5,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-import '../provider/initial_question_provider.dart';
-import '../provider/make_question_provider.dart';
+import '../../provider/initial_question_provider.dart';
+import '../../provider/make_question_provider.dart';
 
 abstract class QuestionDataRepository {
   Map<String, dynamic> createQuestionData(WidgetRef ref);

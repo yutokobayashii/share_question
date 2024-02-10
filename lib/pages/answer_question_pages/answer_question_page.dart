@@ -10,7 +10,7 @@ import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/grade/grade_data_notifier.dart';
 import '../../notifier/grade/grade_notifier.dart';
-import '../../usecase/grade_data_usecase.dart';
+import '../../usecase/grade/grade_data_usecase.dart';
 import '../grade_display_pages/grade_display_page.dart';
 import 'optional_answer_widget.dart';
 

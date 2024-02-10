@@ -1,5 +1,5 @@
-import '../entity/grade_data/grade.dart';
-import '../util/date_taime_converter.dart';
+import '../../entity/grade_data/grade.dart';
+import '../../util/date_taime_converter.dart';
 
 // final calendarRepositoryProvider = Provider<CalendarRepository>((ref) {
 //   return CalendarRepositoryImp();
