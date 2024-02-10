@@ -20,8 +20,6 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
     List<String> tempList = [];
     final controllers = useState<List<TextEditingController>>([]);
     final currentList = ref.watch(MakeQuestionProvider.optionalListProvider);
-    ///todo:ここら辺を削除するいいタイミングで
-    ///todo:最終確認画面以外で選択肢を追加でエラーが出ないか確認＆でない場合はどこが違うのか確認する
 
     void removeItem(WidgetRef ref, String item) {
       ref

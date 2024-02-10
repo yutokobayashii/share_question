@@ -108,6 +108,12 @@ class GradeListWidget extends HookConsumerWidget {
               SizedBox(
                 height: 15.h,
               ),
+
+              const Center(child: Text('詳細を見る',style: TextStyle(color: Colors.black38),)),
+
+              SizedBox(
+                height: 15.h,
+              ),
             ],
           ),
         ),

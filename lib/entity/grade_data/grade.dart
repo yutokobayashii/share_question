@@ -1,9 +1,7 @@
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-
-
 part 'grade.freezed.dart';
+
 part 'grade.g.dart';
 
 @freezed
@@ -22,7 +20,6 @@ class Grade with _$Grade {
   factory Grade.fromJson(Map<String, dynamic> json) => _$GradeFromJson(json);
 }
 
-
 @freezed
 class GradeDetail with _$GradeDetail {
   const factory GradeDetail({
@@ -30,8 +27,8 @@ class GradeDetail with _$GradeDetail {
     required String correct,
     required String yourAnswer,
     required String explain,
-
   }) = _GradeDetail;
 
-  factory GradeDetail.fromJson(Map<String, dynamic> json) => _$GradeDetailFromJson(json);
+  factory GradeDetail.fromJson(Map<String, dynamic> json) =>
+      _$GradeDetailFromJson(json);
 }

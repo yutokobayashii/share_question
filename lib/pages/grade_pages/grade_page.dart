@@ -32,7 +32,15 @@ class GradePage extends ConsumerWidget{
           future: gradeData,
           builder: (BuildContext context, AsyncSnapshot<List<Grade>> snapshot) {
             if (snapshot.hasError) {
-              return const Text("エラーが発生しました。");
+              return Container(
+                color: Colors.white,
+                child: const Center(
+                    child: Text(
+                      "エラーが発生しました。",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black38),
+                    )),
+              );
             } else if (snapshot.connectionState != ConnectionState.done) {
               return const CircularProgressIndicator();
             } else if (snapshot.data?.isEmpty ?? true) {
@@ -48,6 +56,8 @@ class GradePage extends ConsumerWidget{
             } else {
               return Container(
                 color: Colors.white,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
