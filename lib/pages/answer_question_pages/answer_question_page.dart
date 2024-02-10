@@ -205,6 +205,9 @@ class AnswerQuestionPage extends HookConsumerWidget {
                 await gradeDataUseCase.addGradeToSqFlite(ref, data); //sqfliteに保存
               }
 
+              ref.watch(gradeDetailListProvider.notifier).reset();
+              ref.watch(correctNumberProvider.notifier).reset();
+
               if (context.mounted) {
                 ref.invalidate(gradeListNotifierProvider);
                 Navigator.push(

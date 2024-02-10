@@ -24,4 +24,8 @@ class GradeDetailNotifier extends Notifier<List<GradeDetail>> {
     // 現在の状態に新しいGradeDetailを追加して更新
     state = [...state, newGradeDetail];
   }
+
+  void reset() {
+    state = [];
+  }
 }
