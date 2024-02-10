@@ -4,11 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../constant/format.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/grade_data/grade.dart';
 import '../../notifier/calendar/calendar_notifier.dart';
 import '../../notifier/grade/grade_notifier.dart';
+import '../../util/date_taime_converter.dart';
 
 class CalendarPage extends HookConsumerWidget {
   const CalendarPage({super.key});
@@ -30,13 +30,14 @@ class CalendarPage extends HookConsumerWidget {
 
       loadData();
 
-      calendarData.value = ref.watch(calendarNotifierProvider.notifier).getCalendarName(data.value);
+      calendarData.value = ref
+          .watch(calendarNotifierProvider.notifier)
+          .getCalendarName(data.value);
 
       return null;
-    }, [ref.watch(calendarNotifierProvider.notifier).getCalendarName(data.value)]);
-
-
-    print(calendarData.value);
+    }, [
+      ref.watch(calendarNotifierProvider.notifier).getCalendarName(data.value)
+    ]);
 
     return Scaffold(
       appBar: AppBar(
@@ -73,18 +74,19 @@ class CalendarPage extends HookConsumerWidget {
                 ),
               ),
               onDaySelected: (selectedDay, focusedDay) {
-                print(selectedDay.toLocal());
                 selectedDayValue.value = selectedDay;
                 focusedDayValue.value = focusedDay;
-                selectedEvents.value = calendarData.value[convertOnlyDate(selectedDay).toLocal()] ?? [];
+                selectedEvents.value = calendarData
+                        .value[convertOnlyDate(selectedDay).toLocal()] ??
+                    [];
               },
               selectedDayPredicate: (day) {
                 // 同じ日付を選択しているかどうかを判断
                 return isSameDay(selectedDayValue.value, day);
               },
               eventLoader: (date) {
-
-                return calendarData.value[convertOnlyDate(date).toLocal()] ?? [];
+                return calendarData.value[convertOnlyDate(date).toLocal()] ??
+                    [];
               },
             ),
 
