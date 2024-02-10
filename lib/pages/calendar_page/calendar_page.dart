@@ -9,6 +9,7 @@ import '../../entity/grade_data/grade.dart';
 import '../../notifier/calendar/calendar_notifier.dart';
 import '../../notifier/grade/grade_notifier.dart';
 import '../../util/date_taime_converter.dart';
+import '../grade_display_pages/grade_display_page.dart';
 
 class CalendarPage extends HookConsumerWidget {
   const CalendarPage({super.key});
@@ -17,9 +18,9 @@ class CalendarPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDayValue = useState<DateTime?>(null);
     final focusedDayValue = useState<DateTime>(DateTime.now());
-    final selectedEvents = useState<List<String>>([]);
+    final selectedEvents = useState<List<Grade>>([]);
     final data = useState<List<Grade>>([]);
-    final calendarData = useState<Map<DateTime, List<String>>>({});
+    final calendarData = useState<Map<DateTime, List<Grade>>>({});
 
     useEffect(() {
       // 非同期処理を実行し、結果を状態にセットする
@@ -30,14 +31,11 @@ class CalendarPage extends HookConsumerWidget {
 
       loadData();
 
-      calendarData.value = ref
-          .watch(calendarNotifierProvider.notifier)
-          .getCalendarName(data.value);
+      calendarData.value =
+          ref.watch(calendarNotifierProvider.notifier).getCalendar(data.value);
 
       return null;
-    }, [
-      ref.watch(calendarNotifierProvider.notifier).getCalendarName(data.value)
-    ]);
+    }, [ref.watch(calendarNotifierProvider.notifier).getCalendar(data.value)]);
 
     return Scaffold(
       appBar: AppBar(
@@ -100,6 +98,8 @@ class CalendarPage extends HookConsumerWidget {
                       style: TextStyle(color: Colors.black38),
                     ),
                   )
+                //todo:正答率を追加するー＞そのためにGradeをこの画面で使えるようにする。
+                //todo:タップした際に成績画面詳細に遷移する
                 : Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -107,14 +107,90 @@ class CalendarPage extends HookConsumerWidget {
                         itemCount: selectedEvents.value.length,
                         itemBuilder: (context, index) {
                           final event = selectedEvents.value[index];
-                          return Card(
-                            color: Colors.white,
-                            child: ListTile(
-                              title: Text(
-                                event,
-                                style: TextStyle(
-                                  color:
-                                      ColorSharedPreferenceService().getColor(),
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => GradeDisplayPage(isFromGradePage: true, gradeData: event,)),
+                                );
+
+
+                              },
+                              child: Container(
+                                width: 100,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 20, top: 10),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            '回答実績:',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            event.name,
+                                            style: TextStyle(
+                                              color:
+                                                  ColorSharedPreferenceService()
+                                                      .getColor(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            '正答率:',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            ((event.correctNumber /
+                                                        event.questionNumber) *
+                                                    100)
+                                                .toString(),
+                                            style: TextStyle(
+                                              color:
+                                                  ColorSharedPreferenceService()
+                                                      .getColor(),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 3,),
+                                          const Text(
+                                            '%',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -129,4 +205,3 @@ class CalendarPage extends HookConsumerWidget {
     );
   }
 }
-//ColorSharedPreferenceService().getColor(),
