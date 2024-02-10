@@ -40,6 +40,8 @@ class OptionalAnswerWidget extends HookConsumerWidget {
               selectedOptional.value = value!;
 
               yourAnswer.value = value;
+
+              print(yourAnswer.value);
             },
           ),
         );

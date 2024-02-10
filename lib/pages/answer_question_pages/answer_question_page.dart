@@ -171,7 +171,6 @@ class AnswerQuestionPage extends HookConsumerWidget {
           text: '次へ',
           action: () async {
 
-            yourAnswer.value = textController.text;
 
             ///GradeDetailクラスにデータを格納
             ref.watch(gradeDetailListProvider.notifier).addGradeDetail(
