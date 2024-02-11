@@ -54,6 +54,38 @@ class InitialQuestionController {
         ),
       );
     }
+
+    if (explainController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '問題集の説明に値が入力されていません',
+            style: TextStyle(
+                color: ColorSharedPreferenceService().getColor(),
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600
+
+            ),),
+          backgroundColor: Colors.white70,
+        ),
+      );
+    }
+
+    if (commentController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '回答した人へのコメントに値が入力されていません',
+            style: TextStyle(
+                color: ColorSharedPreferenceService().getColor(),
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600
+
+            ),),
+          backgroundColor: Colors.white70,
+        ),
+      );
+    }
   }
 
 

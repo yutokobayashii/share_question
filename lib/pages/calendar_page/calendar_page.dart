@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/constant/color.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
@@ -123,7 +122,7 @@ class CalendarPage extends HookConsumerWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.white,
                                   border: Border.all(
-                                    color: Colors.black,
+                                    color: Colors.black38,
                                     width: 1,
                                   ),
                                 ),

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,168 +14,180 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
   const InitialMakeQuestionPage({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final controller = InitialQuestionController(ref);
     final removeQuestionDataController = RemoveDataController();
     return ScreenUtilInit(
-      designSize: const Size(393, 852),
-    builder: (_ , child) {
-     return MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            leading: GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context1) => AlertDialogWidget(
-                    title: '作問を中止しますか？',
-                    content: '中止すると入力した項目は保存されません',
-                    leftText: '中止する',
-                    rightText: '続ける',
-                    rightAction: () {
-                      Navigator.pop(context1);
-                    },
-                    leftAction: () {
-                      Navigator.pop(context1);
-                      Navigator.pop(context);
-                      controller.clearControllers();
-                      removeQuestionDataController.removeInitialQuestionData(ref);
-
-
-                    },
-
-                  ),
-                );
-              },
-                child: const Icon(
-                  Icons.arrow_back,
-                  size: 28,
-                )
-               ),
-            title: const Text('作問'),
-            actions: [
-              GestureDetector(
-                onTap: () {
-
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context1) => AlertDialogWidget(
-                      title: 'ここまでの作問を保存しますか？',
-                      content: '保存した作問は後から再開できます',
-                      leftText: '作問を続ける',
-                      rightText: '保存する',
-                      rightAction: () {
-                        debugPrint('保存しました');
-                        Navigator.pop(context1);
-                        Navigator.popUntil(context, (route) => route.isFirst);
+        designSize: const Size(393, 852),
+        builder: (_, child) {
+          return MaterialApp(
+            home: Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Colors.white,
+                  leading: GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context1) => AlertDialogWidget(
+                            title: '作問を中止しますか？',
+                            content: '中止すると入力した項目は保存されません',
+                            leftText: '中止する',
+                            rightText: '続ける',
+                            rightAction: () {
+                              Navigator.pop(context1);
+                            },
+                            leftAction: () {
+                              Navigator.pop(context1);
+                              Navigator.pop(context);
+                              controller.clearControllers();
+                              removeQuestionDataController
+                                  .removeInitialQuestionData(ref);
+                            },
+                          ),
+                        );
                       },
-                      leftAction: () {
-                        Navigator.pop(context1);
+                      child: const Icon(
+                        Icons.arrow_back,
+                        size: 28,
+                      )),
+                  title: const Text('作問'),
+                  actions: [
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context1) =>
+                                AlertDialogWidget(
+                                  title: 'ここまでの作問を保存しますか？',
+                                  content: '保存した作問は後から再開できます',
+                                  leftText: '作問を続ける',
+                                  rightText: '保存する',
+                                  rightAction: () {
+                                    debugPrint('保存しました');
+                                    Navigator.pop(context1);
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                  },
+                                  leftAction: () {
+                                    Navigator.pop(context1);
+                                  },
+                                ));
                       },
+                      child: const Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: Icon(
+                          Icons.description_outlined,
+                          size: 28,
+                        ),
+                      ),
                     )
-                  );
-
-                },
-                child: const Padding(
-                  padding: EdgeInsets.only(right: 15),
-                  child: Icon(Icons.description_outlined,
-                    size: 28,
-                  ),
-                ),
-              )
-            ],
-
-          ),
-          body: SingleChildScrollView(
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    SizedBox(height: 15.h,),
-                    BaseTextFieldWidget(
-                      title: '問題集名',
-                      maxLength: 30,
-                      rightWidget: const IsRequiredWidget(),
-                      controller: InitialQuestionController.questionNameController,
-                       onChanged: (text) {
-                        ref.watch(InitialMakeQuestionProvider.questionNameProvider.notifier).update((state) => text);
-                       },
-                      onSubmitted: (text) {
-            
-                      },
-                    ),
-            
-                    SizedBox(height: 10.h,),
-                    BaseTextFieldWidget(
-                      title: '作成者名',
-                      maxLength: 15,
-                      rightWidget: const IsRequiredWidget(),
-                      controller: InitialQuestionController.authorController,
-                      onChanged: (text) {
-                        ref.watch(InitialMakeQuestionProvider.authorProvider.notifier).update((state) => text);
-                      },
-                      onSubmitted: (text) {
-            
-                      },
-                    ),
-            
-                    SizedBox(height: 10.h,),
-                    BaseTextFieldWidget(
-                      title: '問題集の説明',
-                      maxLength: 100,
-                      controller: InitialQuestionController.explainController,
-                      onChanged: (text) {
-                        ref.watch(InitialMakeQuestionProvider.explainProvider.notifier).update((state) => text);
-                      },
-                      onSubmitted: (text) {
-            
-                    },
-                    ),
-            
-                    SizedBox(height: 10.h,),
-                    BaseTextFieldWidget(
-                      title: '解答した人へのコメント',
-                      maxLength: 100,
-                      controller: InitialQuestionController.commentController,
-                      onChanged: (text) {
-                        ref.watch(InitialMakeQuestionProvider.commentProvider.notifier).update((state) => text);
-                      },
-                      onSubmitted: (text) {
-            
-                      },
-                    ),
                   ],
                 ),
-              ),
-            ),
-          ),
-          floatingActionButton: BasicFloatingButtonWidget(
-            text: '次へ',
-            action: () async{
+                body: SingleChildScrollView(
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          BaseTextFieldWidget(
+                            title: '問題集名',
+                            maxLength: 30,
+                            rightWidget: const IsRequiredWidget(),
+                            controller: InitialQuestionController
+                                .questionNameController,
+                            onChanged: (text) {
+                              ref
+                                  .watch(InitialMakeQuestionProvider
+                                      .questionNameProvider.notifier)
+                                  .update((state) => text);
+                            },
+                            onSubmitted: (text) {},
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          BaseTextFieldWidget(
+                            title: '作成者名',
+                            maxLength: 15,
+                            rightWidget: const IsRequiredWidget(),
+                            controller:
+                                InitialQuestionController.authorController,
+                            onChanged: (text) {
+                              ref
+                                  .watch(InitialMakeQuestionProvider
+                                      .authorProvider.notifier)
+                                  .update((state) => text);
+                            },
+                            onSubmitted: (text) {},
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          BaseTextFieldWidget(
+                            title: '問題集の説明',
+                            maxLength: 100,
+                            rightWidget: const IsRequiredWidget(),
+                            controller:
+                                InitialQuestionController.explainController,
+                            onChanged: (text) {
+                              ref
+                                  .watch(InitialMakeQuestionProvider
+                                      .explainProvider.notifier)
+                                  .update((state) => text);
+                            },
+                            onSubmitted: (text) {},
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          BaseTextFieldWidget(
+                            title: '解答した人へのコメント',
+                            maxLength: 100,
+                            rightWidget: const IsRequiredWidget(),
+                            controller:
+                                InitialQuestionController.commentController,
+                            onChanged: (text) {
+                              ref
+                                  .watch(InitialMakeQuestionProvider
+                                      .commentProvider.notifier)
+                                  .update((state) => text);
+                            },
+                            onSubmitted: (text) {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                floatingActionButton: BasicFloatingButtonWidget(
+                  text: '次へ',
+                  action: () async {
+                    if (InitialQuestionController
+                            .questionNameController.text.isEmpty ||
+                        InitialQuestionController
+                            .authorController.text.isEmpty ||
+                        InitialQuestionController
+                            .explainController.text.isEmpty ||
+                        InitialQuestionController
+                            .commentController.text.isEmpty) {
+                      controller.getSnackBar(context, ref);
+                    } else {
+                      controller.clearControllers();
 
-              if (InitialQuestionController.questionNameController.text.isEmpty || InitialQuestionController.authorController.text.isEmpty) {
-
-                controller.getSnackBar(context, ref);
-
-              } else {
-
-                controller.clearControllers();
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MakeQuestionPage()),
-                );
-              }
-
-
-
-            },)
-        ),
-      );
-    });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MakeQuestionPage()),
+                      );
+                    }
+                  },
+                )),
+          );
+        });
   }
 }
 
@@ -189,24 +199,19 @@ class IsRequiredWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 40.w,
-        height: 16.h,
-        decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.circular(10),
+      width: 40.w,
+      height: 16.h,
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: const Center(
+        child: Text(
+          '必須',
+          style: TextStyle(
+              color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
         ),
-        child: const Center(
-          child: Text(
-            '必須',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w700
-            ),
-          ),
-        ),
-      );
+      ),
+    );
   }
 }
-
-

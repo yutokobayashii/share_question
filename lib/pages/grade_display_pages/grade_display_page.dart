@@ -11,6 +11,7 @@ import 'package:share_question/widgets/basic_floating_button.dart';
 import '../../constant/style.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/grade_data/grade.dart';
+import '../../util/snackbar.dart';
 
 class GradeDisplayPage extends HookConsumerWidget {
   const GradeDisplayPage({
@@ -162,30 +163,30 @@ class GradeDisplayPage extends HookConsumerWidget {
                                 height: 10.h,
                               ),
                               GestureDetector(
-                                onTap:(isLiked.value) ?
-                                () {
-
-                                }
-
+                                onTap: (isLiked.value)
+                                    ? () {}
                                     : () async {
+                                        isLiked.value = true;
 
-                                  isLiked.value = true;
+                                        displayErrorSnackBar(ref,context,"いいねを送信しました。");
 
-                                  await ref
-                                      .watch(cloudFireStoreNotifierProvider
-                                          .notifier)
-                                      .incrementLikes(documentId.value);
+                                        await ref
+                                            .watch(
+                                                cloudFireStoreNotifierProvider
+                                                    .notifier)
+                                            .incrementLikes(documentId.value);
 
-                                  await ref
-                                      .watch(gradeListNotifierProvider.notifier)
-                                      .updateGradeToDatabaseForIsLiked(gradeData);
-                                  //documentIdは
-                                },
+                                        await ref
+                                            .watch(gradeListNotifierProvider
+                                                .notifier)
+                                            .updateGradeToDatabaseForIsLiked(
+                                                gradeData);
+                                        //documentIdは
+                                      },
                                 child: Icon(
-                                  (isLiked.value) ?
-                                  Icons.star
-                                      :
-                                  Icons.star_outline,
+                                  (isLiked.value)
+                                      ? Icons.star
+                                      : Icons.star_outline,
                                   size: 35,
                                   color:
                                       ColorSharedPreferenceService().getColor(),
