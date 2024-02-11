@@ -65,7 +65,7 @@ class PastQuestionDetailWidget extends HookConsumerWidget {
           children: [
             Icon(Icons.star,color: ColorSharedPreferenceService().getColor(),),
             SizedBox(width: 5.w,),
-            Text('いいね数:5',
+            Text('いいね数:${question.favorite}',
               style: boldTextStyle,),
           ],
         ),

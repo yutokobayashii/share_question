@@ -12,12 +12,12 @@ final gradeDataRepositoryProvider = Provider<GradeDataRepository>((ref) {
 });
 
 abstract class GradeDataRepository {
-  Grade getGradeData(WidgetRef ref, Question data);
+  Grade getGradeData(WidgetRef ref, Question data,String documentId);
 }
 
 class GradeDataRepositoryImp implements GradeDataRepository {
   @override
-  Grade getGradeData(WidgetRef ref, Question data) {
+  Grade getGradeData(WidgetRef ref, Question data,String documentId) {
     final gradeList = ref.watch(gradeDetailListProvider);
     final correctNumber = ref.watch(correctNumberProvider);
 
@@ -30,6 +30,7 @@ class GradeDataRepositoryImp implements GradeDataRepository {
       correctNumber: correctNumber,
       comment: data.comment,
       gradeDetailList: gradeList,
+      documentId: documentId,
     );
   }
 }

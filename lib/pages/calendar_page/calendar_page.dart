@@ -40,7 +40,7 @@ class CalendarPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text('回答実績カレンダー'),
+        title: const Text('解答実績カレンダー'),
         leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -88,13 +88,13 @@ class CalendarPage extends HookConsumerWidget {
               },
             ),
 
-            ///回答実績がありませんの場合分け
+            ///解答実績がありませんの場合分け
 
             (selectedEvents.value.isEmpty)
                 ? const Padding(
                     padding: EdgeInsets.only(top: 30),
                     child: Text(
-                      '回答実績はありません。',
+                      '解答実績はありません。',
                       style: TextStyle(color: Colors.black38),
                     ),
                   )
@@ -137,7 +137,7 @@ class CalendarPage extends HookConsumerWidget {
                                       Row(
                                         children: [
                                           const Text(
-                                            '回答実績:',
+                                            '解答実績:',
                                             style: TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w700),

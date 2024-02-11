@@ -17,6 +17,8 @@ abstract class CloudFireStoreRepository {
   Future<bool> deleteQuestion(String documentId);
 
   Future<void> incrementLikes(String documentId);
+
+  Future<String?> getDocumentIdByUuid(String uuid);
 }
 
 class CloudFireStoreRepositoryImp implements CloudFireStoreRepository {
@@ -41,6 +43,11 @@ class CloudFireStoreRepositoryImp implements CloudFireStoreRepository {
   @override
   Future<String> saveQuestion(Map<String, dynamic> questionData) async {
     return await _dao.saveQuestion(questionData);
+  }
+
+  @override
+  Future<String?> getDocumentIdByUuid(String uuid) async {
+    return await _dao.getDocumentIdByUuid(uuid);
   }
 
 }

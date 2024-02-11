@@ -15,9 +15,11 @@ import '../grade_display_pages/grade_display_page.dart';
 import 'optional_answer_widget.dart';
 
 class AnswerQuestionPage extends HookConsumerWidget {
-  const AnswerQuestionPage({super.key, required this.data});
+  const AnswerQuestionPage(
+      {super.key, required this.documentId, required this.data});
 
   final Question data;
+  final String documentId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -170,8 +172,6 @@ class AnswerQuestionPage extends HookConsumerWidget {
         floatingActionButton: BasicFloatingButtonWidget(
           text: '次へ',
           action: () async {
-
-
             ///GradeDetailクラスにデータを格納
             ref.watch(gradeDetailListProvider.notifier).addGradeDetail(
                 questionData.questionName,
@@ -192,7 +192,8 @@ class AnswerQuestionPage extends HookConsumerWidget {
               //indexを追加する前なので-1で調整
               ///最終問題だった場合
 
-              final grade = gradeDataUseCase.getGrade(ref, data); //Gradeに変換
+              final grade =
+                  gradeDataUseCase.getGrade(ref, data, documentId); //Gradeに変換
 
               //todo:ここでuuidですでに登録されているかチェック
 
@@ -202,7 +203,8 @@ class AnswerQuestionPage extends HookConsumerWidget {
               if (isExist) {
                 await gradeDataUseCase.updateGradeFromSqLite(grade);
               } else {
-                await gradeDataUseCase.addGradeToSqFlite(ref, data); //sqfliteに保存
+                await gradeDataUseCase.addGradeToSqFlite(
+                    ref, data, documentId); //sqfliteに保存
               }
 
               ref.watch(gradeDetailListProvider.notifier).reset();

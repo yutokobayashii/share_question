@@ -21,6 +21,7 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Question {
   String get uuid => throw _privateConstructorUsedError;
+  int? get favorite => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   String get explain => throw _privateConstructorUsedError;
@@ -42,6 +43,7 @@ abstract class $QuestionCopyWith<$Res> {
   @useResult
   $Res call(
       {String uuid,
+      int? favorite,
       String name,
       String author,
       String explain,
@@ -64,6 +66,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   @override
   $Res call({
     Object? uuid = null,
+    Object? favorite = freezed,
     Object? name = null,
     Object? author = null,
     Object? explain = null,
@@ -76,6 +79,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
+      favorite: freezed == favorite
+          ? _value.favorite
+          : favorite // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -114,6 +121,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
   @useResult
   $Res call(
       {String uuid,
+      int? favorite,
       String name,
       String author,
       String explain,
@@ -134,6 +142,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uuid = null,
+    Object? favorite = freezed,
     Object? name = null,
     Object? author = null,
     Object? explain = null,
@@ -146,6 +155,10 @@ class __$$QuestionImplCopyWithImpl<$Res>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
+      favorite: freezed == favorite
+          ? _value.favorite
+          : favorite // ignore: cast_nullable_to_non_nullable
+              as int?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -179,6 +192,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
 class _$QuestionImpl implements _Question {
   const _$QuestionImpl(
       {required this.uuid,
+      required this.favorite,
       required this.name,
       required this.author,
       required this.explain,
@@ -192,6 +206,8 @@ class _$QuestionImpl implements _Question {
 
   @override
   final String uuid;
+  @override
+  final int? favorite;
   @override
   final String name;
   @override
@@ -213,7 +229,7 @@ class _$QuestionImpl implements _Question {
 
   @override
   String toString() {
-    return 'Question(uuid: $uuid, name: $name, author: $author, explain: $explain, comment: $comment, createdAt: $createdAt, questionDetailList: $questionDetailList)';
+    return 'Question(uuid: $uuid, favorite: $favorite, name: $name, author: $author, explain: $explain, comment: $comment, createdAt: $createdAt, questionDetailList: $questionDetailList)';
   }
 
   @override
@@ -222,6 +238,8 @@ class _$QuestionImpl implements _Question {
         (other.runtimeType == runtimeType &&
             other is _$QuestionImpl &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.favorite, favorite) ||
+                other.favorite == favorite) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.explain, explain) || other.explain == explain) &&
@@ -237,6 +255,7 @@ class _$QuestionImpl implements _Question {
   int get hashCode => Object.hash(
       runtimeType,
       uuid,
+      favorite,
       name,
       author,
       explain,
@@ -261,6 +280,7 @@ class _$QuestionImpl implements _Question {
 abstract class _Question implements Question {
   const factory _Question(
       {required final String uuid,
+      required final int? favorite,
       required final String name,
       required final String author,
       required final String explain,
@@ -273,6 +293,8 @@ abstract class _Question implements Question {
 
   @override
   String get uuid;
+  @override
+  int? get favorite;
   @override
   String get name;
   @override

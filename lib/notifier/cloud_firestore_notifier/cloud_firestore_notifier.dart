@@ -33,4 +33,8 @@ class CloudFireStoreNotifier extends Notifier<void> {
   Future<void> incrementLikes(String documentId) async {
     await ref.read(cloudFireStoreUseCaseProvider).incrementLikes(documentId);
   }
+
+  Future<String?> getDocumentIdByUuid(String uuid) async {
+   return await ref.read(cloudFireStoreUseCaseProvider).getDocumentIdByUuid(uuid);
+  }
 }

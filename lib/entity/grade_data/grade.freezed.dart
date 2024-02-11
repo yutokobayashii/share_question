@@ -21,6 +21,7 @@ Grade _$GradeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Grade {
   String get uuid => throw _privateConstructorUsedError;
+  String? get documentId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   String get lastDate => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $GradeCopyWith<$Res> {
   @useResult
   $Res call(
       {String uuid,
+      String? documentId,
       String name,
       String author,
       String lastDate,
@@ -64,6 +66,7 @@ class _$GradeCopyWithImpl<$Res, $Val extends Grade>
   @override
   $Res call({
     Object? uuid = null,
+    Object? documentId = freezed,
     Object? name = null,
     Object? author = null,
     Object? lastDate = null,
@@ -77,6 +80,10 @@ class _$GradeCopyWithImpl<$Res, $Val extends Grade>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
+      documentId: freezed == documentId
+          ? _value.documentId
+          : documentId // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -118,6 +125,7 @@ abstract class _$$GradeImplCopyWith<$Res> implements $GradeCopyWith<$Res> {
   @useResult
   $Res call(
       {String uuid,
+      String? documentId,
       String name,
       String author,
       String lastDate,
@@ -139,6 +147,7 @@ class __$$GradeImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? uuid = null,
+    Object? documentId = freezed,
     Object? name = null,
     Object? author = null,
     Object? lastDate = null,
@@ -152,6 +161,10 @@ class __$$GradeImplCopyWithImpl<$Res>
           ? _value.uuid
           : uuid // ignore: cast_nullable_to_non_nullable
               as String,
+      documentId: freezed == documentId
+          ? _value.documentId
+          : documentId // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -189,6 +202,7 @@ class __$$GradeImplCopyWithImpl<$Res>
 class _$GradeImpl implements _Grade {
   const _$GradeImpl(
       {required this.uuid,
+      required this.documentId,
       required this.name,
       required this.author,
       required this.lastDate,
@@ -203,6 +217,8 @@ class _$GradeImpl implements _Grade {
 
   @override
   final String uuid;
+  @override
+  final String? documentId;
   @override
   final String name;
   @override
@@ -225,7 +241,7 @@ class _$GradeImpl implements _Grade {
 
   @override
   String toString() {
-    return 'Grade(uuid: $uuid, name: $name, author: $author, lastDate: $lastDate, questionNumber: $questionNumber, correctNumber: $correctNumber, comment: $comment, gradeDetailList: $gradeDetailList)';
+    return 'Grade(uuid: $uuid, documentId: $documentId, name: $name, author: $author, lastDate: $lastDate, questionNumber: $questionNumber, correctNumber: $correctNumber, comment: $comment, gradeDetailList: $gradeDetailList)';
   }
 
   @override
@@ -234,6 +250,8 @@ class _$GradeImpl implements _Grade {
         (other.runtimeType == runtimeType &&
             other is _$GradeImpl &&
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.documentId, documentId) ||
+                other.documentId == documentId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.lastDate, lastDate) ||
@@ -252,6 +270,7 @@ class _$GradeImpl implements _Grade {
   int get hashCode => Object.hash(
       runtimeType,
       uuid,
+      documentId,
       name,
       author,
       lastDate,
@@ -277,6 +296,7 @@ class _$GradeImpl implements _Grade {
 abstract class _Grade implements Grade {
   const factory _Grade(
       {required final String uuid,
+      required final String? documentId,
       required final String name,
       required final String author,
       required final String lastDate,
@@ -289,6 +309,8 @@ abstract class _Grade implements Grade {
 
   @override
   String get uuid;
+  @override
+  String? get documentId;
   @override
   String get name;
   @override

@@ -62,7 +62,7 @@ class QuestionResultListWidget extends HookConsumerWidget {
               height: 15.h,
             ),
 
-            Text('あなたの回答:', style: colorBoldTextStyle(colors)),
+            Text('あなたの解答:', style: colorBoldTextStyle(colors)),
 
             Text(
               data.gradeDetailList[i].yourAnswer,

@@ -18,6 +18,8 @@ abstract class CloudFireStoreUseCase {
   Future<bool> deleteQuestion(String documentId);
 
   Future<void> incrementLikes(String documentId);
+
+  Future<String?> getDocumentIdByUuid(String uuid);
 }
 
 class CloudFireStoreUseCaseImp implements CloudFireStoreUseCase {
@@ -46,5 +48,10 @@ class CloudFireStoreUseCaseImp implements CloudFireStoreUseCase {
   @override
   Future<String> saveQuestion(Map<String, dynamic> questionData) async {
     return await _repository.saveQuestion(questionData);
+  }
+
+  @override
+  Future<String?> getDocumentIdByUuid(String uuid) async {
+    return await _repository.getDocumentIdByUuid(uuid);
   }
 }

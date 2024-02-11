@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,116 +15,121 @@ import '../../widgets/basic_button_widget.dart';
 import 'input_password_widget/new_question_widget.dart';
 
 class InputPasswordPage extends HookConsumerWidget {
-  const InputPasswordPage({super.key});
+  const InputPasswordPage({
+    super.key,
+    required this.documentId
+  });
+
+  final ValueNotifier<String> documentId;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final questionData = useState<Question?>(null);
     final isQuestionExist = useState(false);
-    final cloudFireStoreNotifier = ref.watch(cloudFireStoreNotifierProvider.notifier);
+    final cloudFireStoreNotifier =
+        ref.watch(cloudFireStoreNotifierProvider.notifier);
     final questionSqfliteDao = QuestionSqfliteDao();
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(
-                Icons.arrow_back,
-                size: 28,
-              )
-          ),
-          title: const Center(child: Text('問題を探す')),
-          actions: const [
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(Icons.lightbulb_outline,size: 28,),
-            )
-          ],
-        ),
-        body: Container(
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 20.h,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: BaseTextFieldWidget(
-                  title: 'パスワードを入力する',
-                  maxLength: 20,
-                  controller: TextEditingController(),
-                  onChanged: (text) {
-
-                  },
-                  onSubmitted: (text) async {
-                    ///todo:ここですでに追加されている問題の場合のチェックをする
-                   questionData.value = await cloudFireStoreNotifier.getQuestion(text);
-
-                   ///トークンが存在しない場合のスナックバーを出す。
-                   if (questionData.value == null) {
-                     if (context.mounted) {
-                       displayErrorSnackBar(ref,context,'入力したパスワードが正しくありません');
-                     }
-
-                   }
-
-                   if (CheckNewQuestionExistUseCase().checkExist(ref, questionData.value!)) {
-                     isQuestionExist.value = true;
-                     if (context.mounted) {
-                       displayErrorSnackBar(ref,context,'すでにライブラリに登録されています');
-                     }
-                   }
-
-
-
-
-                  },
-                ),
-              ),
-
-              SizedBox(height: 30.h,),
-
-              if (questionData.value != null && isQuestionExist.value == false) ...{
-                 NewQuestionWidget(questionData: questionData.value!,)
-              } else ...{
-                Text('パスワードを入力して問題をライブラリに追加しましょう',
-                  style: normalTextStyle,
-                ),
-              },
-
-              SizedBox(height: 50.h,),
-
-              (questionData.value != null && isQuestionExist.value == false) ?
-
-              BasicButtonWidget(
-                title: 'ライブラリに追加する',
-                width: MediaQuery.of(context).size.width -50.w,
-                height: 60.h,
-                action: () async {
-
-
-                await questionSqfliteDao.addQuestionToDatabase(questionData.value!);
-
-                ref.refresh(libraryRepositoryProvider).isRefreshing;
-
-
-                if (context.mounted) {
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            leading: GestureDetector(
+                onTap: () {
                   Navigator.pop(context);
-                }
-
-                },)
-
-                  :
-                  const SizedBox()
+                },
+                child: const Icon(
+                  Icons.arrow_back,
+                  size: 28,
+                )),
+            title: const Center(child: Text('問題を探す')),
+            actions: const [
+              Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Icon(
+                  Icons.lightbulb_outline,
+                  size: 28,
+                ),
+              )
             ],
           ),
-        )
-      ),
+          body: Container(
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 20.h,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: BaseTextFieldWidget(
+                    title: 'パスワードを入力する',
+                    maxLength: 20,
+                    controller: TextEditingController(),
+                    onChanged: (text) {},
+                    onSubmitted: (text) async {
+
+                      documentId.value = text;
+
+                      questionData.value =
+                          await cloudFireStoreNotifier.getQuestion(text);
+
+                      ///トークンが存在しない場合のスナックバーを出す。
+                      if (questionData.value == null) {
+                        if (context.mounted) {
+                          displayErrorSnackBar(
+                              ref, context, '入力したパスワードが正しくありません');
+                        }
+                      }
+
+                      if (CheckNewQuestionExistUseCase()
+                          .checkExist(ref, questionData.value!)) {
+                        isQuestionExist.value = true;
+                        if (context.mounted) {
+                          displayErrorSnackBar(
+                              ref, context, 'すでにライブラリに登録されています');
+                        }
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                if (questionData.value != null &&
+                    isQuestionExist.value == false) ...{
+                  NewQuestionWidget(
+                    questionData: questionData.value!,
+                  )
+                } else ...{
+                  Text(
+                    'パスワードを入力して問題をライブラリに追加しましょう',
+                    style: normalTextStyle,
+                  ),
+                },
+                SizedBox(
+                  height: 50.h,
+                ),
+                (questionData.value != null && isQuestionExist.value == false)
+                    ? BasicButtonWidget(
+                        title: 'ライブラリに追加する',
+                        width: MediaQuery.of(context).size.width - 50.w,
+                        height: 60.h,
+                        action: () async {
+                          await questionSqfliteDao
+                              .addQuestionToDatabase(questionData.value!);
+
+                          ref.refresh(libraryRepositoryProvider).isRefreshing;
+
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
+                        },
+                      )
+                    : const SizedBox()
+              ],
+            ),
+          )),
     );
   }
 }
-
-

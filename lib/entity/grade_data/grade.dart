@@ -8,6 +8,7 @@ part 'grade.g.dart';
 class Grade with _$Grade {
   const factory Grade({
     required String uuid,
+    required String? documentId,
     required String name,
     required String author,
     required String lastDate,

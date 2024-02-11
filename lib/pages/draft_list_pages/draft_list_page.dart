@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../answer_pages/answer_widgets/question_list_page.dart';
-import '../make_question_pages/make_question_widgets/initial_make_question_page.dart';
 
 final dummyList = StateProvider((ref) => ["問題集１","問題集２","問題集３"]);
 

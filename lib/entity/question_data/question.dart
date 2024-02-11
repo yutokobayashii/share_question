@@ -6,11 +6,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'question.freezed.dart';
 part 'question.g.dart';
-
 @freezed
 class Question with _$Question {
   const factory Question({
     required String uuid,
+    required int? favorite,
     required String name,
     required String author,
     required String explain,

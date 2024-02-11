@@ -10,11 +10,11 @@ final gradeDataUseCaseProvider = Provider<GradeDataUseCaseImp>((ref) {
 });
 
 abstract class GradeDataUseCase {
-  Future<void> addGradeToSqFlite(WidgetRef ref, Question data);
+  Future<void> addGradeToSqFlite(WidgetRef ref, Question data,String documentId);
 
   Future<List<Grade>> getGradeFromSqLite();
 
-  Grade getGrade(WidgetRef ref, Question data);
+  Grade getGrade(WidgetRef ref, Question data,String documentId);
 
   Future<int> updateGradeFromSqLite(Grade grade);
 
@@ -26,10 +26,10 @@ class GradeDataUseCaseImp implements GradeDataUseCase {
 
   ///sqdliteにデータを格納
   @override
-  Future<void> addGradeToSqFlite(WidgetRef ref, Question data) async {
+  Future<void> addGradeToSqFlite(WidgetRef ref, Question data,String documentId) async {
     final gradeDataRepository = ref.watch(gradeDataRepositoryProvider);
 
-    final grade = gradeDataRepository.getGradeData(ref, data);
+    final grade = gradeDataRepository.getGradeData(ref, data,documentId);
 
     await _gradeSqfliteDao.addGradeToDatabase(grade);
   }
@@ -44,10 +44,10 @@ class GradeDataUseCaseImp implements GradeDataUseCase {
 
   ///単体のGradeデータを取得
   @override
-  Grade getGrade(WidgetRef ref, Question data) {
+  Grade getGrade(WidgetRef ref, Question data,String documentId) {
     final gradeDataRepository = ref.watch(gradeDataRepositoryProvider);
 
-    final grade = gradeDataRepository.getGradeData(ref, data);
+    final grade = gradeDataRepository.getGradeData(ref, data,documentId);
 
     return grade;
   }

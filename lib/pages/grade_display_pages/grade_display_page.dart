@@ -1,9 +1,9 @@
-
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
 import 'package:share_question/notifier/grade/grade_notifier.dart';
 import 'package:share_question/pages/grade_display_pages/question_result_list_widget.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
@@ -12,37 +12,60 @@ import '../../constant/style.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/grade_data/grade.dart';
 
-
 class GradeDisplayPage extends HookConsumerWidget {
   const GradeDisplayPage({
     super.key,
     required this.isFromGradePage,
-    required this.gradeData
+    required this.gradeData,
   });
 
   final bool isFromGradePage;
   final Grade gradeData;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final int score = gradeData.correctNumber;
     final int total = gradeData.questionNumber;
     double percentage = score / total;
+    final documentId = useState("");
+
+    useEffect(() {
+      // 非同期処理を実行する関数
+      Future<void> fetchData() async {
+        try {
+          // ここに非同期処理を書く。例えば外部APIからデータを取得する等
+          String? result = await ref
+              .read(cloudFireStoreNotifierProvider.notifier)
+              .getDocumentIdByUuid(gradeData.uuid);
+          // 非同期処理の結果をuseStateを使って保持する状態にセット
+          documentId.value = result ?? "";
+        } catch (e) {
+          // エラーハンドリング
+          debugPrint(e.toString());
+        }
+      }
+
+      fetchData();
+
+      return null;
+    }, []);
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title:  Text(gradeData.name),
-          centerTitle:true,
-          leading: (isFromGradePage) ?
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(Icons.arrow_back, size: 28,))
+          title: Text(gradeData.name),
+          centerTitle: true,
+          leading: (isFromGradePage)
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 28,
+                  ))
               : Opacity(opacity: 0, child: Container()),
-
-
         ),
         body: Container(
           color: Colors.white,
@@ -52,8 +75,9 @@ class GradeDisplayPage extends HookConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 30,),
-
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Align(
                     alignment: Alignment.center,
                     child: Stack(
@@ -67,7 +91,8 @@ class GradeDisplayPage extends HookConsumerWidget {
                               startDegreeOffset: -90,
                               sections: [
                                 PieChartSectionData(
-                                  color: ColorSharedPreferenceService().getColor(),
+                                  color:
+                                      ColorSharedPreferenceService().getColor(),
                                   value: percentage * 100,
                                   title: '',
                                   radius: 20,
@@ -83,7 +108,8 @@ class GradeDisplayPage extends HookConsumerWidget {
                           ),
                         ),
                         Text(
-                          '${(percentage * 100).toStringAsFixed(1)}%', // テキストでパーセンテージを表示
+                          '${(percentage * 100).toStringAsFixed(1)}%',
+                          // テキストでパーセンテージを表示
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -93,56 +119,97 @@ class GradeDisplayPage extends HookConsumerWidget {
                       ],
                     ),
                   ),
-
-                   SizedBox(height: 30.h,),
-
-                   Align(
-                     alignment: Alignment.centerLeft,
-                     child: Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('作成者からのコメント',
-                          style: boldTextStyle,),
-                        SizedBox(height: 10.h,),
-                        Text(gradeData.comment,
+                        Text(
+                          '作成者からのコメント',
+                          style: boldTextStyle,
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Text(
+                          gradeData.comment,
                           style: normalTextStyle,
                         )
                       ],
-                                       ),
-                   ),
-
-                  SizedBox(height: 25.h,),
-
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25.h,
+                  ),
+                  (documentId.value == "")
+                      ? const SizedBox()
+                      : Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '「いいね」を送る',
+                                style: boldTextStyle,
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  await ref
+                                      .watch(cloudFireStoreNotifierProvider
+                                          .notifier)
+                                      .incrementLikes(documentId.value);
+                                  //documentIdは
+                                },
+                                child: Icon(
+                                  Icons.star,
+                                  size: 35,
+                                  color:
+                                      ColorSharedPreferenceService().getColor(),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                  SizedBox(
+                    height: 25.h,
+                  ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       '解答結果',
-                      style: boldTextStyle,),
+                      style: boldTextStyle,
+                    ),
                   ),
-
-                  SizedBox(height: 15.h,),
-
-                   QuestionResultListWidget(data: gradeData,),
-
-                  SizedBox(height: 100.h,),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  QuestionResultListWidget(
+                    data: gradeData,
+                  ),
+                  SizedBox(
+                    height: 100.h,
+                  ),
                 ],
               ),
             ),
           ),
         ),
-        floatingActionButton: (isFromGradePage) ?
-            const SizedBox()
+        floatingActionButton: (isFromGradePage)
+            ? const SizedBox()
             : BasicFloatingButtonWidget(
-          text: '戻る',
-          action: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
-            ref.invalidate(gradeListNotifierProvider);
-          },
-
-        ),
+                text: '戻る',
+                action: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  ref.invalidate(gradeListNotifierProvider);
+                },
+              ),
       ),
     );
   }
 }
-
-
