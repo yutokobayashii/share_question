@@ -22,6 +22,7 @@ Grade _$GradeFromJson(Map<String, dynamic> json) {
 mixin _$Grade {
   String get uuid => throw _privateConstructorUsedError;
   String? get documentId => throw _privateConstructorUsedError;
+  bool get isLiked => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   String get lastDate => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $GradeCopyWith<$Res> {
   $Res call(
       {String uuid,
       String? documentId,
+      bool isLiked,
       String name,
       String author,
       String lastDate,
@@ -67,6 +69,7 @@ class _$GradeCopyWithImpl<$Res, $Val extends Grade>
   $Res call({
     Object? uuid = null,
     Object? documentId = freezed,
+    Object? isLiked = null,
     Object? name = null,
     Object? author = null,
     Object? lastDate = null,
@@ -84,6 +87,10 @@ class _$GradeCopyWithImpl<$Res, $Val extends Grade>
           ? _value.documentId
           : documentId // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -126,6 +133,7 @@ abstract class _$$GradeImplCopyWith<$Res> implements $GradeCopyWith<$Res> {
   $Res call(
       {String uuid,
       String? documentId,
+      bool isLiked,
       String name,
       String author,
       String lastDate,
@@ -148,6 +156,7 @@ class __$$GradeImplCopyWithImpl<$Res>
   $Res call({
     Object? uuid = null,
     Object? documentId = freezed,
+    Object? isLiked = null,
     Object? name = null,
     Object? author = null,
     Object? lastDate = null,
@@ -165,6 +174,10 @@ class __$$GradeImplCopyWithImpl<$Res>
           ? _value.documentId
           : documentId // ignore: cast_nullable_to_non_nullable
               as String?,
+      isLiked: null == isLiked
+          ? _value.isLiked
+          : isLiked // ignore: cast_nullable_to_non_nullable
+              as bool,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -203,6 +216,7 @@ class _$GradeImpl implements _Grade {
   const _$GradeImpl(
       {required this.uuid,
       required this.documentId,
+      required this.isLiked,
       required this.name,
       required this.author,
       required this.lastDate,
@@ -219,6 +233,8 @@ class _$GradeImpl implements _Grade {
   final String uuid;
   @override
   final String? documentId;
+  @override
+  final bool isLiked;
   @override
   final String name;
   @override
@@ -241,7 +257,7 @@ class _$GradeImpl implements _Grade {
 
   @override
   String toString() {
-    return 'Grade(uuid: $uuid, documentId: $documentId, name: $name, author: $author, lastDate: $lastDate, questionNumber: $questionNumber, correctNumber: $correctNumber, comment: $comment, gradeDetailList: $gradeDetailList)';
+    return 'Grade(uuid: $uuid, documentId: $documentId, isLiked: $isLiked, name: $name, author: $author, lastDate: $lastDate, questionNumber: $questionNumber, correctNumber: $correctNumber, comment: $comment, gradeDetailList: $gradeDetailList)';
   }
 
   @override
@@ -252,6 +268,7 @@ class _$GradeImpl implements _Grade {
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.documentId, documentId) ||
                 other.documentId == documentId) &&
+            (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.lastDate, lastDate) ||
@@ -271,6 +288,7 @@ class _$GradeImpl implements _Grade {
       runtimeType,
       uuid,
       documentId,
+      isLiked,
       name,
       author,
       lastDate,
@@ -297,6 +315,7 @@ abstract class _Grade implements Grade {
   const factory _Grade(
       {required final String uuid,
       required final String? documentId,
+      required final bool isLiked,
       required final String name,
       required final String author,
       required final String lastDate,
@@ -311,6 +330,8 @@ abstract class _Grade implements Grade {
   String get uuid;
   @override
   String? get documentId;
+  @override
+  bool get isLiked;
   @override
   String get name;
   @override

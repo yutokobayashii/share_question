@@ -9,6 +9,7 @@ class Grade with _$Grade {
   const factory Grade({
     required String uuid,
     required String? documentId,
+    required bool isLiked,
     required String name,
     required String author,
     required String lastDate,

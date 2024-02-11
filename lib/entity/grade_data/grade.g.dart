@@ -9,6 +9,7 @@ part of 'grade.dart';
 _$GradeImpl _$$GradeImplFromJson(Map<String, dynamic> json) => _$GradeImpl(
       uuid: json['uuid'] as String,
       documentId: json['documentId'] as String?,
+      isLiked: json['isLiked'] as bool,
       name: json['name'] as String,
       author: json['author'] as String,
       lastDate: json['lastDate'] as String,
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$GradeImplToJson(_$GradeImpl instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
       'documentId': instance.documentId,
+      'isLiked': instance.isLiked,
       'name': instance.name,
       'author': instance.author,
       'lastDate': instance.lastDate,

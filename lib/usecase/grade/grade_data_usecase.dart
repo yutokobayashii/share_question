@@ -1,68 +1,68 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/repository/grade/grade_data_repository.dart';
 
-import '../../data/local/grade_sqflite_dao.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../../entity/grade_data/grade.dart';
 import '../../entity/question_data/question.dart';
+import '../../repository/grade/grade_data_repository.dart';
 
 final gradeDataUseCaseProvider = Provider<GradeDataUseCaseImp>((ref) {
- return GradeDataUseCaseImp();
+  return GradeDataUseCaseImp(repository: ref.read(gradeDataRepositoryProvider));
 });
 
 abstract class GradeDataUseCase {
-  Future<void> addGradeToSqFlite(WidgetRef ref, Question data,String documentId);
+  Future<void> addGradeToSqFlite(
+      WidgetRef ref, Question data, String documentId);
 
   Future<List<Grade>> getGradeFromSqLite();
 
-  Grade getGrade(WidgetRef ref, Question data,String documentId);
+  Grade getGrade(WidgetRef ref, Question data, String documentId);
 
   Future<int> updateGradeFromSqLite(Grade grade);
 
   Future<bool> isGradeExistsInDatabase(String uuid);
+
+  Future<int> updateGradeToDatabaseForIsLiked(Grade grade);
 }
 
 class GradeDataUseCaseImp implements GradeDataUseCase {
-  final _gradeSqfliteDao = GradeSqfliteDao();
 
-  ///sqdliteにデータを格納
+  GradeDataUseCaseImp({
+    required GradeDataRepository repository,
+  }) : _repository = repository;
+
+  final GradeDataRepository _repository;
+
+
   @override
-  Future<void> addGradeToSqFlite(WidgetRef ref, Question data,String documentId) async {
-    final gradeDataRepository = ref.watch(gradeDataRepositoryProvider);
-
-    final grade = gradeDataRepository.getGradeData(ref, data,documentId);
-
-    await _gradeSqfliteDao.addGradeToDatabase(grade);
+  Future<void> addGradeToSqFlite(WidgetRef ref, Question data, String documentId) async {
+   await _repository.addGradeToSqFlite(ref, data, documentId);
   }
 
-  ///sqfliteに格納された全Gradeデータを取得
+  @override
+  Grade getGrade(WidgetRef ref, Question data, String documentId) {
+    return _repository.getGrade(ref, data, documentId);
+  }
+
   @override
   Future<List<Grade>> getGradeFromSqLite() async {
-    final grade = await _gradeSqfliteDao.getAllGradesFromDatabase();
-
-    return grade;
+   return await _repository.getGradeFromSqLite();
   }
 
-  ///単体のGradeデータを取得
-  @override
-  Grade getGrade(WidgetRef ref, Question data,String documentId) {
-    final gradeDataRepository = ref.watch(gradeDataRepositoryProvider);
-
-    final grade = gradeDataRepository.getGradeData(ref, data,documentId);
-
-    return grade;
-  }
-
-  ///すでにデータベースにある値を更新
-  @override
-  Future<int> updateGradeFromSqLite(Grade grade) async {
-    final id = await _gradeSqfliteDao.updateGradeToDatabase(grade);
-    return id;
-  }
-
-  ///値がデータベース上にあるか判定
   @override
   Future<bool> isGradeExistsInDatabase(String uuid) async {
-    final status = await _gradeSqfliteDao.isGradeExistsInDatabase(uuid);
-    return status;
+    return await _repository.isGradeExistsInDatabase(uuid);
   }
+
+  @override
+  Future<int> updateGradeFromSqLite(Grade grade) async {
+    return await _repository.updateGradeFromSqLite(grade);
+  }
+
+  @override
+  Future<int> updateGradeToDatabaseForIsLiked(Grade grade) async {
+    return await _repository.updateGradeToDatabaseForIsLiked(grade);
+  }
+ 
+  
 }
+

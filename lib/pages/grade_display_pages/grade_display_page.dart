@@ -146,6 +146,7 @@ class GradeDisplayPage extends HookConsumerWidget {
                   ),
                   (documentId.value == "")
                       ? const SizedBox()
+                  ///一回しか謳歌できない状態にする。
                       : Align(
                           alignment: Alignment.centerLeft,
                           child: Column(

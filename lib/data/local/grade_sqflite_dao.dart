@@ -33,6 +33,31 @@ class GradeSqfliteDao {
     );
   }
 
+  //データベースの更新
+  Future<int> updateGradeToDatabaseForIsLiked(Grade grade) async {
+    final db = await GradeSqFliteDB.database;
+    final modifiedGrade = Grade(
+        uuid: grade.uuid,
+        documentId: grade.documentId,
+        isLiked: true,
+        name: grade.name,
+        author: grade.author,
+        lastDate: grade.lastDate,
+        questionNumber: grade.questionNumber,
+        correctNumber: grade.correctNumber,
+        comment: grade.comment,
+        gradeDetailList: grade.gradeDetailList);
+
+    final gradeJson = _serializeGrade(modifiedGrade); // GradeをJSON形式に変換
+    // 'Grades'テーブルの対応する行を更新
+    return await db.update(
+      'Grades',
+      {'data': gradeJson},
+      where: 'uuid = ?', // WHERE句を使用して更新する行を特定
+      whereArgs: [grade.uuid], // where句のプレースホルダにバインドする値
+    );
+  }
+
 
   // データベースからの読み取り（単一のQuestion）
   Future<Grade> getGradeFromDatabase(int id) async {

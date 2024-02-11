@@ -10,7 +10,6 @@ import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/grade/grade_data_notifier.dart';
 import '../../notifier/grade/grade_notifier.dart';
-import '../../usecase/grade/grade_data_usecase.dart';
 import '../grade_display_pages/grade_display_page.dart';
 import 'optional_answer_widget.dart';
 
@@ -26,7 +25,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
     final maxNumber = data.questionDetailList.length;
     final currentIndex = useState(0);
     final yourAnswer = useState("");
-    final gradeDataUseCase = ref.watch(gradeDataUseCaseProvider);
+    final gradeDataNotifier = ref.watch(gradeListNotifierProvider.notifier);
     final textController = useTextEditingController();
 
     final questionData = data.questionDetailList[currentIndex.value];
@@ -192,18 +191,17 @@ class AnswerQuestionPage extends HookConsumerWidget {
               //indexを追加する前なので-1で調整
               ///最終問題だった場合
 
-              final grade =
-                  gradeDataUseCase.getGrade(ref, data, documentId); //Gradeに変換
+              final grade = gradeDataNotifier.getGrade(ref, data, documentId); //Gradeに変換
 
               //todo:ここでuuidですでに登録されているかチェック
 
               final isExist =
-                  await gradeDataUseCase.isGradeExistsInDatabase(grade.uuid);
+                  await gradeDataNotifier.isGradeExistsInDatabase(grade.uuid);
 
               if (isExist) {
-                await gradeDataUseCase.updateGradeFromSqLite(grade);
+                await gradeDataNotifier.updateGradeFromSqLite(grade);
               } else {
-                await gradeDataUseCase.addGradeToSqFlite(
+                await gradeDataNotifier.addGradeToSqFlite(
                     ref, data, documentId); //sqfliteに保存
               }
 

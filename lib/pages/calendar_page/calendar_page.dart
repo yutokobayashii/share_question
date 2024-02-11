@@ -25,7 +25,7 @@ class CalendarPage extends HookConsumerWidget {
     useEffect(() {
       // 非同期処理を実行し、結果を状態にセットする
       Future<void> loadData() async {
-        final result = await ref.read(gradeListNotifierProvider);
+        final result = await ref.read(gradeListNotifierProvider.notifier).getGradeFromSqLite();
         data.value = result;
       }
 
