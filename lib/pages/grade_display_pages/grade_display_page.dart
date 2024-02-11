@@ -28,6 +28,7 @@ class GradeDisplayPage extends HookConsumerWidget {
     final int total = gradeData.questionNumber;
     double percentage = score / total;
     final documentId = useState("");
+    final isLiked = useState<bool>(false);
 
     useEffect(() {
       // 非同期処理を実行する関数
@@ -144,9 +145,10 @@ class GradeDisplayPage extends HookConsumerWidget {
                   SizedBox(
                     height: 25.h,
                   ),
-                  (documentId.value == "")
+                  (gradeData.isLiked)
                       ? const SizedBox()
-                  ///一回しか謳歌できない状態にする。
+
+                      ///一回しか謳歌できない状態にする。
                       : Align(
                           alignment: Alignment.centerLeft,
                           child: Column(
@@ -160,15 +162,30 @@ class GradeDisplayPage extends HookConsumerWidget {
                                 height: 10.h,
                               ),
                               GestureDetector(
-                                onTap: () async {
+                                onTap:(isLiked.value) ?
+                                () {
+
+                                }
+
+                                    : () async {
+
+                                  isLiked.value = true;
+
                                   await ref
                                       .watch(cloudFireStoreNotifierProvider
                                           .notifier)
                                       .incrementLikes(documentId.value);
+
+                                  await ref
+                                      .watch(gradeListNotifierProvider.notifier)
+                                      .updateGradeToDatabaseForIsLiked(gradeData);
                                   //documentIdは
                                 },
                                 child: Icon(
-                                  Icons.star,
+                                  (isLiked.value) ?
+                                  Icons.star
+                                      :
+                                  Icons.star_outline,
                                   size: 35,
                                   color:
                                       ColorSharedPreferenceService().getColor(),

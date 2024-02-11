@@ -62,12 +62,12 @@ class CalendarPage extends HookConsumerWidget {
                 CalendarFormat.month: 'Month', // 月表示
               },
               calendarStyle: CalendarStyle(
-                todayDecoration: const BoxDecoration(
-                  color: baseColor,
+                todayDecoration: BoxDecoration(
+                  color: ColorSharedPreferenceService().getColor(),
                   shape: BoxShape.circle,
                 ),
                 selectedDecoration: BoxDecoration(
-                  color: ColorSharedPreferenceService().getColor(), // 背景色を青に設定
+                  color: ColorSharedPreferenceService().getColor(),
                   shape: BoxShape.circle, // 丸形に設定
                 ),
               ),
@@ -98,8 +98,6 @@ class CalendarPage extends HookConsumerWidget {
                       style: TextStyle(color: Colors.black38),
                     ),
                   )
-                //todo:正答率を追加するー＞そのためにGradeをこの画面で使えるようにする。
-                //todo:タップした際に成績画面詳細に遷移する
                 : Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -108,7 +106,7 @@ class CalendarPage extends HookConsumerWidget {
                         itemBuilder: (context, index) {
                           final event = selectedEvents.value[index];
                           return Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            padding: const EdgeInsets.only(left: 20, right: 20,top: 15),
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
