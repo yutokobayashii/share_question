@@ -1,50 +1,45 @@
-
-
-
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/entity/initial_question/initial_question.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../provider/initial_question_provider.dart';
+import '../../entity/question_data/question.dart';
 import '../../provider/make_question_provider.dart';
 
 abstract class QuestionDataRepository {
-  Map<String, dynamic> createQuestionData(WidgetRef ref);
+  Map<String, dynamic> createQuestionData(WidgetRef ref,InitialQuestion initial,List<QuestionDetail> questionDetail);
 }
 
 class QuestionDataRepositoryImp implements QuestionDataRepository {
   @override
-  Map<String, dynamic> createQuestionData(WidgetRef ref) {
-
+  Map<String, dynamic> createQuestionData(WidgetRef ref,InitialQuestion initial,List<QuestionDetail> questionDetail) {
     final now = DateTime.now();
 
-    final questionDetailList  =  ref.watch(MakeQuestionProvider.questionDetailListProvider);
     return {
-      'uuid':const Uuid().v4(),
-      'name': ref.watch(InitialMakeQuestionProvider.questionNameProvider),
-      'author': ref.watch(InitialMakeQuestionProvider.authorProvider),
-      'explain': ref.watch(InitialMakeQuestionProvider.explainProvider),
-      'comment': ref.watch(InitialMakeQuestionProvider.commentProvider),
-      'createdAt':"${now.year}/${now.month}/${now.day}",
-      'favorite':0,
+      'uuid': const Uuid().v4(),
+      'name': initial.name,
+      'author': initial.author,
+      'explain': initial.explain,
+      'comment': initial.comment,
+      'createdAt': "${now.year}/${now.month}/${now.day}",
+      'favorite': 0,
       'questionDetailList': [
-
-        for(int i = 0; i< questionDetailList.length; i++) ...{
+        for(int i = 0; i< questionDetail.length; i++) ...{
           {
-            'isOptional': questionDetailList[i].isOptional,
-            'questionName': questionDetailList[i].questionName,
-            'image': questionDetailList[i].image,
-            'correctAnswer': questionDetailList[i].correctAnswer,
-            'explanation': questionDetailList[i].explanation,
+            'isOptional': questionDetail[i].isOptional,
+            'questionName': questionDetail[i].questionName,
+            'image': questionDetail[i].image,
+            'correctAnswer': questionDetail[i].correctAnswer,
+            'explanation': questionDetail[i].explanation,
             'optionalList': [
-              for(int i2 = 0; i2< questionDetailList[i].optionalList.length; i2++) ...{
-                {'optional': questionDetailList[i].optionalList[i2].optional},
+              for(int i2 = 0; i2< ref.watch(MakeQuestionProvider.optionalListProvider).length; i2++) ...{
+                {'optional': ref.watch(MakeQuestionProvider.optionalListProvider)[i2]},
               }
             ],
           },
         }
-      ],
+
+      ]
+
     };
   }
 }
-

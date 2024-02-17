@@ -29,6 +29,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
     final textController = useTextEditingController();
 
     final questionData = data.questionDetailList[currentIndex.value];
+    print(data);
 
     return MaterialApp(
       home: Scaffold(

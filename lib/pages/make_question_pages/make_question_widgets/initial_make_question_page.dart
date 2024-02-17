@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/controller/initial_question_controller/initial_question_controller.dart';
-import 'package:share_question/provider/initial_question_provider.dart';
+import 'package:share_question/notifier/initial_question_notifier/initial_question_notifier.dart';
 
 import '../../../controller/remove_data_controller/remove_data_controller.dart';
 import '../../../widgets/base_textfield_widget.dart';
@@ -17,6 +18,10 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = InitialQuestionController(ref);
     final removeQuestionDataController = RemoveDataController();
+    final name = useState("");
+    final author = useState("");
+    final explain = useState("");
+    final comment = useState("");
     return ScreenUtilInit(
         designSize: const Size(393, 852),
         builder: (_, child) {
@@ -40,8 +45,8 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                               Navigator.pop(context1);
                               Navigator.pop(context);
                               controller.clearControllers();
-                              removeQuestionDataController
-                                  .removeInitialQuestionData(ref);
+                              // removeQuestionDataController
+                              //     .removeInitialQuestionData(ref);
                             },
                           ),
                         );
@@ -100,10 +105,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                             controller: InitialQuestionController
                                 .questionNameController,
                             onChanged: (text) {
-                              ref
-                                  .watch(InitialMakeQuestionProvider
-                                      .questionNameProvider.notifier)
-                                  .update((state) => text);
+                            name.value = text;
                             },
                             onSubmitted: (text) {},
                           ),
@@ -117,10 +119,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                             controller:
                                 InitialQuestionController.authorController,
                             onChanged: (text) {
-                              ref
-                                  .watch(InitialMakeQuestionProvider
-                                      .authorProvider.notifier)
-                                  .update((state) => text);
+                             author.value = text;
                             },
                             onSubmitted: (text) {},
                           ),
@@ -134,10 +133,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                             controller:
                                 InitialQuestionController.explainController,
                             onChanged: (text) {
-                              ref
-                                  .watch(InitialMakeQuestionProvider
-                                      .explainProvider.notifier)
-                                  .update((state) => text);
+                            explain.value = text;
                             },
                             onSubmitted: (text) {},
                           ),
@@ -151,10 +147,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                             controller:
                                 InitialQuestionController.commentController,
                             onChanged: (text) {
-                              ref
-                                  .watch(InitialMakeQuestionProvider
-                                      .commentProvider.notifier)
-                                  .update((state) => text);
+                              comment.value = text;
                             },
                             onSubmitted: (text) {},
                           ),
@@ -178,10 +171,12 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                     } else {
                       controller.clearControllers();
 
+                     final initial = ref.read(initialQuestionNotifierProvider.notifier).get(name.value, author.value, explain.value, comment.value);
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MakeQuestionPage()),
+                            builder: (context) => MakeQuestionPage(initial: initial,)),
                       );
                     }
                   },

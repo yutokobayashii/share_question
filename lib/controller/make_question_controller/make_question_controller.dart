@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
-import '../../entity/question_data/question.dart';
 
 
-Future<void> pickImage(ImageSource source,WidgetRef ref) async {
+Future<void> pickImage(ImageSource source,ValueNotifier<XFile?> image) async {
   final ImagePicker picker = ImagePicker();
   final XFile? selected = await picker.pickImage(source: source);
 
-  ref.watch(MakeQuestionProvider.imageFileProvider.notifier).update((state) => selected);
+  image.value = selected;
+
 }
 
 
@@ -34,38 +33,9 @@ class MakeQuestionController {
     commentController.clear();
   }
 
-  void inputData(WidgetRef ref,QuestionDetail? temList,ValueNotifier<bool> isOptionAnswerTypeState) {
-    temList = QuestionDetail(
-        isOptional: isOptionAnswerTypeState.value,
-        questionName: ref.watch(MakeQuestionProvider.questionProvider),
-        image: ref.watch(MakeQuestionProvider.imageProvider),
-        correctAnswer: ref.watch(MakeQuestionProvider.correctProvider),
-        explanation: ref.watch(MakeQuestionProvider.commentProvider),
-        optionalList: (isOptionAnswerTypeState.value) ?
-        [
-          for(int i = 0; i < ref.watch(
-              MakeQuestionProvider.optionalNumber); i++) ...{
-            OptionalQuestion(optional: ref.watch(MakeQuestionProvider.optionalProvider(i + 1)))
-          }
-        ]
-            : [],
-    );
-
-    ref.watch(MakeQuestionProvider
-        .questionDetailListProvider).add(
-        temList);
-
-    ref.watch(MakeQuestionProvider
-        .questionDetailListProvider.notifier)
-        .update((state) => ref.watch(
-        MakeQuestionProvider
-            .questionDetailListProvider));
-
-  }
 
 
-
-  void getSnackBar(BuildContext context,WidgetRef ref,ValueNotifier<bool> isOptionAnswerTypeState) {
+  void getSnackBar(BuildContext context,WidgetRef ref,ValueNotifier<bool> isOptionAnswerTypeState,ValueNotifier<String> name,ValueNotifier<String> correctAnswer,ValueNotifier<String> explanation) {
     if (questionController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -81,7 +51,7 @@ class MakeQuestionController {
         ),
       );
     }
-    if (correctController.text.isEmpty && isOptionAnswerTypeState.value  == false) {
+    if (correctAnswer.value == "" && isOptionAnswerTypeState.value  == false) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -96,7 +66,7 @@ class MakeQuestionController {
         ),
       );
     }
-    else if (ref.watch(MakeQuestionProvider.correctProvider) == "" && isOptionAnswerTypeState.value  == true) {
+    else if (correctAnswer.value == "" && isOptionAnswerTypeState.value  == true) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -112,7 +82,7 @@ class MakeQuestionController {
       );
     }
 
-    if (commentController.text.isEmpty) {
+    if (explanation.value == "") {
       ScaffoldMessenger.of(context).showSnackBar(
          SnackBar(
           content: Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/entity/initial_question/initial_question.dart';
 import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
 import 'package:share_question/provider/make_question_provider.dart';
 import 'package:share_question/repository/question/question_data_repository.dart';
@@ -12,21 +13,31 @@ import '../../../controller/make_question_controller/make_question_controller.da
 import '../../../controller/optional_make_question_controller/optional_make_question_controller.dart';
 import '../../../controller/remove_data_controller/remove_data_controller.dart';
 import '../../../data/local/color_shared_preference_service.dart';
+import '../../../entity/question_data/question.dart';
 import '../../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
 import '../../../widgets/dialog_widget.dart';
 
 class ConfirmQuestionPage extends HookConsumerWidget {
-  const ConfirmQuestionPage({super.key});
+  const ConfirmQuestionPage({
+    super.key,
+    required this.initial,
+    required this.questionDetail
+  });
+
+  final InitialQuestion initial;
+  final List<QuestionDetail> questionDetail;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final questionRepository = QuestionDataRepositoryImp();
     final controller = ConfirmQuestionController();
     final removeDataController = RemoveDataController();
-    final cloudFireStoreNotifier = ref.watch(cloudFireStoreNotifierProvider.notifier);
+    final cloudFireStoreNotifier =
+        ref.watch(cloudFireStoreNotifierProvider.notifier);
     final makeQuestionController = MakeQuestionController(ref);
     final optionalController = OptionalMakeQuestionController(ref);
     final removeQuestionDataController = RemoveDataController();
+
 
     return MaterialApp(
       home: Scaffold(
@@ -50,8 +61,6 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                         Navigator.pop(context1);
                         Navigator.popUntil(context, (route) => route.isFirst);
                         makeQuestionController.clearControllers();
-                        removeQuestionDataController
-                            .removeInitialQuestionData(ref);
                         removeQuestionDataController.removeOptionData(ref);
                         removeQuestionDataController
                             .removeMakeQuestionData(ref);
@@ -113,11 +122,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                     height: 20.h,
                   ),
                   for (int i = 0;
-                      i <
-                          ref
-                              .watch(MakeQuestionProvider
-                                  .questionDetailListProvider)
-                              .length;
+                      i < questionDetail.length;
                       i++) ...{
                     Align(
                       alignment: Alignment.center,
@@ -149,21 +154,30 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(right: 15),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              '編集する',
-                                              style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            Icon(
-                                              Icons.edit_outlined,
-                                              color:
-                                                  ColorSharedPreferenceService()
-                                                      .getColor(),
-                                            )
-                                          ],
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(builder: (context) => EditOptionalQuestionPages(questionNumber: i + 1,)),
+                                            // );
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                '編集する',
+                                                style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              Icon(
+                                                Icons.edit_outlined,
+                                                color:
+                                                    ColorSharedPreferenceService()
+                                                        .getColor(),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
@@ -175,31 +189,20 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                                   SizedBox(
                                     height: 5.h,
                                   ),
-                                  Text(
-                                    ref
-                                        .watch(MakeQuestionProvider
-                                            .questionDetailListProvider)[i]
-                                        .questionName,
+                                  Text(questionDetail[i].questionName,
                                     style: normalTextStyle,
                                   ),
                                   SizedBox(
                                     height: 15.h,
                                   ),
-                                  (ref
-                                          .watch(MakeQuestionProvider
-                                              .questionDetailListProvider)[i]
-                                          .isOptional)
+                                  (questionDetail[i].isOptional)
                                       ? Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             for (int i2 = 0;
                                                 i2 <
-                                                    ref
-                                                        .watch(
-                                                            MakeQuestionProvider
-                                                                .questionDetailListProvider)[
-                                                            i]
+                                                    questionDetail[i]
                                                         .optionalList
                                                         .length;
                                                 i2++) ...{
@@ -209,9 +212,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                                                 height: 5.h,
                                               ),
                                               Text(
-                                                ref
-                                                    .watch(MakeQuestionProvider
-                                                        .questionDetailListProvider)[i]
+                                                questionDetail[i]
                                                     .optionalList[i2]
                                                     .optional,
                                                 style: normalTextStyle,
@@ -228,9 +229,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                                     height: 5.h,
                                   ),
                                   Text(
-                                    ref
-                                        .watch(MakeQuestionProvider
-                                            .questionDetailListProvider)[i]
+                                    questionDetail[i]
                                         .correctAnswer,
                                     style: normalTextStyle,
                                   ),
@@ -242,9 +241,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                                     height: 5.h,
                                   ),
                                   Text(
-                                    ref
-                                        .watch(MakeQuestionProvider
-                                            .questionDetailListProvider)[i]
+                                    questionDetail[i]
                                         .explanation,
                                     style: normalTextStyle,
                                   ),
@@ -273,11 +270,11 @@ class ConfirmQuestionPage extends HookConsumerWidget {
             text: '共有',
             action: () async {
               try {
-                final data = questionRepository.createQuestionData(ref);
+                final data = questionRepository.createQuestionData(ref,initial,questionDetail);
 
                 final id = await cloudFireStoreNotifier.saveQuestion(data);
 
-                controller.putQuestionDataToIsar(id, ref);
+                controller.putQuestionDataToIsar(id, ref,initial);
 
                 if (context.mounted) {
                   Navigator.push(
@@ -289,7 +286,6 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                   );
                 }
 
-                removeDataController.removeInitialQuestionData(ref);
                 removeDataController.removeMakeQuestionData(ref);
               } catch (error) {
                 debugPrint('Error writing document: $error');
