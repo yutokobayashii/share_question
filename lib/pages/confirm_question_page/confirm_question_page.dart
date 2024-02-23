@@ -1,0 +1,168 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/entity/initial_question/initial_question.dart';
+import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
+import 'package:share_question/provider/make_question_provider.dart';
+import 'package:share_question/repository/question/question_data_repository.dart';
+import 'package:share_question/widgets/basic_floating_button.dart';
+
+import '../../controller/confirm_question_controller/confirm_question_controller.dart';
+import '../../controller/make_question_controller/make_question_controller.dart';
+import '../../controller/optional_make_question_controller/optional_make_question_controller.dart';
+import '../../controller/remove_data_controller/remove_data_controller.dart';
+import '../../entity/question_data/question.dart';
+import '../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
+import '../../widgets/dialog_widget.dart';
+import 'confirm_detail_widget.dart';
+
+class ConfirmQuestionPage extends HookConsumerWidget {
+  const ConfirmQuestionPage({
+    super.key,
+    required this.initial,
+    required this.questionDetail
+  });
+
+  final InitialQuestion initial;
+  final List<QuestionDetail> questionDetail;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final questionRepository = QuestionDataRepositoryImp();
+    final controller = ConfirmQuestionController();
+    final removeDataController = RemoveDataController();
+    final cloudFireStoreNotifier =
+        ref.watch(cloudFireStoreNotifierProvider.notifier);
+    final makeQuestionController = MakeQuestionController(ref);
+    final optionalController = OptionalMakeQuestionController(ref);
+    final removeQuestionDataController = RemoveDataController();
+    final questionDetailValue = useState<List<QuestionDetail>>(questionDetail);
+
+    return MaterialApp(
+      home: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            leading: Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context1) => AlertDialogWidget(
+                      title: '作問を中止しますか？',
+                      content: '中止すると入力した項目は保存されません',
+                      leftText: '中止する',
+                      rightText: '続ける',
+                      rightAction: () {
+                        Navigator.pop(context1);
+                      },
+                      leftAction: () {
+                        Navigator.pop(context1);
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                        makeQuestionController.clearControllers();
+                        removeQuestionDataController.removeOptionData(ref);
+                        removeQuestionDataController
+                            .removeMakeQuestionData(ref);
+                        optionalController.clearControllers();
+                        ref
+                            .watch(MakeQuestionProvider
+                                .isSelectedItemProvider.notifier)
+                            .update((state) => "0");
+                      },
+                    ),
+                  );
+                },
+                child: const Icon(
+                  Icons.close,
+                  size: 25,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            title:
+                const Align(alignment: Alignment.center, child: Text('最終確認')),
+            actions: [
+              GestureDetector(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context1) => AlertDialogWidget(
+                            title: 'ここまでの作問を保存しますか？',
+                            content: '保存した作問は後から再開できます',
+                            leftText: '作問を続ける',
+                            rightText: '保存する',
+                            rightAction: () {
+                              debugPrint('保存しました');
+                              Navigator.pop(context1);
+                              Navigator.popUntil(
+                                  context, (route) => route.isFirst);
+                            },
+                            leftAction: () {
+                              Navigator.pop(context1);
+                            },
+                          ));
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 15),
+                  child: Icon(
+                    Icons.description_outlined,
+                    size: 28,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              color: Colors.white,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  for (int i = 0;
+                      i < questionDetail.length;
+                      i++) ...{
+                    ConfirmDetailWidget(questionDetail: questionDetailValue.value[i], i: i, questionDetailListValue: questionDetailValue,),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                  },
+                  SizedBox(
+                    height: 100.h,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          floatingActionButton: BasicFloatingButtonWidget(
+            text: '共有',
+            action: () async {
+              try {
+                final data = questionRepository.createQuestionData(ref,initial,questionDetailValue.value);
+
+                final id = await cloudFireStoreNotifier.saveQuestion(data);
+
+                await controller.putQuestionDataToIsar(id, ref,initial);
+
+                if (context.mounted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ShareQuestionPage(
+                              id: id,
+                            )),
+                  );
+                }
+
+                removeDataController.removeMakeQuestionData(ref);
+              } catch (error) {
+                debugPrint('Error writing document: $error');
+              }
+            },
+          )),
+    );
+  }
+}
+

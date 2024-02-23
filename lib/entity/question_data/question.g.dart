@@ -40,7 +40,7 @@ _$QuestionDetailImpl _$$QuestionDetailImplFromJson(Map<String, dynamic> json) =>
       correctAnswer: json['correctAnswer'] as String,
       explanation: json['explanation'] as String,
       optionalList: (json['optionalList'] as List<dynamic>)
-          .map((e) => OptionalQuestion.fromJson(e as Map<String, dynamic>))
+          .map((e) => e as String)
           .toList(),
     );
 
@@ -53,16 +53,4 @@ Map<String, dynamic> _$$QuestionDetailImplToJson(
       'correctAnswer': instance.correctAnswer,
       'explanation': instance.explanation,
       'optionalList': instance.optionalList,
-    };
-
-_$OptionalQuestionImpl _$$OptionalQuestionImplFromJson(
-        Map<String, dynamic> json) =>
-    _$OptionalQuestionImpl(
-      optional: json['optional'] as String,
-    );
-
-Map<String, dynamic> _$$OptionalQuestionImplToJson(
-        _$OptionalQuestionImpl instance) =>
-    <String, dynamic>{
-      'optional': instance.optional,
     };

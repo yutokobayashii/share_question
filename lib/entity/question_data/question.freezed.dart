@@ -324,7 +324,7 @@ mixin _$QuestionDetail {
   String get image => throw _privateConstructorUsedError;
   String get correctAnswer => throw _privateConstructorUsedError;
   String get explanation => throw _privateConstructorUsedError;
-  List<OptionalQuestion> get optionalList => throw _privateConstructorUsedError;
+  List<String> get optionalList => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -344,7 +344,7 @@ abstract class $QuestionDetailCopyWith<$Res> {
       String image,
       String correctAnswer,
       String explanation,
-      List<OptionalQuestion> optionalList});
+      List<String> optionalList});
 }
 
 /// @nodoc
@@ -391,7 +391,7 @@ class _$QuestionDetailCopyWithImpl<$Res, $Val extends QuestionDetail>
       optionalList: null == optionalList
           ? _value.optionalList
           : optionalList // ignore: cast_nullable_to_non_nullable
-              as List<OptionalQuestion>,
+              as List<String>,
     ) as $Val);
   }
 }
@@ -410,7 +410,7 @@ abstract class _$$QuestionDetailImplCopyWith<$Res>
       String image,
       String correctAnswer,
       String explanation,
-      List<OptionalQuestion> optionalList});
+      List<String> optionalList});
 }
 
 /// @nodoc
@@ -455,7 +455,7 @@ class __$$QuestionDetailImplCopyWithImpl<$Res>
       optionalList: null == optionalList
           ? _value._optionalList
           : optionalList // ignore: cast_nullable_to_non_nullable
-              as List<OptionalQuestion>,
+              as List<String>,
     ));
   }
 }
@@ -469,7 +469,7 @@ class _$QuestionDetailImpl implements _QuestionDetail {
       required this.image,
       required this.correctAnswer,
       required this.explanation,
-      required final List<OptionalQuestion> optionalList})
+      required final List<String> optionalList})
       : _optionalList = optionalList;
 
   factory _$QuestionDetailImpl.fromJson(Map<String, dynamic> json) =>
@@ -485,9 +485,9 @@ class _$QuestionDetailImpl implements _QuestionDetail {
   final String correctAnswer;
   @override
   final String explanation;
-  final List<OptionalQuestion> _optionalList;
+  final List<String> _optionalList;
   @override
-  List<OptionalQuestion> get optionalList {
+  List<String> get optionalList {
     if (_optionalList is EqualUnmodifiableListView) return _optionalList;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_optionalList);
@@ -544,13 +544,12 @@ class _$QuestionDetailImpl implements _QuestionDetail {
 
 abstract class _QuestionDetail implements QuestionDetail {
   const factory _QuestionDetail(
-          {required final bool isOptional,
-          required final String questionName,
-          required final String image,
-          required final String correctAnswer,
-          required final String explanation,
-          required final List<OptionalQuestion> optionalList}) =
-      _$QuestionDetailImpl;
+      {required final bool isOptional,
+      required final String questionName,
+      required final String image,
+      required final String correctAnswer,
+      required final String explanation,
+      required final List<String> optionalList}) = _$QuestionDetailImpl;
 
   factory _QuestionDetail.fromJson(Map<String, dynamic> json) =
       _$QuestionDetailImpl.fromJson;
@@ -566,148 +565,9 @@ abstract class _QuestionDetail implements QuestionDetail {
   @override
   String get explanation;
   @override
-  List<OptionalQuestion> get optionalList;
+  List<String> get optionalList;
   @override
   @JsonKey(ignore: true)
   _$$QuestionDetailImplCopyWith<_$QuestionDetailImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-OptionalQuestion _$OptionalQuestionFromJson(Map<String, dynamic> json) {
-  return _OptionalQuestion.fromJson(json);
-}
-
-/// @nodoc
-mixin _$OptionalQuestion {
-  String get optional => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $OptionalQuestionCopyWith<OptionalQuestion> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $OptionalQuestionCopyWith<$Res> {
-  factory $OptionalQuestionCopyWith(
-          OptionalQuestion value, $Res Function(OptionalQuestion) then) =
-      _$OptionalQuestionCopyWithImpl<$Res, OptionalQuestion>;
-  @useResult
-  $Res call({String optional});
-}
-
-/// @nodoc
-class _$OptionalQuestionCopyWithImpl<$Res, $Val extends OptionalQuestion>
-    implements $OptionalQuestionCopyWith<$Res> {
-  _$OptionalQuestionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? optional = null,
-  }) {
-    return _then(_value.copyWith(
-      optional: null == optional
-          ? _value.optional
-          : optional // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$OptionalQuestionImplCopyWith<$Res>
-    implements $OptionalQuestionCopyWith<$Res> {
-  factory _$$OptionalQuestionImplCopyWith(_$OptionalQuestionImpl value,
-          $Res Function(_$OptionalQuestionImpl) then) =
-      __$$OptionalQuestionImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String optional});
-}
-
-/// @nodoc
-class __$$OptionalQuestionImplCopyWithImpl<$Res>
-    extends _$OptionalQuestionCopyWithImpl<$Res, _$OptionalQuestionImpl>
-    implements _$$OptionalQuestionImplCopyWith<$Res> {
-  __$$OptionalQuestionImplCopyWithImpl(_$OptionalQuestionImpl _value,
-      $Res Function(_$OptionalQuestionImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? optional = null,
-  }) {
-    return _then(_$OptionalQuestionImpl(
-      optional: null == optional
-          ? _value.optional
-          : optional // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$OptionalQuestionImpl implements _OptionalQuestion {
-  const _$OptionalQuestionImpl({required this.optional});
-
-  factory _$OptionalQuestionImpl.fromJson(Map<String, dynamic> json) =>
-      _$$OptionalQuestionImplFromJson(json);
-
-  @override
-  final String optional;
-
-  @override
-  String toString() {
-    return 'OptionalQuestion(optional: $optional)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$OptionalQuestionImpl &&
-            (identical(other.optional, optional) ||
-                other.optional == optional));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(runtimeType, optional);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$OptionalQuestionImplCopyWith<_$OptionalQuestionImpl> get copyWith =>
-      __$$OptionalQuestionImplCopyWithImpl<_$OptionalQuestionImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$OptionalQuestionImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _OptionalQuestion implements OptionalQuestion {
-  const factory _OptionalQuestion({required final String optional}) =
-      _$OptionalQuestionImpl;
-
-  factory _OptionalQuestion.fromJson(Map<String, dynamic> json) =
-      _$OptionalQuestionImpl.fromJson;
-
-  @override
-  String get optional;
-  @override
-  @JsonKey(ignore: true)
-  _$$OptionalQuestionImplCopyWith<_$OptionalQuestionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

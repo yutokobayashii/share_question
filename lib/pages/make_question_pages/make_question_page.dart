@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_question/controller/optional_make_question_controller/optional_make_question_controller.dart';
 import 'package:share_question/controller/remove_data_controller/remove_data_controller.dart';
-import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../controller/make_question_controller/make_question_controller.dart';
 import '../../data/local/color_shared_preference_service.dart';
@@ -18,7 +17,7 @@ import '../../notifier/question_detail/question_detail_notifier.dart';
 import '../../widgets/base_textfield_widget.dart';
 import '../../widgets/basic_button_widget.dart';
 import '../../widgets/dialog_widget.dart';
-import 'make_question_widgets/confirm_question_page.dart';
+import '../confirm_question_page/confirm_question_page.dart';
 import 'make_question_widgets/option_make_question_page.dart';
 import 'make_question_widgets/select_optional_widget.dart';
 
@@ -351,7 +350,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                             ),
                             BaseTextFieldWidget(
                               title: '解説',
-                              maxLength: 30,
+                              maxLength: 100,
                               height: 70.h,
                               controller:
                               MakeQuestionController.commentController,
@@ -424,10 +423,6 @@ class MakeQuestionPage extends HookConsumerWidget {
 
                                         isOptionAnswerTypeState.value = false;
 
-                                        ref.watch(
-                                            MakeQuestionProvider.optionalNumber
-                                                .notifier).update((state) => 2);
-
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -474,10 +469,6 @@ class MakeQuestionPage extends HookConsumerWidget {
                                         optionalController.clearControllers();
 
                                         isOptionAnswerTypeState.value = false;
-
-                                        ref.watch(
-                                            MakeQuestionProvider.optionalNumber
-                                                .notifier).update((state) => 2);
 
                                         Navigator.push(
                                           context,

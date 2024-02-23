@@ -58,6 +58,7 @@ class SelectOptionalWidget extends HookConsumerWidget {
                       .update((state) => text.toString());
                   correctAnswer.value = ref.watch(MakeQuestionProvider
                       .optionalListProvider)[int.parse(text.toString()) - 1];
+                  print(correctAnswer.value);
                 }
               },
               value: ref.watch(MakeQuestionProvider.isSelectedItemProvider),

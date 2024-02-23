@@ -4,13 +4,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../constant/style.dart';
 import '../../data/local/color_shared_preference_service.dart';
-import '../../entity/question_data/question.dart';
 
 class OptionalAnswerWidget extends HookConsumerWidget {
   const OptionalAnswerWidget(
       {super.key, required this.options, required this.yourAnswer});
 
-  final List<OptionalQuestion> options;
+  final List<String> options;
   final ValueNotifier<String> yourAnswer;
 
   @override
@@ -18,7 +17,7 @@ class OptionalAnswerWidget extends HookConsumerWidget {
     final List<String> optionalList = [];
 
     for (int i = 0; i < options.length; i++) {
-      optionalList.add(options[i].optional);
+      optionalList.add(options[i]);
     }
 
     final selectedOptional = useState(optionalList.first);

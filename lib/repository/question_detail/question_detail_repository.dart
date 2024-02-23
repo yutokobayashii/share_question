@@ -19,11 +19,7 @@ class QuestionDetailRepositoryImp implements QuestionDetailRepository {
         image: image,
         correctAnswer: correctAnswer,
         explanation: explanation,
-        optionalList:[
-          for(int i = 0; i<optionalList.length; i++)...{
-            OptionalQuestion(optional: optionalList[i])
-          }
-        ]);
+        optionalList:optionalList);
   }
 
 }

@@ -33,20 +33,9 @@ class QuestionDetail with _$QuestionDetail {
     required String image,
     required String correctAnswer,
     required String explanation,
-    required List<OptionalQuestion> optionalList,
+    required List<String> optionalList,
 }) = _QuestionDetail;
 
 factory QuestionDetail.fromJson(Map<String, dynamic> json) => _$QuestionDetailFromJson(json);
 }
 
-
-
-@freezed
-class OptionalQuestion with _$OptionalQuestion {
-  const factory OptionalQuestion({
-    required String optional,
-
-  }) = _OptionalQuestion;
-
-  factory OptionalQuestion.fromJson(Map<String, dynamic> json) => _$OptionalQuestionFromJson(json);
-}

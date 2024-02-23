@@ -30,11 +30,7 @@ class QuestionDataRepositoryImp implements QuestionDataRepository {
             'image': questionDetail[i].image,
             'correctAnswer': questionDetail[i].correctAnswer,
             'explanation': questionDetail[i].explanation,
-            'optionalList': [
-              for(int i2 = 0; i2< ref.watch(MakeQuestionProvider.optionalListProvider).length; i2++) ...{
-                {'optional': ref.watch(MakeQuestionProvider.optionalListProvider)[i2]},
-              }
-            ],
+            'optionalList': ref.watch(MakeQuestionProvider.optionalListProvider),
           },
         }
 
