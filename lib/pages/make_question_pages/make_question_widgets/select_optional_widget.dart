@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../../constant/style.dart';
 
 class SelectOptionalWidget extends HookConsumerWidget {
-  const SelectOptionalWidget({super.key, required this.correctAnswer});
+  const SelectOptionalWidget({
+    super.key,
+    required this.correctAnswer,
+    required this.optionalList,
+    required this.optionalNumber,
+    required this.isSelectedOptionalItem
+  });
 
   final ValueNotifier<String> correctAnswer;
+  final ValueNotifier<List<String>> optionalList;
+  final ValueNotifier<int> optionalNumber;
+  final ValueNotifier<String> isSelectedOptionalItem;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (ref.watch(MakeQuestionProvider.optionalListProvider).isEmpty) {
+    if (optionalList.value.isEmpty) {
       return const SizedBox();
     } else {
       return Column(
@@ -37,7 +45,7 @@ class SelectOptionalWidget extends HookConsumerWidget {
                 ),
                 //for文でlistを回す
                 for (int i = 0;
-                    i < ref.watch(MakeQuestionProvider.optionalNumber);
+                    i < optionalNumber.value;
                     i++) ...{
                   DropdownMenuItem(
                     value: "${i + 1}",
@@ -47,21 +55,13 @@ class SelectOptionalWidget extends HookConsumerWidget {
               ],
               onChanged: (text) {
                 if (text == "0") {
-                  ref
-                      .watch(
-                          MakeQuestionProvider.isSelectedItemProvider.notifier)
-                      .update((state) => text.toString());
+                  isSelectedOptionalItem.value = text.toString();
                 } else {
-                  ref
-                      .watch(
-                          MakeQuestionProvider.isSelectedItemProvider.notifier)
-                      .update((state) => text.toString());
-                  correctAnswer.value = ref.watch(MakeQuestionProvider
-                      .optionalListProvider)[int.parse(text.toString()) - 1];
-                  print(correctAnswer.value);
+                  isSelectedOptionalItem.value = text.toString();
+                  correctAnswer.value = optionalList.value[int.parse(text.toString()) - 1];
                 }
               },
-              value: ref.watch(MakeQuestionProvider.isSelectedItemProvider),
+              value: isSelectedOptionalItem.value,
             ),
           ),
         ],

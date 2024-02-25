@@ -3,7 +3,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/controller/optional_make_question_controller/optional_make_question_controller.dart';
-import 'package:share_question/provider/make_question_provider.dart';
 
 import '../../../data/local/color_shared_preference_service.dart';
 import '../../../widgets/base_textfield_widget.dart';
@@ -12,38 +11,37 @@ import 'initial_make_question_page.dart';
 class OptionMakeQuestionWidget extends HookConsumerWidget {
   const OptionMakeQuestionWidget({
     super.key,
+    required this.optionalList,
+    required this.isSelectedOptionalItem,
+    required this.optionalNumber
+
   });
 
+  final ValueNotifier<List<String>> optionalList;
+  final ValueNotifier<String> isSelectedOptionalItem;
+  final ValueNotifier<int> optionalNumber;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final addOptionNumber = useState(2);//選択肢1,2はデフォで登録されているので2
-    List<String> tempList = [];
     final controllers = useState<List<TextEditingController>>([]);
-    final currentList = ref.watch(MakeQuestionProvider.optionalListProvider);
 
-    void removeItem(WidgetRef ref, String item) {
-      ref
-          .read(MakeQuestionProvider.optionalListProvider.notifier)
-          .update((state) => state.where((i) => i != item).toList());
-    }
 
     useEffect(() {
       // 項目が追加された場合、新しいコントローラーを追加
-      while (controllers.value.length < addOptionNumber.value) {
+      while (controllers.value.length < optionalNumber.value) {
         controllers.value.add(TextEditingController());
       }
 
       // 項目が削除された場合、余分なコントローラーを破棄して削除
-      while (controllers.value.length > addOptionNumber.value) {
+      while (controllers.value.length > optionalNumber.value) {
         controllers.value.removeLast().dispose();
       }
 
       // 破棄処理
       return () {};
-    }, [addOptionNumber.value]);
+    }, [optionalNumber.value]);
 
     List<Widget> additionalOptionWidget() {
-      return List.generate(addOptionNumber.value - 2, (i) {
+      return List.generate(optionalNumber.value - 2, (i) {
         return BaseTextFieldWidget(
           title: '選択肢${i + 3}',
           maxLength: 30,
@@ -51,19 +49,19 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
           controller: controllers.value[i],
           rightWidget: GestureDetector(
             onTap: () {
-              addOptionNumber.value--;
-              ref
-                  .watch(MakeQuestionProvider.optionalNumber.notifier)
-                  .update((state) => addOptionNumber.value);
-              removeItem(
-                  ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
-              ref
-                  .watch(MakeQuestionProvider.optionalProvider(i + 3).notifier)
-                  .update((state) => "");
+              optionalNumber.value--;
+
               controllers.value[i].clear();
-              ref
-                  .watch(MakeQuestionProvider.isSelectedItemProvider.notifier)
-                  .update((state) => "0");
+
+              isSelectedOptionalItem.value = "0";
+
+
+              final updatedList = List<String>.from(optionalList.value);
+              // 特定のインデックスの要素を削除
+              updatedList.removeAt(i);
+              // 更新されたリストで状態を更新
+              optionalList.value = updatedList;
+
             },
             child: Container(
                 decoration: BoxDecoration(
@@ -80,23 +78,14 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
                   size: 20,
                 )),
           ),
-          onChanged: (text) {
-            removeItem(
-                ref, ref.watch(MakeQuestionProvider.optionalProvider(i + 3)));
-
-            ref
-                .watch(MakeQuestionProvider.optionalProvider(i + 3).notifier)
-                .update((state) => text);
-          },
+          onChanged: (text) {},
           onSubmitted: (text) {
-            tempList = [
-              ...currentList,
-              ref.watch(MakeQuestionProvider.optionalProvider(i + 3))
-            ];
 
-            ref
-                .watch(MakeQuestionProvider.optionalListProvider.notifier)
-                .update((state) => tempList);
+            List<String> updatedList = List<String>.from(optionalList.value);
+
+            updatedList[i+2] = text;
+
+            optionalList.value = updatedList;
           },
         );
       });
@@ -114,9 +103,12 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
           controller: OptionalMakeQuestionController.optionalController1,
           rightWidget: const IsRequiredWidget(),
           onChanged: (text) {
-            ref
-                .watch(MakeQuestionProvider.optionalProvider(1).notifier)
-                .update((state) => text);
+
+            List<String> updatedList = List<String>.from(optionalList.value);
+
+            updatedList[0] = text;
+
+            optionalList.value = updatedList;
           },
           onSubmitted: (text) {},
         ),
@@ -127,9 +119,12 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
           controller: OptionalMakeQuestionController.optionalController2,
           rightWidget: const IsRequiredWidget(),
           onChanged: (text) {
-            ref
-                .watch(MakeQuestionProvider.optionalProvider(2).notifier)
-                .update((state) => text);
+
+            List<String> updatedList = List<String>.from(optionalList.value);
+
+            updatedList[1] = text;
+
+            optionalList.value = updatedList;
           },
           onSubmitted: (text) {},
         ),
@@ -140,11 +135,10 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
           text: '選択肢を追加',
           icon: Icons.add,
           action: () {
-            if (addOptionNumber.value < 10) {
-              addOptionNumber.value++;
-              ref
-                  .watch(MakeQuestionProvider.optionalNumber.notifier)
-                  .update((state) => addOptionNumber.value);
+            if (optionalNumber.value < 10) {
+              optionalNumber.value++;
+
+              optionalList.value.add("");
             }
           },
         ),

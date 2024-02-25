@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:share_question/controller/optional_make_question_controller/optional_make_question_controller.dart';
-import 'package:share_question/controller/remove_data_controller/remove_data_controller.dart';
 
 import '../../controller/make_question_controller/make_question_controller.dart';
 import '../../data/local/color_shared_preference_service.dart';
@@ -35,18 +34,15 @@ class MakeQuestionPage extends HookConsumerWidget {
     final questionNumber = useState(1);
     final controller = MakeQuestionController(ref);
     final optionalController = OptionalMakeQuestionController(ref);
-    final removeQuestionDataController = RemoveDataController();
     final questionDetailList = useState<List<QuestionDetail>>([]);
     final name = useState<String>("");
     final imagePath = useState<XFile?>(null);
     final imageUrl = useState("");
     final correctAnswer = useState("");
     final explanation = useState("");
-    final optionalList = useState<List<String>>([]);
-
-    ///ここに下記のusestateを作成してそれを次の問題に遷移する際にref.watch(questionDetailNotifierProvider)でQuestionDetailのクラスを作成する
-    ///→それをquestionDetailListの要素として保存する。
-    ///→それを最終問題時にconfirm_pagesに持たせる
+    final optionalList = useState<List<String>>(["",""]);
+    final optionalNumber = useState(2);
+    final isSelectedOptionalItem = useState("0");
 
 
     return ScreenUtilInit(
@@ -76,12 +72,6 @@ class MakeQuestionPage extends HookConsumerWidget {
                                 Navigator.popUntil(
                                     context, (route) => route.isFirst);
                                 controller.clearControllers();
-                                // removeQuestionDataController
-                                //     .removeInitialQuestionData(ref);
-                                removeQuestionDataController.removeOptionData(
-                                    ref);
-                                removeQuestionDataController
-                                    .removeMakeQuestionData(ref);
                                 optionalController.clearControllers();
                               },
                             ),
@@ -329,14 +319,14 @@ class MakeQuestionPage extends HookConsumerWidget {
                             )
                                 : const SizedBox(),
                             (isOptionAnswerTypeState.value)
-                                ? const OptionMakeQuestionWidget()
+                                ? OptionMakeQuestionWidget(optionalList: optionalList, isSelectedOptionalItem: isSelectedOptionalItem, optionalNumber: optionalNumber,)
                                 : SizedBox(
                               height: 15.h,
                             ),
                             (isOptionAnswerTypeState.value)
                                 ? Align(
                                 alignment: Alignment.topLeft,
-                                child: SelectOptionalWidget(correctAnswer: correctAnswer,))
+                                child: SelectOptionalWidget(correctAnswer: correctAnswer, optionalList: optionalList, optionalNumber: optionalNumber, isSelectedOptionalItem: isSelectedOptionalItem,))
                                 : BaseTextFieldWidget(
                               title: '正解',
                               maxLength: 30,
@@ -529,9 +519,6 @@ class MakeQuestionPage extends HookConsumerWidget {
 
                                         questionDetailList.value = updatedList;
 
-                                        removeQuestionDataController
-                                            .removeOptionData(ref);
-
                                         controller.clearControllers();
 
                                         optionalController.clearControllers();
@@ -566,11 +553,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                           ..add(detail);
 
                                         questionDetailList.value = updatedList;
-
-
-                                        removeQuestionDataController
-                                            .removeOptionData(ref);
-
+                                        
                                         controller.clearControllers();
 
                                         optionalController.clearControllers();

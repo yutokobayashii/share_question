@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/controller/initial_question_controller/initial_question_controller.dart';
 import 'package:share_question/notifier/initial_question_notifier/initial_question_notifier.dart';
 
-import '../../../controller/remove_data_controller/remove_data_controller.dart';
 import '../../../widgets/base_textfield_widget.dart';
 import '../../../widgets/basic_floating_button.dart';
 import '../../../widgets/dialog_widget.dart';
@@ -17,7 +16,6 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = InitialQuestionController(ref);
-    final removeQuestionDataController = RemoveDataController();
     final name = useState("");
     final author = useState("");
     final explain = useState("");
@@ -45,8 +43,6 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                               Navigator.pop(context1);
                               Navigator.pop(context);
                               controller.clearControllers();
-                              // removeQuestionDataController
-                              //     .removeInitialQuestionData(ref);
                             },
                           ),
                         );

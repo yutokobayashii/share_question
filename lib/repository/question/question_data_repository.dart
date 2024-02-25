@@ -3,7 +3,6 @@ import 'package:share_question/entity/initial_question/initial_question.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../entity/question_data/question.dart';
-import '../../provider/make_question_provider.dart';
 
 abstract class QuestionDataRepository {
   Map<String, dynamic> createQuestionData(WidgetRef ref,InitialQuestion initial,List<QuestionDetail> questionDetail);
@@ -30,7 +29,7 @@ class QuestionDataRepositoryImp implements QuestionDataRepository {
             'image': questionDetail[i].image,
             'correctAnswer': questionDetail[i].correctAnswer,
             'explanation': questionDetail[i].explanation,
-            'optionalList': ref.watch(MakeQuestionProvider.optionalListProvider),
+            'optionalList': questionDetail[i].optionalList,
           },
         }
 

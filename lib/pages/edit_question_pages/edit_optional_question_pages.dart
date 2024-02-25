@@ -9,8 +9,8 @@ import '../../controller/make_question_controller/make_question_controller.dart'
 import '../../data/local/color_shared_preference_service.dart';
 import '../../data/remote/storage_dao.dart';
 import '../../entity/question_data/question.dart';
-import '../../provider/make_question_provider.dart';
 import '../../util/alart_dialog.dart';
+import '../../util/snackbar.dart';
 import '../../widgets/base_textfield_widget.dart';
 import '../make_question_pages/make_question_widgets/option_make_question_page.dart';
 import '../make_question_pages/make_question_widgets/select_optional_widget.dart';
@@ -21,7 +21,8 @@ class EditOptionalQuestionPages extends HookConsumerWidget {
         required this.questionNumber,
         required this.index,
         required this.questionDetail,
-        required this.questionDetailListValue
+        required this.questionDetailListValue,
+
 
       });
 
@@ -30,20 +31,23 @@ class EditOptionalQuestionPages extends HookConsumerWidget {
   final int index;
   final ValueNotifier<List<QuestionDetail>> questionDetailListValue;
 
+  ///todo;ここでもバリデーションを設定する
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final optionalData = ref.read(MakeQuestionProvider.optionalListProvider);
     final imageUrlValue = useState(questionDetail.value.image);
     final imagePath = useState<XFile?>(null);
     final questionName = useState(questionDetail.value.questionName);
     final explain = useState(questionDetail.value.explanation);
     final correctAnswer = useState(questionDetail.value.correctAnswer);
-    final optionalList = useState<List<String>>(ref.read(MakeQuestionProvider.optionalListProvider));
+    final optionalList = useState<List<String>>(questionDetail.value.optionalList);
     final questionNameController = useState(TextEditingController(text: questionDetail.value.questionName));
     final explainController = useState(TextEditingController(text: questionDetail.value.explanation));
+    final optionalNumber = useState<int>(optionalList.value.length);
+    final isSelectedOptionalItem = useState("0");
 
     final controllersRef = useRef<List<TextEditingController>?>(null);
-    controllersRef.value ??= optionalData
+    controllersRef.value ??= optionalList.value
           .map((value) => TextEditingController(text: value))
           .toList();
 
@@ -168,11 +172,6 @@ class EditOptionalQuestionPages extends HookConsumerWidget {
                         // TextFieldが変更されたときの処理
                       },
                       onSubmitted: (text) {
-                       final currentList = ref.watch(MakeQuestionProvider.optionalListProvider);
-                        final updatedList = List<String>.from(currentList);
-                        updatedList[index] = text;
-
-                        ref.watch(MakeQuestionProvider.optionalListProvider.notifier).update((state) => updatedList);
 
                         final updatedValues = List<String>.from(optionalList.value);
                         updatedValues[index] = text;
@@ -184,7 +183,7 @@ class EditOptionalQuestionPages extends HookConsumerWidget {
                   }),
                 ),
 
-                SelectOptionalWidget(correctAnswer: correctAnswer,),
+                SelectOptionalWidget(correctAnswer: correctAnswer, optionalList: optionalList, optionalNumber: optionalNumber, isSelectedOptionalItem: isSelectedOptionalItem,),
         
                 BaseTextFieldWidget(
                   title: '解説',
@@ -207,27 +206,42 @@ class EditOptionalQuestionPages extends HookConsumerWidget {
         text: '修正',
         action: () {
 
-          Navigator.pop(context);
+          if (questionName.value == "" || correctAnswer.value == "" || explain.value == "") {
+            if (questionName.value == ""){
+              displayErrorSnackBar(ref,context,"問題名を入力してください");
+            }
+            else if (correctAnswer.value == "") {
+              displayErrorSnackBar(ref,context,"正解を入力してください");
+            }
+            else if (explain.value == "") {
+              displayErrorSnackBar(ref,context,"説明を入力してください");
+            }
+          } else {
+            Navigator.pop(context);
 
-          ref.watch(MakeQuestionProvider.optionalListProvider.notifier).update((state) => optionalList.value);
+            final newQuestionDetail = QuestionDetail(
+                isOptional: true,
+                questionName: questionName.value,
+                image: imageUrlValue.value,
+                correctAnswer: correctAnswer.value,
+                explanation: explain.value,
+                optionalList: optionalList.value);
 
-          final newQuestionDetail = QuestionDetail(
-              isOptional: true,
-              questionName: questionName.value,
-              image: imageUrlValue.value,
-              correctAnswer: correctAnswer.value,
-              explanation: explain.value,
-              optionalList: optionalList.value);
-
-          questionDetail.value = newQuestionDetail;
+            questionDetail.value = newQuestionDetail;
 
 
-          // 現在のリストのコピーを作成
-          List<QuestionDetail> updatedList = List<QuestionDetail>.from(questionDetailListValue.value);
+            // 現在のリストのコピーを作成
+            List<QuestionDetail> updatedList = List<QuestionDetail>.from(questionDetailListValue.value);
 
-          updatedList[index] = questionDetail.value;
+            updatedList[index] = questionDetail.value;
 
-          questionDetailListValue.value = updatedList;
+            questionDetailListValue.value = updatedList;
+          }
+
+
+
+
+
 
 
         }

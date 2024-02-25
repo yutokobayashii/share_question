@@ -4,14 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/entity/initial_question/initial_question.dart';
 import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
-import 'package:share_question/provider/make_question_provider.dart';
 import 'package:share_question/repository/question/question_data_repository.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
 import '../../controller/confirm_question_controller/confirm_question_controller.dart';
 import '../../controller/make_question_controller/make_question_controller.dart';
 import '../../controller/optional_make_question_controller/optional_make_question_controller.dart';
-import '../../controller/remove_data_controller/remove_data_controller.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
 import '../../widgets/dialog_widget.dart';
@@ -31,12 +29,10 @@ class ConfirmQuestionPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final questionRepository = QuestionDataRepositoryImp();
     final controller = ConfirmQuestionController();
-    final removeDataController = RemoveDataController();
     final cloudFireStoreNotifier =
         ref.watch(cloudFireStoreNotifierProvider.notifier);
     final makeQuestionController = MakeQuestionController(ref);
     final optionalController = OptionalMakeQuestionController(ref);
-    final removeQuestionDataController = RemoveDataController();
     final questionDetailValue = useState<List<QuestionDetail>>(questionDetail);
 
     return MaterialApp(
@@ -61,14 +57,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                         Navigator.pop(context1);
                         Navigator.popUntil(context, (route) => route.isFirst);
                         makeQuestionController.clearControllers();
-                        removeQuestionDataController.removeOptionData(ref);
-                        removeQuestionDataController
-                            .removeMakeQuestionData(ref);
                         optionalController.clearControllers();
-                        ref
-                            .watch(MakeQuestionProvider
-                                .isSelectedItemProvider.notifier)
-                            .update((state) => "0");
                       },
                     ),
                   );
@@ -155,8 +144,6 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                             )),
                   );
                 }
-
-                removeDataController.removeMakeQuestionData(ref);
               } catch (error) {
                 debugPrint('Error writing document: $error');
               }
