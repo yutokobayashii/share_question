@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -12,7 +13,8 @@ class StorageFireStoreNotifier extends Notifier<void> {
     return;
   }
 
-  Future<String> uploadImage(XFile imageFile) async {
+  Future<String> uploadImage(XFile imageFile,ValueNotifier<bool> isUploadDone) async {
+    isUploadDone.value = false;
     return await ref.read(storageFireStoreUseCaseProvider).uploadImage(imageFile);
   }
 }

@@ -13,6 +13,7 @@ import '../../entity/initial_question/initial_question.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/question_detail/question_detail_notifier.dart';
 import '../../notifier/storage_firestore/storage_firestore_notifier.dart';
+import '../../util/snackbar.dart';
 import '../../widgets/base_textfield_widget.dart';
 import '../../widgets/basic_button_widget.dart';
 import '../../widgets/dialog_widget.dart';
@@ -21,10 +22,7 @@ import 'make_question_widgets/option_make_question_page.dart';
 import 'make_question_widgets/select_optional_widget.dart';
 
 class MakeQuestionPage extends HookConsumerWidget {
-  const MakeQuestionPage({
-    super.key,
-    required this.initial
-  });
+  const MakeQuestionPage({super.key, required this.initial});
 
   final InitialQuestion initial;
 
@@ -36,14 +34,14 @@ class MakeQuestionPage extends HookConsumerWidget {
     final optionalController = OptionalMakeQuestionController(ref);
     final questionDetailList = useState<List<QuestionDetail>>([]);
     final name = useState<String>("");
+    final isUploadDone = useState<bool>(true);//そもそも画像をアップロードしない場合もあるので初期値はtrue
     final imagePath = useState<XFile?>(null);
     final imageUrl = useState("");
     final correctAnswer = useState("");
     final explanation = useState("");
-    final optionalList = useState<List<String>>(["",""]);
+    final optionalList = useState<List<String>>(["", ""]);
     final optionalNumber = useState(2);
     final isSelectedOptionalItem = useState("0");
-
 
     return ScreenUtilInit(
         designSize: const Size(393, 852),
@@ -58,23 +56,22 @@ class MakeQuestionPage extends HookConsumerWidget {
                     onTap: () {
                       showDialog(
                         context: context,
-                        builder: (BuildContext context1) =>
-                            AlertDialogWidget(
-                              title: '作問を中止しますか？',
-                              content: '中止すると入力した項目は保存されません',
-                              leftText: '中止する',
-                              rightText: '続ける',
-                              rightAction: () {
-                                Navigator.pop(context1);
-                              },
-                              leftAction: () {
-                                Navigator.pop(context1);
-                                Navigator.popUntil(
-                                    context, (route) => route.isFirst);
-                                controller.clearControllers();
-                                optionalController.clearControllers();
-                              },
-                            ),
+                        builder: (BuildContext context1) => AlertDialogWidget(
+                          title: '作問を中止しますか？',
+                          content: '中止すると入力した項目は保存されません',
+                          leftText: '中止する',
+                          rightText: '続ける',
+                          rightAction: () {
+                            Navigator.pop(context1);
+                          },
+                          leftAction: () {
+                            Navigator.pop(context1);
+                            Navigator.popUntil(
+                                context, (route) => route.isFirst);
+                            controller.clearControllers();
+                            optionalController.clearControllers();
+                          },
+                        ),
                       );
                     },
                     child: const Icon(
@@ -90,8 +87,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                     onTap: () {
                       showDialog(
                           context: context,
-                          builder: (BuildContext context1) =>
-                              AlertDialogWidget(
+                          builder: (BuildContext context1) => AlertDialogWidget(
                                 title: 'ここまでの作問を保存しますか？',
                                 content: '保存した作問は後から再開できます',
                                 leftText: '作問を続ける',
@@ -147,9 +143,9 @@ class MakeQuestionPage extends HookConsumerWidget {
                                     onTap: isOptionAnswerTypeState.value
                                         ? null
                                         : () {
-                                      isOptionAnswerTypeState.value =
-                                      true;
-                                    },
+                                            isOptionAnswerTypeState.value =
+                                                true;
+                                          },
                                     child: Row(
                                       children: [
                                         Container(
@@ -165,17 +161,17 @@ class MakeQuestionPage extends HookConsumerWidget {
                                           ),
                                           child: isOptionAnswerTypeState.value
                                               ? Center(
-                                            child: Container(
-                                              width: 12.5.w,
-                                              height: 12.5.h,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color:
-                                                ColorSharedPreferenceService()
-                                                    .getColor(),
-                                              ),
-                                            ),
-                                          )
+                                                  child: Container(
+                                                    width: 12.5.w,
+                                                    height: 12.5.h,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color:
+                                                          ColorSharedPreferenceService()
+                                                              .getColor(),
+                                                    ),
+                                                  ),
+                                                )
                                               : null,
                                         ),
                                         SizedBox(
@@ -193,9 +189,9 @@ class MakeQuestionPage extends HookConsumerWidget {
                                 GestureDetector(
                                     onTap: isOptionAnswerTypeState.value
                                         ? () {
-                                      isOptionAnswerTypeState.value =
-                                      false;
-                                    }
+                                            isOptionAnswerTypeState.value =
+                                                false;
+                                          }
                                         : null,
                                     child: Row(
                                       children: [
@@ -213,17 +209,17 @@ class MakeQuestionPage extends HookConsumerWidget {
                                           child: isOptionAnswerTypeState.value
                                               ? null
                                               : Center(
-                                            child: Container(
-                                              width: 12.5.w,
-                                              height: 12.5.h,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color:
-                                                ColorSharedPreferenceService()
-                                                    .getColor(),
-                                              ),
-                                            ),
-                                          ),
+                                                  child: Container(
+                                                    width: 12.5.w,
+                                                    height: 12.5.h,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color:
+                                                          ColorSharedPreferenceService()
+                                                              .getColor(),
+                                                    ),
+                                                  ),
+                                                ),
                                         ),
                                         SizedBox(
                                           width: 5.w,
@@ -244,7 +240,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                               maxLength: 100,
                               height: 70.h,
                               controller:
-                              MakeQuestionController.questionController,
+                                  MakeQuestionController.questionController,
                               onChanged: (text) {
                                 name.value = text;
                               },
@@ -252,97 +248,93 @@ class MakeQuestionPage extends HookConsumerWidget {
                             ),
                             BasicAddWidget(
                               text: '画像を追加',
-                              icon: Icons.add,
-                              action: () async {
-                                await pickImage(ImageSource.gallery, imagePath);
+                              icon: (imagePath.value != null)
+                                  ? Icons.close
+                                  : Icons.add,
+                              action: (imagePath.value != null)
+                                  ? () {
+                                imagePath.value = null;
+                                imageUrl.value = "";
+                              }
+                                  : () async {
+                                      await pickImage(
+                                          ImageSource.gallery, imagePath);
 
-                                if (imagePath.value != null) {
-                                  final stringUrl =
-                                  await ref.read(storageFireStoreNotifierProvider.notifier).uploadImage(imagePath.value!);
+                                      if (imagePath.value != null) {
+                                        final stringUrl = await ref
+                                            .read(
+                                                storageFireStoreNotifierProvider
+                                                    .notifier)
+                                            .uploadImage(imagePath.value!,isUploadDone);
 
-                                  imageUrl.value = stringUrl;
-                                }
-                              },
+                                        isUploadDone.value = true;
+
+                                        imageUrl.value = stringUrl;
+                                      }
+                                    },
                             ),
-                            (imagePath.value !=
-                                null)
+                            (imagePath.value != null)
                                 ? Column(
-                              children: [
-                                SizedBox(
-                                  height: 20.h,
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Container(
-                                    color: Colors.white,
-                                    width: 250.w,
-                                    height: 200.h,
-                                    child: Stack(
-                                      children: [
-                                        Image.file(
-                                          File(imagePath.value!.path),
-                                          fit: BoxFit.contain,
-                                        ),
-                                        Positioned(
-                                          top: 0, // Containerの外側に配置
-                                          right: 0, // Containerの外側に配置
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              imagePath.value = null;
-                                              imageUrl.value = "";
-                                            },
-                                            child: Container(
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.white,
-                                                  border: Border.all(
-                                                    color:
-                                                    ColorSharedPreferenceService()
-                                                        .getColor(),
-                                                    width: 1,
-                                                  ),
-                                                ),
-                                                child: Icon(
-                                                  Icons.close,
-                                                  color:
-                                                  ColorSharedPreferenceService()
-                                                      .getColor(),
-                                                )),
+                                    children: [
+                                      SizedBox(
+                                        height: 20.h,
+                                      ),
+                                      Align(
+                                        alignment: Alignment.topLeft,
+                                        child: Container(
+                                          color: Colors.white,
+                                          width: 250.w,
+                                          height: 200.h,
+                                          child: Stack(
+                                            children: [
+                                              Image.file(
+                                                File(imagePath.value!.path),
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
+                                      ),
+                                    ],
+                                  )
                                 : const SizedBox(),
                             (isOptionAnswerTypeState.value)
-                                ? OptionMakeQuestionWidget(optionalList: optionalList, isSelectedOptionalItem: isSelectedOptionalItem, optionalNumber: optionalNumber,)
+                                ? OptionMakeQuestionWidget(
+                                    optionalList: optionalList,
+                                    isSelectedOptionalItem:
+                                        isSelectedOptionalItem,
+                                    optionalNumber: optionalNumber,
+                                  )
                                 : SizedBox(
-                              height: 15.h,
-                            ),
+                                    height: 15.h,
+                                  ),
                             (isOptionAnswerTypeState.value)
                                 ? Align(
-                                alignment: Alignment.topLeft,
-                                child: SelectOptionalWidget(correctAnswer: correctAnswer, optionalList: optionalList, optionalNumber: optionalNumber, isSelectedOptionalItem: isSelectedOptionalItem,))
+                                    alignment: Alignment.topLeft,
+                                    child: SelectOptionalWidget(
+                                      correctAnswer: correctAnswer,
+                                      optionalList: optionalList,
+                                      optionalNumber: optionalNumber,
+                                      isSelectedOptionalItem:
+                                          isSelectedOptionalItem,
+                                    ))
                                 : BaseTextFieldWidget(
-                              title: '正解',
-                              maxLength: 30,
-                              height: 70.h,
-                              controller: MakeQuestionController
-                                  .correctController,
-                              onChanged: (text) {
-                                correctAnswer.value = text;
-                              },
-                              onSubmitted: (text) {},
-                            ),
+                                    title: '正解',
+                                    maxLength: 30,
+                                    height: 70.h,
+                                    controller: MakeQuestionController
+                                        .correctController,
+                                    onChanged: (text) {
+                                      correctAnswer.value = text;
+                                    },
+                                    onSubmitted: (text) {},
+                                  ),
                             BaseTextFieldWidget(
                               title: '解説',
                               maxLength: 100,
                               height: 70.h,
                               controller:
-                              MakeQuestionController.commentController,
+                                  MakeQuestionController.commentController,
                               onChanged: (text) {
                                 explanation.value = text;
                               },
@@ -356,51 +348,57 @@ class MakeQuestionPage extends HookConsumerWidget {
                               children: [
                                 BasicButtonWidget(
                                   title: '最終確認へ',
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 2 -
+                                  width: MediaQuery.of(context).size.width / 2 -
                                       35.w,
                                   action: () {
+                                    if (!isUploadDone.value) {
+                                      displayErrorSnackBar(ref,context,"画像のアップロードが完了していません");
+                                    }
                                     if (isOptionAnswerTypeState.value == true) {
                                       ///選択肢の場合
 
                                       if (explanation.value == "" ||
-                                          name.value == "" ||
-                                          correctAnswer.value ==
-                                              "" ||
-                                          OptionalMakeQuestionController
-                                              .optionalController1
-                                              .text
-                                              .isEmpty ||
-                                          OptionalMakeQuestionController
-                                              .optionalController2
-                                              .text
-                                              .isEmpty
+                                              name.value == "" ||
+                                              correctAnswer.value == "" ||
+                                              OptionalMakeQuestionController
+                                                  .optionalController1
+                                                  .text
+                                                  .isEmpty ||
+                                              OptionalMakeQuestionController
+                                                  .optionalController2
+                                                  .text
+                                                  .isEmpty
 
-                                      ///未記入がある場合
-                                      ) {
-                                        controller.getSnackBar(context, ref,
-                                            isOptionAnswerTypeState,name,correctAnswer,explanation);
+                                          ///未記入がある場合
+                                          ) {
+                                        controller.getSnackBar(
+                                            context,
+                                            ref,
+                                            isOptionAnswerTypeState,
+                                            name,
+                                            correctAnswer,
+                                            explanation);
 
                                         optionalController.getSnackBar(
                                             context, ref);
                                       } else {
                                         ///未記入がない場合
 
-                                        final detail = ref.read(
-                                            questionDetailNotifierProvider
-                                                .notifier).getQuestionDetail(
-                                            isOptionAnswerTypeState.value,
-                                            name.value, imageUrl.value,
-                                            correctAnswer.value,
-                                            explanation.value,
-                                            optionalList.value);
+                                        final detail = ref
+                                            .read(questionDetailNotifierProvider
+                                                .notifier)
+                                            .getQuestionDetail(
+                                                isOptionAnswerTypeState.value,
+                                                name.value,
+                                                imageUrl.value,
+                                                correctAnswer.value,
+                                                explanation.value,
+                                                optionalList.value);
 
-                                        final updatedList = List<
-                                            QuestionDetail>.from(
-                                            questionDetailList.value)
-                                          ..add(detail);
+                                        final updatedList =
+                                            List<QuestionDetail>.from(
+                                                questionDetailList.value)
+                                              ..add(detail);
 
                                         questionDetailList.value = updatedList;
 
@@ -417,37 +415,46 @@ class MakeQuestionPage extends HookConsumerWidget {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   ConfirmQuestionPage(
-                                                    initial: initial, questionDetail: questionDetailList.value,)),
+                                                    initial: initial,
+                                                    questionDetail:
+                                                        questionDetailList
+                                                            .value,
+                                                  )),
                                         );
                                       }
                                     } else {
                                       ///記述の場合
 
                                       if (explanation.value == "" ||
-                                          name.value == "" ||
-                                          correctAnswer.value ==
-                                              ""
+                                              name.value == "" ||
+                                              correctAnswer.value == ""
 
-                                      ///未記入がある場合
-                                      ) {
-                                        controller.getSnackBar(context, ref,
-                                            isOptionAnswerTypeState,name,correctAnswer,explanation);
-
+                                          ///未記入がある場合
+                                          ) {
+                                        controller.getSnackBar(
+                                            context,
+                                            ref,
+                                            isOptionAnswerTypeState,
+                                            name,
+                                            correctAnswer,
+                                            explanation);
                                       } else {
                                         ///未記入がない場合
-                                        final detail = ref.read(
-                                            questionDetailNotifierProvider
-                                                .notifier).getQuestionDetail(
-                                            isOptionAnswerTypeState.value,
-                                            name.value, imageUrl.value,
-                                            correctAnswer.value,
-                                            explanation.value,
-                                            optionalList.value);
+                                        final detail = ref
+                                            .read(questionDetailNotifierProvider
+                                                .notifier)
+                                            .getQuestionDetail(
+                                                isOptionAnswerTypeState.value,
+                                                name.value,
+                                                imageUrl.value,
+                                                correctAnswer.value,
+                                                explanation.value,
+                                                optionalList.value);
 
-                                        final updatedList = List<
-                                            QuestionDetail>.from(
-                                            questionDetailList.value)
-                                          ..add(detail);
+                                        final updatedList =
+                                            List<QuestionDetail>.from(
+                                                questionDetailList.value)
+                                              ..add(detail);
 
                                         questionDetailList.value = updatedList;
 
@@ -464,7 +471,11 @@ class MakeQuestionPage extends HookConsumerWidget {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   ConfirmQuestionPage(
-                                                    initial: initial, questionDetail: questionDetailList.value,)),
+                                                    initial: initial,
+                                                    questionDetail:
+                                                        questionDetailList
+                                                            .value,
+                                                  )),
                                         );
                                       }
                                     }
@@ -475,12 +486,12 @@ class MakeQuestionPage extends HookConsumerWidget {
                                 ),
                                 BasicButtonWidget(
                                   title: '${questionNumber.value + 1}問目へ',
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 2 -
+                                  width: MediaQuery.of(context).size.width / 2 -
                                       35.w,
                                   action: () {
+                                    if (!isUploadDone.value) {
+                                      displayErrorSnackBar(ref,context,"画像のアップロードが完了していません");
+                                    }
                                     if (isOptionAnswerTypeState.value == true) {
                                       if (explanation.value == "" ||
                                           name.value == "" ||
@@ -493,8 +504,13 @@ class MakeQuestionPage extends HookConsumerWidget {
                                               .optionalController2
                                               .text
                                               .isEmpty) {
-                                        controller.getSnackBar(context, ref,
-                                            isOptionAnswerTypeState,name,correctAnswer,explanation);
+                                        controller.getSnackBar(
+                                            context,
+                                            ref,
+                                            isOptionAnswerTypeState,
+                                            name,
+                                            correctAnswer,
+                                            explanation);
                                         //ここのロジックもかえる
 
                                         optionalController.getSnackBar(
@@ -502,19 +518,21 @@ class MakeQuestionPage extends HookConsumerWidget {
                                       } else {
                                         questionNumber.value++;
 
-                                        final detail = ref.read(
-                                            questionDetailNotifierProvider
-                                                .notifier).getQuestionDetail(
-                                            isOptionAnswerTypeState.value,
-                                            name.value, imageUrl.value,
-                                            correctAnswer.value,
-                                            explanation.value,
-                                            optionalList.value);
+                                        final detail = ref
+                                            .read(questionDetailNotifierProvider
+                                                .notifier)
+                                            .getQuestionDetail(
+                                                isOptionAnswerTypeState.value,
+                                                name.value,
+                                                imageUrl.value,
+                                                correctAnswer.value,
+                                                explanation.value,
+                                                optionalList.value);
 
-                                        final updatedList = List<
-                                            QuestionDetail>.from(
-                                            questionDetailList.value)
-                                          ..add(detail);
+                                        final updatedList =
+                                            List<QuestionDetail>.from(
+                                                questionDetailList.value)
+                                              ..add(detail);
 
                                         questionDetailList.value = updatedList;
 
@@ -527,32 +545,38 @@ class MakeQuestionPage extends HookConsumerWidget {
                                     } else {
                                       if (explanation.value == "" ||
                                           name.value == "" ||
-                                          correctAnswer.value ==
-                                              "") {
-                                        controller.getSnackBar(context, ref,
-                                            isOptionAnswerTypeState,name,correctAnswer,explanation);
+                                          correctAnswer.value == "") {
+                                        controller.getSnackBar(
+                                            context,
+                                            ref,
+                                            isOptionAnswerTypeState,
+                                            name,
+                                            correctAnswer,
+                                            explanation);
 
                                         optionalController.getSnackBar(
                                             context, ref);
                                       } else {
                                         questionNumber.value++;
 
-                                        final detail = ref.read(
-                                            questionDetailNotifierProvider
-                                                .notifier).getQuestionDetail(
-                                            isOptionAnswerTypeState.value,
-                                            name.value, imageUrl.value,
-                                            correctAnswer.value,
-                                            explanation.value,
-                                            optionalList.value);
+                                        final detail = ref
+                                            .read(questionDetailNotifierProvider
+                                                .notifier)
+                                            .getQuestionDetail(
+                                                isOptionAnswerTypeState.value,
+                                                name.value,
+                                                imageUrl.value,
+                                                correctAnswer.value,
+                                                explanation.value,
+                                                optionalList.value);
 
-                                        final updatedList = List<
-                                            QuestionDetail>.from(
-                                            questionDetailList.value)
-                                          ..add(detail);
+                                        final updatedList =
+                                            List<QuestionDetail>.from(
+                                                questionDetailList.value)
+                                              ..add(detail);
 
                                         questionDetailList.value = updatedList;
-                                        
+
                                         controller.clearControllers();
 
                                         optionalController.clearControllers();

@@ -7,7 +7,6 @@ import 'package:share_question/widgets/basic_floating_button.dart';
 
 import '../../controller/make_question_controller/make_question_controller.dart';
 import '../../data/local/color_shared_preference_service.dart';
-import '../../data/remote/storage_dao.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/storage_firestore/storage_firestore_notifier.dart';
 import '../../util/alart_dialog.dart';
@@ -52,6 +51,8 @@ class EditOptionalQuestionPages extends HookConsumerWidget {
         .toList();
 
     final controllers = controllersRef.value!;
+
+    final isUploadDone = useState(true);
 
     return Scaffold(
         appBar: AppBar(
@@ -101,7 +102,9 @@ class EditOptionalQuestionPages extends HookConsumerWidget {
 
                       if (imagePath.value != null) {
 
-                        final stringUrl = await ref.read(storageFireStoreNotifierProvider.notifier).uploadImage(imagePath.value!);
+                        final stringUrl = await ref.read(storageFireStoreNotifierProvider.notifier).uploadImage(imagePath.value!,isUploadDone);
+
+                        isUploadDone.value = true;
 
                         imageUrlValue.value = stringUrl;
                       }
@@ -206,6 +209,9 @@ class EditOptionalQuestionPages extends HookConsumerWidget {
         floatingActionButton: BasicFloatingButtonWidget(
             text: '修正',
             action: () {
+              if (!isUploadDone.value) {
+                displayErrorSnackBar(ref,context,"画像のアップロードが完了していません");
+              }
               if (questionName.value == "" ||
                   correctAnswer.value == "" ||
                   explain.value == "") {

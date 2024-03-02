@@ -42,6 +42,7 @@ class EditQuestionPages extends HookConsumerWidget {
         TextEditingController(text: questionDetail.value.correctAnswer));
     final imageUrlValue = useState(questionDetail.value.image);
     final imagePath = useState<XFile?>(null);
+    final isUploadDone = useState(true);
 
     return Scaffold(
       appBar: AppBar(
@@ -99,7 +100,9 @@ class EditQuestionPages extends HookConsumerWidget {
 
                           final stringUrl = await ref
                               .read(storageFireStoreNotifierProvider.notifier)
-                              .uploadImage(imagePath.value!);
+                              .uploadImage(imagePath.value!,isUploadDone);
+
+                          isUploadDone.value = false;
 
                           imageUrlValue.value = stringUrl;
                         },
@@ -190,6 +193,9 @@ class EditQuestionPages extends HookConsumerWidget {
       floatingActionButton: BasicFloatingButtonWidget(
           text: '修正',
           action: () {
+            if (!isUploadDone.value) {
+              displayErrorSnackBar(ref,context,"画像のアップロードが完了していません");
+            }
             if (questionName.value == "" ||
                 correct.value == "" ||
                 explain.value == "") {
