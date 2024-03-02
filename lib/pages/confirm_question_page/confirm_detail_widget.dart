@@ -9,6 +9,7 @@ import '../../constant/style.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/question_data/question.dart';
 import '../edit_question_pages/edit_optional_question_pages.dart';
+import '../edit_question_pages/edit_question_pages.dart';
 
 class ConfirmDetailWidget extends HookConsumerWidget {
   const ConfirmDetailWidget({
@@ -58,10 +59,20 @@ class ConfirmDetailWidget extends HookConsumerWidget {
                         const EdgeInsets.only(right: 15),
                         child: GestureDetector(
                           onTap: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => EditOptionalQuestionPages(questionNumber: i + 1, index: i, questionDetail: questionDetailValue, questionDetailListValue: questionDetailListValue,)),
-                            );
+
+                            if (questionDetail.isOptional) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => EditOptionalQuestionPages(questionNumber: i + 1, index: i, questionDetail: questionDetailValue, questionDetailListValue: questionDetailListValue,)),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>  EditQuestionPages(questionNumber: i + 1, questionDetail: questionDetailValue, questionDetailListValue: questionDetailListValue, index: i,)),
+                              );
+
+                            }
+
                           },
                           child: Row(
                             children: [

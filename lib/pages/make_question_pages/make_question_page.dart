@@ -9,10 +9,10 @@ import 'package:share_question/controller/optional_make_question_controller/opti
 
 import '../../controller/make_question_controller/make_question_controller.dart';
 import '../../data/local/color_shared_preference_service.dart';
-import '../../data/remote/storage_dao.dart';
 import '../../entity/initial_question/initial_question.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/question_detail/question_detail_notifier.dart';
+import '../../notifier/storage_firestore/storage_firestore_notifier.dart';
 import '../../widgets/base_textfield_widget.dart';
 import '../../widgets/basic_button_widget.dart';
 import '../../widgets/dialog_widget.dart';
@@ -258,8 +258,7 @@ class MakeQuestionPage extends HookConsumerWidget {
 
                                 if (imagePath.value != null) {
                                   final stringUrl =
-                                  await StorageDao.uploadImageToFirebase(
-                                      imagePath.value!);
+                                  await ref.read(storageFireStoreNotifierProvider.notifier).uploadImage(imagePath.value!);
 
                                   imageUrl.value = stringUrl;
                                 }

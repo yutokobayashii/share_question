@@ -1,6 +1,3 @@
-
-
-
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 class StorageDao {
-
   static Future<String> uploadImageToFirebase(XFile imageFile) async {
     try {
       File file = File(imageFile.path);
@@ -20,20 +16,19 @@ class StorageDao {
 
       UploadTask uploadTask = ref.putFile(file);
 
+      uploadTask.snapshotEvents
+          .listen((TaskSnapshot snapshot) {}, onError: (e) {});
+
       // アップロードの完了を待つ
-      await uploadTask;
+      await uploadTask.whenComplete(() => null);
 
       // アップロードが完了した後にダウンロードURLを取得
       String downloadURL = await ref.getDownloadURL();
 
       return downloadURL;
-    }  catch (e) {
-
-        debugPrint("アップロードまたはURL取得中にエラーが発生しました: $e");
-        return ''; // エラーが発生した場合は空文字を返すか、エラーを投げる
+    } catch (e) {
+      debugPrint("アップロードまたはURL取得中にエラーが発生しました: $e");
+      return ''; // エラーが発生した場合は空文字を返すか、エラーを投げる
     }
   }
-
-
 }
-
