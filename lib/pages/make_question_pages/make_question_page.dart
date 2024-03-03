@@ -83,36 +83,6 @@ class MakeQuestionPage extends HookConsumerWidget {
                   ),
                 ),
                 title: Center(child: Text('${questionNumber.value}問目')),
-                actions: [
-                  GestureDetector(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context1) => AlertDialogWidget(
-                                title: 'ここまでの作問を保存しますか？',
-                                content: '保存した作問は後から再開できます',
-                                leftText: '作問を続ける',
-                                rightText: '保存する',
-                                rightAction: () {
-                                  debugPrint('保存しました');
-                                  Navigator.pop(context1);
-                                  Navigator.popUntil(
-                                      context, (route) => route.isFirst);
-                                },
-                                leftAction: () {
-                                  Navigator.pop(context1);
-                                },
-                              ));
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.only(right: 15),
-                      child: Icon(
-                        Icons.description_outlined,
-                        size: 28,
-                      ),
-                    ),
-                  ),
-                ],
               ),
               body: Container(
                 color: Colors.white,
