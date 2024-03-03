@@ -81,7 +81,28 @@ dependencies:
   #カレンダー
   table_calendar: ^3.0.9
 
+  #アイコン
+  flutter_launcher_icons: ^0.13.1
 
+  #初期画面
+  flutter_native_splash: ^2.3.10
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
+
+flutter_native_splash:
+  color: '#FFFFFF'
+  image: 'assets/images/screen.png'
+  color_dark: '#262626'
+  image_dark: 'assets/images/screen.png'
+  fullscreen: true
+  android_12:
+    icon_background_color: '#FFFFFF'
+    image: 'assets/images/screen.png'
+    icon_background_color_dark: '#262626'
+    image_dark: 'assets/images/screen.png'
 
 
 dev_dependencies:

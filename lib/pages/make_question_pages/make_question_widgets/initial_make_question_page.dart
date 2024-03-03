@@ -101,7 +101,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                             controller: InitialQuestionController
                                 .questionNameController,
                             onChanged: (text) {
-                            name.value = text;
+                              name.value = text;
                             },
                             onSubmitted: (text) {},
                           ),
@@ -115,7 +115,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                             controller:
                                 InitialQuestionController.authorController,
                             onChanged: (text) {
-                             author.value = text;
+                              author.value = text;
                             },
                             onSubmitted: (text) {},
                           ),
@@ -129,7 +129,7 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                             controller:
                                 InitialQuestionController.explainController,
                             onChanged: (text) {
-                            explain.value = text;
+                              explain.value = text;
                             },
                             onSubmitted: (text) {},
                           ),
@@ -152,31 +152,36 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                     ),
                   ),
                 ),
-                floatingActionButton: BasicFloatingButtonWidget(
-                  text: '次へ',
-                  action: () async {
-                    if (InitialQuestionController
-                            .questionNameController.text.isEmpty ||
-                        InitialQuestionController
-                            .authorController.text.isEmpty ||
-                        InitialQuestionController
-                            .explainController.text.isEmpty ||
-                        InitialQuestionController
-                            .commentController.text.isEmpty) {
-                      controller.getSnackBar(context, ref);
-                    } else {
-                      controller.clearControllers();
+                floatingActionButton:  BasicFloatingButtonWidget(
+                        text: '次へ',
+                        action: () async {
+                          if (InitialQuestionController
+                                  .questionNameController.text.isEmpty ||
+                              InitialQuestionController
+                                  .authorController.text.isEmpty ||
+                              InitialQuestionController
+                                  .explainController.text.isEmpty ||
+                              InitialQuestionController
+                                  .commentController.text.isEmpty) {
+                            controller.getSnackBar(context, ref);
+                          } else {
+                            controller.clearControllers();
 
-                     final initial = ref.read(initialQuestionNotifierProvider.notifier).get(name.value, author.value, explain.value, comment.value);
+                            final initial = ref
+                                .read(initialQuestionNotifierProvider.notifier)
+                                .get(name.value, author.value, explain.value,
+                                    comment.value);
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MakeQuestionPage(initial: initial,)),
-                      );
-                    }
-                  },
-                )),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MakeQuestionPage(
+                                        initial: initial,
+                                      )),
+                            );
+                          }
+                        },
+                      )),
           );
         });
   }
