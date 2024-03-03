@@ -34,7 +34,7 @@ class MakeQuestionPage extends HookConsumerWidget {
     final optionalController = OptionalMakeQuestionController(ref);
     final questionDetailList = useState<List<QuestionDetail>>([]);
     final name = useState<String>("");
-    final isUploadDone = useState<bool>(true);//そもそも画像をアップロードしない場合もあるので初期値はtrue
+    final isUploadDone = useState<bool>(true); //そもそも画像をアップロードしない場合もあるので初期値はtrue
     final imagePath = useState<XFile?>(null);
     final imageUrl = useState("");
     final correctAnswer = useState("");
@@ -42,6 +42,7 @@ class MakeQuestionPage extends HookConsumerWidget {
     final optionalList = useState<List<String>>(["", ""]);
     final optionalNumber = useState(2);
     final isSelectedOptionalItem = useState("0");
+    final imageNumber = useState(0);
 
     return ScreenUtilInit(
         designSize: const Size(393, 852),
@@ -246,17 +247,24 @@ class MakeQuestionPage extends HookConsumerWidget {
                               },
                               onSubmitted: (text) {},
                             ),
+                            (imageNumber.value > 6) ?//5かも？
+                                const Text('画像枚数上限に達しました。有料会員になれば無制限で画像を挿入できます。')
+                                :
                             BasicAddWidget(
                               text: '画像を追加',
                               icon: (imagePath.value != null)
                                   ? Icons.close
                                   : Icons.add,
                               action: (imagePath.value != null)
+                                  //×ボタン押下時
                                   ? () {
-                                imagePath.value = null;
-                                imageUrl.value = "";
-                              }
+                                      imagePath.value = null;
+                                      imageUrl.value = "";
+                                      imageNumber.value--;
+                                    }
                                   : () async {
+                                      //➕ボタン押下時
+                                      imageNumber.value++;
                                       await pickImage(
                                           ImageSource.gallery, imagePath);
 
@@ -265,13 +273,44 @@ class MakeQuestionPage extends HookConsumerWidget {
                                             .read(
                                                 storageFireStoreNotifierProvider
                                                     .notifier)
-                                            .uploadImage(imagePath.value!,isUploadDone);
+                                            .uploadImage(
+                                                imagePath.value!, isUploadDone);
 
                                         isUploadDone.value = true;
 
                                         imageUrl.value = stringUrl;
                                       }
                                     },
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: RichText(
+                                text: TextSpan(
+                                    // デフォルトのスタイルを設定します
+                                    style: const TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.black,
+                                    ),
+                                    children: <TextSpan>[
+                                      const TextSpan(text: '※今回の作問で使用できる画像は残り'),
+                                      TextSpan(
+                                        text:
+                                            (5 - imageNumber.value).toString(),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const TextSpan(
+                                        text: "枚です。",
+                                        style: TextStyle(
+                                          fontSize: 14.0,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ]),
+                              ),
                             ),
                             (imagePath.value != null)
                                 ? Column(
@@ -352,7 +391,8 @@ class MakeQuestionPage extends HookConsumerWidget {
                                       35.w,
                                   action: () {
                                     if (!isUploadDone.value) {
-                                      displayErrorSnackBar(ref,context,"画像のアップロードが完了していません");
+                                      displayErrorSnackBar(
+                                          ref, context, "画像のアップロードが完了していません");
                                     }
                                     if (isOptionAnswerTypeState.value == true) {
                                       ///選択肢の場合
@@ -490,7 +530,8 @@ class MakeQuestionPage extends HookConsumerWidget {
                                       35.w,
                                   action: () {
                                     if (!isUploadDone.value) {
-                                      displayErrorSnackBar(ref,context,"画像のアップロードが完了していません");
+                                      displayErrorSnackBar(
+                                          ref, context, "画像のアップロードが完了していません");
                                     }
                                     if (isOptionAnswerTypeState.value == true) {
                                       if (explanation.value == "" ||
