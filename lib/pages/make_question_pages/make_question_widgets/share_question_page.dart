@@ -43,9 +43,9 @@ class ShareQuestionPage extends StatelessWidget {
                 child: SizedBox(
                   width: 200.w,
                   height: 200.h,
-                  child: Image.network('https://1.bp.blogspot.com/-HdrrDLMxxGs/Ws2uzOpk8yI/AAAAAAABLRY/9Td_5zg6Nf4eOkMiTbVdJ8qwuAfHfCltwCLcBGAs/s800/figure_dance.png')),
+                  child: Image.asset("assets/images/share.png")
+               ),
               ),
-
               SizedBox(height: 15.h,),
 
               Text('作問お疲れ様でした！',

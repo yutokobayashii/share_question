@@ -265,20 +265,32 @@ class MakeQuestionPage extends HookConsumerWidget {
                                       color: Colors.black,
                                     ),
                                     children: <TextSpan>[
-                                      const TextSpan(text: '※今回の作問で使用できる画像は残り'),
+                                      const TextSpan(text: '※今回の作問で使用できる画像は残り',
+                                          style: TextStyle(
+                                            color: Colors.black38
+                                          )),
                                       TextSpan(
                                         text:
                                             (5 - imageNumber.value).toString(),
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                          color: Colors.black38,
+                                          fontWeight: FontWeight.bold),
                                       ),
                                       const TextSpan(
                                         text: "枚です。",
                                         style: TextStyle(
                                           fontSize: 14.0,
-                                          color: Colors.black,
+                                          color: Colors.black38,
                                         ),
                                       ),
+                                  const TextSpan(
+                                    text: "\n有料会員になれば無制限で画像を挿入できます。",
+                                    style: TextStyle(
+                                      fontSize: 14.0,
+                                      color: Colors.black38,
+                                    ),
+                                  ),
+
                                     ]),
                               ),
                             ),
