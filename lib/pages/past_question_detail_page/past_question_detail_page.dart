@@ -34,12 +34,6 @@ class PastQuestionDetailPage extends HookConsumerWidget {
               child: const Icon(Icons.arrow_back, size: 28,)),
 
 
-          actions: const [
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(Icons.lightbulb_outline,size: 28,),
-            )
-          ],
         ),
         body: FutureBuilder(
           future: cloudFireStoreNotifier.getQuestion(token),

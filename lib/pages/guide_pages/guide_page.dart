@@ -8,13 +8,15 @@ import '../../constant/style.dart';
 
 
 
-class GuideWidget extends StatelessWidget {
-  const GuideWidget({
+class GuidePage extends StatelessWidget {
+  const GuidePage({
     super.key,
     required this.title,
+    required this.widgets
   });
 
   final String title;
+  final List<Widget> widgets;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class GuideWidget extends StatelessWidget {
         Navigator.pop(context);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => GuidePageWidget(title:title)),
+          MaterialPageRoute(builder: (context) => GuidePageWidget(title:title, widgets: widgets,)),
         );
       },
       child: Container(

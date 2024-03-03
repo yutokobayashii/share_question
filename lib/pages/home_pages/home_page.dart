@@ -25,19 +25,12 @@ class HomePage extends StatelessWidget {
               appBar: AppBar(
                 backgroundColor: Colors.white,
                 title: const Text("ホーム"),
-               actions: const [
-                 Padding(
-                   padding: EdgeInsets.only(right: 20),
-                   child: Icon(Icons.lightbulb_outline,size: 28,),
-                 )
-               ],
               ),
               body: Container(
                 color: Colors.white,
                 child: Padding(
                   padding: EdgeInsets.only(top: 30.h),
                   child: Column(
-                                //    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Align(
                         alignment: Alignment.center,

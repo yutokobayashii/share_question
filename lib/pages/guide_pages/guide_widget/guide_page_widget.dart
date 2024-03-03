@@ -9,9 +9,11 @@ class GuidePageWidget extends HookConsumerWidget {
   const GuidePageWidget(  {
     super.key,
     required this.title,
+    required this.widgets
   });
 
   final String title;
+  final List<Widget> widgets;
 
 
   @override
@@ -44,17 +46,13 @@ class GuidePageWidget extends HookConsumerWidget {
                 onPageChanged: (int page) {
                   currentPage.value = page;
                 },
-                children: [
-                  Container(color: Colors.red),
-                  Container(color: Colors.green),
-                  Container(color: Colors.blue),
-                ],
+                children: widgets,
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                3, // ページ数
+                widgets.length, // ページ数
                     (index) => Container(
                   margin: const EdgeInsets.all(4),
                   width: 10,

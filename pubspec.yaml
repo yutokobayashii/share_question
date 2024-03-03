@@ -87,6 +87,10 @@ dependencies:
   #初期画面
   flutter_native_splash: ^2.3.10
 
+  #画像生成
+  flutter_gen_runner: ^5.4.0
+
+
 flutter_icons:
   android: true
   ios: true
@@ -125,7 +129,9 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/images/share.png
+    - assets/images/
+    - assets/guide_make/
+    - assets/guide_answer/
 
 
   # The following line ensures that the Material Icons font is

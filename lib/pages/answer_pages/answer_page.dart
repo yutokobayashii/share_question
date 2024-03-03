@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../constant/style.dart';
+import '../guide_pages/guide_widget/select_guide_widget.dart';
 import '../home_pages/home_widgets/main_home_widget.dart';
 import '../input_password_pages/input_password_page.dart';
 import 'answer_widgets/question_list_page.dart';
@@ -20,10 +21,25 @@ class AnswerPage extends HookConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text("解答"),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 20),
-            child: Icon(Icons.lightbulb_outline,size: 28,),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定
+                builder: (BuildContext context) {
+                  return Container(
+                      color: Colors.white,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      width: MediaQuery.of(context).size.width,
+                      child: const SelectGuideWidget());
+                },
+              );
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Icon(Icons.lightbulb_outline,size: 28,),
+            ),
           )
         ],
       ),

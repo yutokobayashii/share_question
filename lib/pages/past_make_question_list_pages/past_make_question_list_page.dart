@@ -6,6 +6,7 @@ import 'package:share_question/data/local/token_isar_dao.dart';
 import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_list_widget.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
+import '../guide_pages/guide_widget/select_guide_widget.dart';
 
 class PastMakeQuestionListPage extends HookConsumerWidget {
   const PastMakeQuestionListPage({super.key});
@@ -27,10 +28,25 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
               child: const Icon(Icons.arrow_back, size: 28,)),
 
 
-          actions: const [
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(Icons.lightbulb_outline,size: 28,),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定
+                  builder: (BuildContext context) {
+                    return Container(
+                        color: Colors.white,
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        width: MediaQuery.of(context).size.width,
+                        child: const SelectGuideWidget());
+                  },
+                );
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Icon(Icons.lightbulb_outline,size: 28,),
+              ),
             )
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../entity/grade_data/grade.dart';
 import '../../notifier/grade/grade_notifier.dart';
+import '../guide_pages/guide_widget/select_guide_widget.dart';
 import 'grade_list_widget.dart';
 
 class GradePage extends HookConsumerWidget {
@@ -34,12 +35,27 @@ class GradePage extends HookConsumerWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: const Text("成績"),
-          actions: const [
-            Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: Icon(
-                Icons.lightbulb_outline,
-                size: 28,
+          actions: [
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定
+                  builder: (BuildContext context) {
+                    return Container(
+                        color: Colors.white,
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        width: MediaQuery.of(context).size.width,
+                        child: const SelectGuideWidget());
+                  },
+                );
+              },
+              child: const Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Icon(
+                  Icons.lightbulb_outline,
+                  size: 28,
+                ),
               ),
             )
           ],

@@ -32,6 +32,7 @@ class InputPasswordPage extends HookConsumerWidget {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             backgroundColor: Colors.white,
             leading: GestureDetector(
                 onTap: () {
@@ -41,16 +42,7 @@ class InputPasswordPage extends HookConsumerWidget {
                   Icons.arrow_back,
                   size: 28,
                 )),
-            title: const Center(child: Text('問題を探す')),
-            actions: const [
-              Padding(
-                padding: EdgeInsets.only(right: 20),
-                child: Icon(
-                  Icons.lightbulb_outline,
-                  size: 28,
-                ),
-              )
-            ],
+            title: const Text('問題を探す'),
           ),
           body: Container(
             color: Colors.white,

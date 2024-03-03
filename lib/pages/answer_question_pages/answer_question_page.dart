@@ -29,7 +29,6 @@ class AnswerQuestionPage extends HookConsumerWidget {
     final textController = useTextEditingController();
 
     final questionData = data.questionDetailList[currentIndex.value];
-    print(data);
 
     return MaterialApp(
       home: Scaffold(
@@ -54,117 +53,122 @@ class AnswerQuestionPage extends HookConsumerWidget {
             )
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Container(
-            color: Colors.white,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 50.w,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(5)),
-                              child: LinearProgressIndicator(
-                                value: currentIndex.value / maxNumber,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  ColorSharedPreferenceService().getColor(),
+        body: Container(
+          color: Colors.white,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Container(
+              color: Colors.white,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 50.w,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(5)),
+                                child: LinearProgressIndicator(
+                                  value: currentIndex.value / maxNumber,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    ColorSharedPreferenceService().getColor(),
+                                  ),
+                                  backgroundColor: Colors.black12,
+                                  minHeight: 20,
                                 ),
-                                backgroundColor: Colors.black12,
-                                minHeight: 20,
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Text(
-                            '${currentIndex.value.toString()}/$maxNumber',
-                            style: boldTextStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30.h,
-                  ),
-                  Text(
-                    questionData.questionName,
-                    style: boldTextStyle,
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  (questionData.image != "")
-                      ? Container(
-                          color: Colors.white,
-                          width: MediaQuery.of(context).size.width - 50.w,
-                          height: 200.h,
-                          child: Image.network(questionData.image))
-                      : const SizedBox(
-                          height: 15,
-                        ),
-                  questionData.isOptional
-                      ? OptionalAnswerWidget(
-                          options: questionData.optionalList,
-                          yourAnswer: yourAnswer,
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                            SizedBox(
+                              width: 10.w,
+                            ),
                             Text(
-                              '記入欄',
+                              '${currentIndex.value.toString()}/$maxNumber',
                               style: boldTextStyle,
                             ),
-                            SizedBox(
-                              height: 15.h,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width - 50.w,
-                              child: TextField(
-                                keyboardType: TextInputType.multiline,
-                                textInputAction: TextInputAction.done,
-                                maxLines: 3,
-                                maxLength: 50,
-                                cursorColor:
-                                    ColorSharedPreferenceService().getColor(),
-                                controller: textController,
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: ColorSharedPreferenceService()
-                                          .getColor(),
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: ColorSharedPreferenceService()
-                                          .getColor(),
-                                    ),
-                                  ),
-                                ),
-                                onChanged: (text) {},
-                                onSubmitted: (text) {
-                                  yourAnswer.value = text;
-                                },
-                              ),
-                            )
                           ],
                         ),
-                  SizedBox(
-                    height: 100.h,
-                  ),
-                ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Text(
+                      questionData.questionName,
+                      style: boldTextStyle,
+                    ),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    (questionData.image != "")
+                        ? Container(
+                            color: Colors.white,
+                            width: MediaQuery.of(context).size.width - 50.w,
+                            height: 200.h,
+                            child: Image.network(questionData.image))
+                        : const SizedBox(
+                            height: 15,
+                          ),
+                    questionData.isOptional
+                        ? OptionalAnswerWidget(
+                            options: questionData.optionalList,
+                            yourAnswer: yourAnswer,
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '記入欄',
+                                style: boldTextStyle,
+                              ),
+                              SizedBox(
+                                height: 15.h,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 50.w,
+                                child: TextField(
+                                  keyboardType: TextInputType.multiline,
+                                  textInputAction: TextInputAction.done,
+                                  maxLines: 3,
+                                  maxLength: 50,
+                                  cursorColor:
+                                      ColorSharedPreferenceService().getColor(),
+                                  controller: textController,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: ColorSharedPreferenceService()
+                                            .getColor(),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: ColorSharedPreferenceService()
+                                            .getColor(),
+                                      ),
+                                    ),
+                                  ),
+                                  onChanged: (text) {},
+                                  onSubmitted: (text) {
+                                    yourAnswer.value = text;
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                    SizedBox(
+                      height: 100.h,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
