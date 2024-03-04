@@ -45,7 +45,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
         return BaseTextFieldWidget(
           title: '選択肢${i + 3}',
           maxLength: 30,
-          height: 70.h,
+          height: 90.h,
           controller: controllers.value[i],
           rightWidget: GestureDetector(
             onTap: () {
@@ -99,7 +99,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
         BaseTextFieldWidget(
           title: '選択肢1',
           maxLength: 30,
-          height: 70.h,
+          height: 90.h,
           controller: OptionalMakeQuestionController.optionalController1,
           rightWidget: const IsRequiredWidget(),
           onChanged: (text) {
@@ -115,7 +115,7 @@ class OptionMakeQuestionWidget extends HookConsumerWidget {
         BaseTextFieldWidget(
           title: '選択肢2',
           maxLength: 30,
-          height: 70.h,
+          height: 90.h,
           controller: OptionalMakeQuestionController.optionalController2,
           rightWidget: const IsRequiredWidget(),
           onChanged: (text) {

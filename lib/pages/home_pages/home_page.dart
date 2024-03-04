@@ -7,6 +7,7 @@ import 'package:share_question/pages/calendar_page/calendar_page.dart';
 import 'package:share_question/pages/home_pages/home_widgets/small_main_home_widget.dart';
 import 'package:share_question/pages/past_make_question_list_pages/past_make_question_list_page.dart';
 
+import '../../gen/assets.gen.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
 import '../make_question_pages/make_question_widgets/initial_make_question_page.dart';
 import 'home_widgets/main_home_widget.dart';
@@ -101,6 +102,10 @@ class HomePage extends StatelessWidget {
                           );
                         },
                       ),
+                      SizedBox(
+                        width: 260.w,
+                        height: 260.h,
+                        child: Image.asset(Assets.images.screen.path))
                     ],
                   ),
                 ),

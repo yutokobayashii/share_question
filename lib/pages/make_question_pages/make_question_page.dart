@@ -82,7 +82,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                     ),
                   ),
                 ),
-                title: Center(child: Text('${questionNumber.value}問目')),
+                title: Text('${questionNumber.value}問目'),
               ),
               body: Container(
                 color: Colors.white,
@@ -209,7 +209,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                             BaseTextFieldWidget(
                               title: '問題',
                               maxLength: 100,
-                              height: 70.h,
+                              height: 90.h,
                               controller:
                                   MakeQuestionController.questionController,
                               onChanged: (text) {
@@ -342,7 +342,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                 : BaseTextFieldWidget(
                                     title: '正解',
                                     maxLength: 30,
-                                    height: 70.h,
+                                    height: 90.h,
                                     controller: MakeQuestionController
                                         .correctController,
                                     onChanged: (text) {
@@ -353,7 +353,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                             BaseTextFieldWidget(
                               title: '解説',
                               maxLength: 100,
-                              height: 70.h,
+                              height: 90.h,
                               controller:
                                   MakeQuestionController.commentController,
                               onChanged: (text) {

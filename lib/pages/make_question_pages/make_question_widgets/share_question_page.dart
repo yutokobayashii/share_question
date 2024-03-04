@@ -43,7 +43,7 @@ class ShareQuestionPage extends StatelessWidget {
                 child: SizedBox(
                   width: 200.w,
                   height: 200.h,
-                  child: Image.asset("assets/images/share.png")
+                  child: Image.asset("assets/images/screen.png")
                ),
               ),
               SizedBox(height: 15.h,),

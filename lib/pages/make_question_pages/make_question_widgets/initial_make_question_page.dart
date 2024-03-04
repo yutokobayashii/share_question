@@ -56,6 +56,8 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                 body: SingleChildScrollView(
                   child: Container(
                     color: Colors.white,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
@@ -165,16 +167,16 @@ class IsRequiredWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 40.w,
-      height: 16.h,
+      height: 20.h,
       decoration: BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: const Center(
+      child: Center(
         child: Text(
           '必須',
           style: TextStyle(
-              color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
+              color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w700),
         ),
       ),
     );
