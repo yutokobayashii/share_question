@@ -25,7 +25,7 @@ class PastQuestionListWidget extends HookConsumerWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PastQuestionDetailPage(list[i].token,list[i].author)),
+          MaterialPageRoute(builder: (context) => PastQuestionDetailPage(list[i].token,list[i].author,list[i].questionName)),
         );
 
       },

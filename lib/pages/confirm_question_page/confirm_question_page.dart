@@ -19,11 +19,13 @@ class ConfirmQuestionPage extends HookConsumerWidget {
   const ConfirmQuestionPage({
     super.key,
     required this.initial,
-    required this.questionDetail
+    required this.questionDetail,
+    required this.author,
   });
 
   final InitialQuestion initial;
   final List<QuestionDetail> questionDetail;
+  final String author;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -75,6 +77,8 @@ class ConfirmQuestionPage extends HookConsumerWidget {
           body: SingleChildScrollView(
             child: Container(
               color: Colors.white,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   SizedBox(
@@ -110,7 +114,9 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ShareQuestionPage(
-                              id: id,
+                          id: id,
+                          author: initial.author,
+                          questionName: initial.name,
                             )),
                   );
                 }

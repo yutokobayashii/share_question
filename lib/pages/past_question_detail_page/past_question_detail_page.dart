@@ -11,12 +11,13 @@ import '../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
 
 
 class PastQuestionDetailPage extends HookConsumerWidget {
-  const PastQuestionDetailPage(this.token, this.author, {
+  const PastQuestionDetailPage(this.token, this.author, this.questionName, {
     super.key
   });
 
   final String token;
   final String author;
+  final String questionName;
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
@@ -73,7 +74,7 @@ class PastQuestionDetailPage extends HookConsumerWidget {
           title: 'SNSで共有する',
           width: MediaQuery.of(context).size.width - 50.w,
           action: () {
-            shareText(context, """「[問題集名]」であなたの知識を試してみませんか？🌟
+            shareText(context, """「$questionName」であなたの知識を試してみませんか？🌟
             🔑パスワード:「$token」
 
             この問題集は、[$author]によって作られました。私たちのアプリは、教員や塾講師がテストや試験対策のために独自の問題集を作成し、生徒たちに挑戦させることができるプラットフォームです。授業や自習の質を高め、学習効果を最大化しましょう。

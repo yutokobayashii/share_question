@@ -51,11 +51,6 @@ class PastQuestionDetailWidget extends HookConsumerWidget {
 
         SizedBox(height: 15.h,),
 
-        Text('追加された回数:5回',
-          style: boldTextStyle,),
-
-        SizedBox(height: 15.h,),
-
         Text('解答された回数:5回',
           style: boldTextStyle,),
 

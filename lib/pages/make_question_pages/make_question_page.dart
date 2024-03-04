@@ -444,6 +444,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                                     questionDetail:
                                                         questionDetailList
                                                             .value,
+                                                    author: initial.author,
                                                   )),
                                         );
                                       }
@@ -503,6 +504,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                                     questionDetail:
                                                         questionDetailList
                                                             .value,
+                                                    author: initial.author,
                                                   )),
                                         );
                                       }

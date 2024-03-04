@@ -10,10 +10,14 @@ import '../../../widgets/basic_button_widget.dart';
 class ShareQuestionPage extends StatelessWidget {
   const ShareQuestionPage({
     super.key,
-    required this.id
+    required this.id,
+    required this.author,
+    required this.questionName
   });
 
   final String id;
+  final String author;
+  final String questionName;
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +117,15 @@ class ShareQuestionPage extends StatelessWidget {
                 title: 'SNSでシェアする',
                 width: MediaQuery.of(context).size.width -80.w,
                 action: () {
-                  shareText(context,"ああああああああああああああああああああああ");
+                  shareText(context,"""「$questionName」であなたの知識を試してみませんか？🌟
+            🔑パスワード:「$id」
+
+            この問題集は、[$author]によって作られました。私たちのアプリは、教員や塾講師がテストや試験対策のために独自の問題集を作成し、生徒たちに挑戦させることができるプラットフォームです。授業や自習の質を高め、学習効果を最大化しましょう。
+
+            生徒の理解度を深め、より効果的な学習経験を提供するために設計されています。あなたも今すぐこのツールを使って、教育の可能性を広げてみてください！
+
+            👉ダウンロードはこちら: [アプリのURL]
+                """);
                 },
               ),
 
