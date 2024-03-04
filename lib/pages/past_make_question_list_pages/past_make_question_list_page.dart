@@ -1,11 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/data/local/token_isar_dao.dart';
 import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_list_widget.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
+import '../../notifier/token/token_notifier.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
 
 class PastMakeQuestionListPage extends HookConsumerWidget {
@@ -13,6 +14,8 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
+
+    final tokenData = useState(ref.watch(tokenNotifierProvider.notifier).tokenFindAll());
 
     return MaterialApp(
       home: Scaffold(
@@ -51,7 +54,7 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
           ],
         ),
         body: FutureBuilder(
-          future: TokenDao.tokenFindAll(),
+          future: tokenData.value,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
 
@@ -88,7 +91,7 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
                       SizedBox(height: 30.h,),
 
                       for(int i = 0; i<snapshot.data!.length; i++)... {
-                         PastQuestionListWidget(list: snapshot.data!, i: i,),
+                         PastQuestionListWidget(list: snapshot.data!, i: i, tokenData: tokenData,),
                         SizedBox(height: 20.h,),
 
                       }

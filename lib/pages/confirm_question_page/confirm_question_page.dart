@@ -12,6 +12,7 @@ import '../../controller/make_question_controller/make_question_controller.dart'
 import '../../controller/optional_make_question_controller/optional_make_question_controller.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
+import '../../notifier/question_number/question_number_notifier.dart';
 import '../../widgets/dialog_widget.dart';
 import 'confirm_detail_widget.dart';
 
@@ -84,10 +85,12 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                   SizedBox(
                     height: 20.h,
                   ),
-                  for (int i = 0;
-                      i < questionDetail.length;
-                      i++) ...{
-                    ConfirmDetailWidget(questionDetail: questionDetailValue.value[i], i: i, questionDetailListValue: questionDetailValue,),
+                  for (int i = 0; i < questionDetail.length; i++) ...{
+                    ConfirmDetailWidget(
+                      questionDetail: questionDetailValue.value[i],
+                      i: i,
+                      questionDetailListValue: questionDetailValue,
+                    ),
                     const SizedBox(
                       height: 30,
                     ),
@@ -103,20 +106,24 @@ class ConfirmQuestionPage extends HookConsumerWidget {
             text: '共有',
             action: () async {
               try {
-                final data = questionRepository.createQuestionData(ref,initial,questionDetailValue.value);
+                final data = questionRepository.createQuestionData(
+                    ref, initial, questionDetailValue.value);
 
                 final id = await cloudFireStoreNotifier.saveQuestion(data);
 
-                await controller.putQuestionDataToIsar(id, ref,initial);
+                await controller.putQuestionDataToIsar(id, ref, initial);
+
+                await ref.read(questionNumberNotifierProvider.notifier)
+                    .increaseQuestionNumber();
 
                 if (context.mounted) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ShareQuestionPage(
-                          id: id,
-                          author: initial.author,
-                          questionName: initial.name,
+                              id: id,
+                              author: initial.author,
+                              questionName: initial.name,
                             )),
                   );
                 }
@@ -128,4 +135,3 @@ class ConfirmQuestionPage extends HookConsumerWidget {
     );
   }
 }
-

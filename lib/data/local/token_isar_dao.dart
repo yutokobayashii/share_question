@@ -10,7 +10,7 @@ import '../../db/isar_db.dart';
 class TokenDao {
 
 
-  static Future<List<Token>> tokenFindAll() async {
+  Future<List<Token>> tokenFindAll() async {
     final isar = IsarDB.getInstance();
 
     final list = await isar.tokens.where().findAll();
