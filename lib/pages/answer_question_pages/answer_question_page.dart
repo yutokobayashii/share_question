@@ -156,9 +156,11 @@ class AnswerQuestionPage extends HookConsumerWidget {
                                       ),
                                     ),
                                   ),
-                                  onChanged: (text) {},
-                                  onSubmitted: (text) {
+                                  onChanged: (text) {
                                     yourAnswer.value = text;
+                                  },
+                                  onSubmitted: (text) {
+
                                   },
                                 ),
                               )
@@ -228,6 +230,8 @@ class AnswerQuestionPage extends HookConsumerWidget {
               ///最終問題でない場合
 
               currentIndex.value++;
+
+              textController.text = "";
             }
           },
         ),

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
+import '../../util/snackbar.dart';
 
 
 Future<void> pickImage(ImageSource source,ValueNotifier<XFile?> image) async {
@@ -35,7 +36,7 @@ class MakeQuestionController {
 
 
 
-  void getSnackBar(BuildContext context,WidgetRef ref,ValueNotifier<bool> isOptionAnswerTypeState,ValueNotifier<String> name,ValueNotifier<String> correctAnswer,ValueNotifier<String> explanation) {
+  void getSnackBar(BuildContext context,WidgetRef ref,ValueNotifier<bool> isOptionAnswerTypeState,ValueNotifier<String> name,ValueNotifier<String> correctAnswer,ValueNotifier<String> explanation,ValueNotifier<bool> isUploadDone) {
     if (questionController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -96,6 +97,10 @@ class MakeQuestionController {
           backgroundColor: Colors.white70,
         ),
       );
+    }
+    if (!isUploadDone.value) {
+      displayErrorSnackBar(
+          ref, context, "画像のアップロードが完了していません");
     }
   }
 

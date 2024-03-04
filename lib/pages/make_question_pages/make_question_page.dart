@@ -217,7 +217,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                               },
                               onSubmitted: (text) {},
                             ),
-                            (imageNumber.value > 6) ?//5かも？
+                            (imageNumber.value > 5) ?
                                 const Text('画像枚数上限に達しました。有料会員になれば無制限で画像を挿入できます。')
                                 :
                             BasicAddWidget(
@@ -390,6 +390,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                                   .optionalController2
                                                   .text
                                                   .isEmpty
+                                      || !isUploadDone.value
 
                                           ///未記入がある場合
                                           ) {
@@ -399,7 +400,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                             isOptionAnswerTypeState,
                                             name,
                                             correctAnswer,
-                                            explanation);
+                                            explanation,isUploadDone);
 
                                         optionalController.getSnackBar(
                                             context, ref);
@@ -432,6 +433,8 @@ class MakeQuestionPage extends HookConsumerWidget {
 
                                         isOptionAnswerTypeState.value = false;
 
+                                        imageUrl.value = "";
+
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -459,7 +462,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                             isOptionAnswerTypeState,
                                             name,
                                             correctAnswer,
-                                            explanation);
+                                            explanation,isUploadDone);
                                       } else {
                                         ///未記入がない場合
                                         final detail = ref
@@ -488,6 +491,9 @@ class MakeQuestionPage extends HookConsumerWidget {
 
                                         isOptionAnswerTypeState.value = false;
 
+                                        imageUrl.value = "";
+                                        imagePath.value = null;
+
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -511,10 +517,6 @@ class MakeQuestionPage extends HookConsumerWidget {
                                   width: MediaQuery.of(context).size.width / 2 -
                                       35.w,
                                   action: () {
-                                    if (!isUploadDone.value) {
-                                      displayErrorSnackBar(
-                                          ref, context, "画像のアップロードが完了していません");
-                                    }
                                     if (isOptionAnswerTypeState.value == true) {
                                       if (explanation.value == "" ||
                                           name.value == "" ||
@@ -526,14 +528,15 @@ class MakeQuestionPage extends HookConsumerWidget {
                                           OptionalMakeQuestionController
                                               .optionalController2
                                               .text
-                                              .isEmpty) {
+                                              .isEmpty||
+                                          !isUploadDone.value) {
                                         controller.getSnackBar(
                                             context,
                                             ref,
                                             isOptionAnswerTypeState,
                                             name,
                                             correctAnswer,
-                                            explanation);
+                                            explanation,isUploadDone);
                                         //ここのロジックもかえる
 
                                         optionalController.getSnackBar(
@@ -564,6 +567,10 @@ class MakeQuestionPage extends HookConsumerWidget {
                                         optionalController.clearControllers();
 
                                         isOptionAnswerTypeState.value = false;
+
+                                        imageUrl.value = "";
+
+                                        imagePath.value = null;
                                       }
                                     } else {
                                       if (explanation.value == "" ||
@@ -575,7 +582,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                             isOptionAnswerTypeState,
                                             name,
                                             correctAnswer,
-                                            explanation);
+                                            explanation,isUploadDone);
 
                                         optionalController.getSnackBar(
                                             context, ref);
@@ -605,6 +612,10 @@ class MakeQuestionPage extends HookConsumerWidget {
                                         optionalController.clearControllers();
 
                                         isOptionAnswerTypeState.value = false;
+
+                                        imageUrl.value = "";
+
+                                        imagePath.value = null;
                                       }
                                     }
                                   },
