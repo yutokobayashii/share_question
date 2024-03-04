@@ -11,6 +11,7 @@ class Question with _$Question {
   const factory Question({
     required String uuid,
     required int? favorite,
+    required int? answerNumber,
     required String name,
     required String author,
     required String explain,

@@ -42,6 +42,18 @@ class CloudDao {
     }
   }
 
+  Future<void> incrementAnswerNumber(String documentId) async {
+    try {
+      DocumentReference docRef =
+      fireStore.collection('questionList').doc(documentId);
+
+      await docRef.update({'answerNumber': FieldValue.increment(1)});
+    } catch (e) {
+      debugPrint(e.toString());
+      throw Exception('Firebase increment error');
+    }
+  }
+
   Future<void> incrementLikes(String documentId) async {
     try {
       DocumentReference docRef =

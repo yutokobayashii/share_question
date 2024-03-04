@@ -8,6 +8,7 @@ import 'package:share_question/widgets/basic_floating_button.dart';
 import '../../constant/style.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/question_data/question.dart';
+import '../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
 import '../../notifier/grade/grade_data_notifier.dart';
 import '../../notifier/grade/grade_notifier.dart';
 import '../grade_display_pages/grade_display_page.dart';
@@ -214,6 +215,8 @@ class AnswerQuestionPage extends HookConsumerWidget {
 
               ref.watch(gradeDetailListProvider.notifier).reset();
               ref.watch(correctNumberProvider.notifier).reset();
+
+             await ref.read(cloudFireStoreNotifierProvider.notifier).incrementAnswerNumber(documentId);
 
               if (context.mounted) {
                 ref.invalidate(gradeListNotifierProvider);

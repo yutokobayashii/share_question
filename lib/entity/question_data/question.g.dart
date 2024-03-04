@@ -10,6 +10,7 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
     _$QuestionImpl(
       uuid: json['uuid'] as String,
       favorite: json['favorite'] as int?,
+      answerNumber: json['answerNumber'] as int?,
       name: json['name'] as String,
       author: json['author'] as String,
       explain: json['explain'] as String,
@@ -24,6 +25,7 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
       'favorite': instance.favorite,
+      'answerNumber': instance.answerNumber,
       'name': instance.name,
       'author': instance.author,
       'explain': instance.explain,

@@ -21,6 +21,7 @@ class QuestionDataRepositoryImp implements QuestionDataRepository {
       'comment': initial.comment,
       'createdAt': "${now.year}/${now.month}/${now.day}",
       'favorite': 0,
+      'answerNumber':0,
       'questionDetailList': [
         for(int i = 0; i< questionDetail.length; i++) ...{
           {

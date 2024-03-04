@@ -22,6 +22,7 @@ Question _$QuestionFromJson(Map<String, dynamic> json) {
 mixin _$Question {
   String get uuid => throw _privateConstructorUsedError;
   int? get favorite => throw _privateConstructorUsedError;
+  int? get answerNumber => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   String get explain => throw _privateConstructorUsedError;
@@ -44,6 +45,7 @@ abstract class $QuestionCopyWith<$Res> {
   $Res call(
       {String uuid,
       int? favorite,
+      int? answerNumber,
       String name,
       String author,
       String explain,
@@ -67,6 +69,7 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
   $Res call({
     Object? uuid = null,
     Object? favorite = freezed,
+    Object? answerNumber = freezed,
     Object? name = null,
     Object? author = null,
     Object? explain = null,
@@ -82,6 +85,10 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
       favorite: freezed == favorite
           ? _value.favorite
           : favorite // ignore: cast_nullable_to_non_nullable
+              as int?,
+      answerNumber: freezed == answerNumber
+          ? _value.answerNumber
+          : answerNumber // ignore: cast_nullable_to_non_nullable
               as int?,
       name: null == name
           ? _value.name
@@ -122,6 +129,7 @@ abstract class _$$QuestionImplCopyWith<$Res>
   $Res call(
       {String uuid,
       int? favorite,
+      int? answerNumber,
       String name,
       String author,
       String explain,
@@ -143,6 +151,7 @@ class __$$QuestionImplCopyWithImpl<$Res>
   $Res call({
     Object? uuid = null,
     Object? favorite = freezed,
+    Object? answerNumber = freezed,
     Object? name = null,
     Object? author = null,
     Object? explain = null,
@@ -158,6 +167,10 @@ class __$$QuestionImplCopyWithImpl<$Res>
       favorite: freezed == favorite
           ? _value.favorite
           : favorite // ignore: cast_nullable_to_non_nullable
+              as int?,
+      answerNumber: freezed == answerNumber
+          ? _value.answerNumber
+          : answerNumber // ignore: cast_nullable_to_non_nullable
               as int?,
       name: null == name
           ? _value.name
@@ -193,6 +206,7 @@ class _$QuestionImpl implements _Question {
   const _$QuestionImpl(
       {required this.uuid,
       required this.favorite,
+      required this.answerNumber,
       required this.name,
       required this.author,
       required this.explain,
@@ -208,6 +222,8 @@ class _$QuestionImpl implements _Question {
   final String uuid;
   @override
   final int? favorite;
+  @override
+  final int? answerNumber;
   @override
   final String name;
   @override
@@ -229,7 +245,7 @@ class _$QuestionImpl implements _Question {
 
   @override
   String toString() {
-    return 'Question(uuid: $uuid, favorite: $favorite, name: $name, author: $author, explain: $explain, comment: $comment, createdAt: $createdAt, questionDetailList: $questionDetailList)';
+    return 'Question(uuid: $uuid, favorite: $favorite, answerNumber: $answerNumber, name: $name, author: $author, explain: $explain, comment: $comment, createdAt: $createdAt, questionDetailList: $questionDetailList)';
   }
 
   @override
@@ -240,6 +256,8 @@ class _$QuestionImpl implements _Question {
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.favorite, favorite) ||
                 other.favorite == favorite) &&
+            (identical(other.answerNumber, answerNumber) ||
+                other.answerNumber == answerNumber) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.explain, explain) || other.explain == explain) &&
@@ -256,6 +274,7 @@ class _$QuestionImpl implements _Question {
       runtimeType,
       uuid,
       favorite,
+      answerNumber,
       name,
       author,
       explain,
@@ -281,6 +300,7 @@ abstract class _Question implements Question {
   const factory _Question(
       {required final String uuid,
       required final int? favorite,
+      required final int? answerNumber,
       required final String name,
       required final String author,
       required final String explain,
@@ -295,6 +315,8 @@ abstract class _Question implements Question {
   String get uuid;
   @override
   int? get favorite;
+  @override
+  int? get answerNumber;
   @override
   String get name;
   @override
