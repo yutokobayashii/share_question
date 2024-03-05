@@ -9,6 +9,7 @@ import '../../constant/style.dart';
 import '../../controller/setting_controller/setting_controller.dart';
 import '../calendar_page/calendar_page.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
+import '../member_status_pages/member_status_pages.dart';
 
 class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
@@ -54,7 +55,12 @@ class SettingsPage extends HookConsumerWidget {
                 ),
                 SettingWidget(
                   title: '会員ステータス',
-                  action: () {},
+                  action: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MemberStatusPages()),
+                    );
+                  },
                 ),
                 SizedBox(
                   height: 15.h,
@@ -75,10 +81,6 @@ class SettingsPage extends HookConsumerWidget {
                 SettingWidget(
                   title: '使い方',
                   action: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => const GuidePage()),
-                    // );
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定
