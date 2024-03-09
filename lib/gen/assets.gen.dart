@@ -69,6 +69,9 @@ class $AssetsGuideMakeGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/google.png
+  AssetGenImage get google => const AssetGenImage('assets/images/google.png');
+
   /// File path: assets/images/icon.png
   AssetGenImage get icon => const AssetGenImage('assets/images/icon.png');
 
@@ -79,7 +82,7 @@ class $AssetsImagesGen {
   AssetGenImage get share => const AssetGenImage('assets/images/share.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [icon, screen, share];
+  List<AssetGenImage> get values => [google, icon, screen, share];
 }
 
 class Assets {

@@ -90,6 +90,13 @@ dependencies:
   #画像生成
   flutter_gen_runner: ^5.4.0
 
+  #ログイン
+  firebase_auth: ^4.17.6
+
+  #googlログイン
+  google_sign_in: ^6.2.1
+
+
 
 flutter_icons:
   android: true

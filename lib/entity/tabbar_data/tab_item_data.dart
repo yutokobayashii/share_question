@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../pages/answer_pages/answer_page.dart';
 import '../../pages/grade_pages/grade_page.dart';
 import '../../pages/home_pages/home_page.dart';
+import '../../pages/login_pages/login_pages.dart';
 import '../../pages/settings_pages/settings_page.dart';
 
 
@@ -24,7 +25,12 @@ enum TabItem {
   settings(
       Icons.settings,
       "設定"
-  );
+  ),
+
+  login(
+      Icons.login,
+      "ログイン"
+      );
 
   const TabItem(this.icon,this.label);
 
@@ -45,6 +51,9 @@ Widget getPageWidget(TabItem item) {
 
     case TabItem.settings:
       return const SettingsPage();
+
+    case TabItem.login:
+      return const LoginPages();
 
 
   }
