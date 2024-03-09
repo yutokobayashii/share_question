@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../entity/create_account_result/create_account_result.dart';
 import '../../usecase/login/login_usecase.dart';
 
 final loginNotifierProvider = NotifierProvider<LoginNotifier, void>(LoginNotifier.new);
@@ -12,7 +13,7 @@ class LoginNotifier extends Notifier<void> {
     return;
   }
 
-  Future<UserCredential?> createAccount(String password, String email) async {
+  Future<CreateAccountResult?> createAccount(String password, String email) async {
     return await ref.read(loginUseCaseProvider).createAccount(password, email);
   }
 

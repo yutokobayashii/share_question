@@ -3,13 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/remote/login_dao.dart';
+import '../../entity/create_account_result/create_account_result.dart';
 
 final loginRepositoryProvider = Provider<LoginRepository>((ref) {
   return LoginRepositoryImpl(dao: LoginDao());
 });
 
 abstract class LoginRepository {
-  Future<UserCredential?> createAccount(String password, String email);
+  Future<CreateAccountResult?> createAccount(String password, String email);
 
   Future<UserCredential?> login(String email, String password);
 
@@ -29,7 +30,7 @@ class LoginRepositoryImpl implements LoginRepository {
   final LoginDao _dao;
 
   @override
-  Future<UserCredential?> createAccount(String password, String email) async {
+  Future<CreateAccountResult?> createAccount(String password, String email) async {
     return await _dao.createAccount(password, email);
   }
 

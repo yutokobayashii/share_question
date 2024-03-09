@@ -2,25 +2,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../entity/create_account_result/create_account_result.dart';
+import '../../enum/firebase_auth_error_code.dart';
+
 class LoginDao {
-  Future<UserCredential?> createAccount(String password, String email) async {
+  Future<CreateAccountResult> createAccount(String password, String email) async {
+     FirebaseAuthErrorCode? errorCode;
     try {
       final userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return userCredential;
+      final result = CreateAccountResult(userCredential: userCredential,errorCode: errorCode);
+      return result;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        debugPrint('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        debugPrint('The account already exists for that email.');
-      }
+      errorCode = FirebaseAuthErrorCode.fromString(e.code);
+
     } catch (e) {
       debugPrint(e.toString());
     }
-    return null;
+
+    return CreateAccountResult(userCredential: null,errorCode: errorCode);
   }
 
   Future<UserCredential?> login(String email, String password) async {

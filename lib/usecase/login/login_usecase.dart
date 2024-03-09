@@ -3,13 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/repository/login/login_repository.dart';
 
+import '../../entity/create_account_result/create_account_result.dart';
+
 
 final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
   return LoginUseCaseImpl(repository: ref.read(loginRepositoryProvider));
 });
 
 abstract class LoginUseCase {
-  Future<UserCredential?> createAccount(String password, String email);
+  Future<CreateAccountResult?> createAccount(String password, String email);
 
   Future<UserCredential?> login(String email, String password);
 
@@ -29,7 +31,7 @@ class LoginUseCaseImpl implements LoginUseCase {
   final LoginRepository _repository;
 
   @override
-  Future<UserCredential?> createAccount(String password, String email) async {
+  Future<CreateAccountResult?> createAccount(String password, String email) async {
     return await _repository.createAccount(password, email);
   }
 
