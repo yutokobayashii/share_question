@@ -7,6 +7,7 @@ import 'package:share_question/constant/color.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
+import 'login_modal_widget.dart';
 
 class LoginPages extends HookConsumerWidget {
   const LoginPages({super.key});
@@ -82,11 +83,23 @@ class LoginPages extends HookConsumerWidget {
                   onSubmitted: (text) {},
                 ),
               ),
+
+              Text('※英数文字、8文字以上12文字以下で設定してください。',
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12.sp,
+                  color: Colors.black38
+                ),),
+
               SizedBox(
-                height: 15.h,
+                height: 30.h,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  await ref
+                      .read(loginNotifierProvider.notifier)
+                      .createAccount(passWord.value, mail.value);
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width - 80.w,
                   height: 55.h,
@@ -99,20 +112,13 @@ class LoginPages extends HookConsumerWidget {
                     ),
                   ),
                   child: Center(
-                      child: GestureDetector(
-                    onTap: () async {
-                      await ref
-                          .read(loginNotifierProvider.notifier)
-                          .createAccount(passWord.value, mail.value);
-                    },
-                    child: Text(
-                      '新規ユーザー登録',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18.sp,
-                          color: Colors.white),
-                    ),
-                  )),
+                      child: Text(
+                        '新規ユーザー登録',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                            color: Colors.white),
+                      )),
                 ),
               ),
               SizedBox(
@@ -154,7 +160,13 @@ class LoginPages extends HookConsumerWidget {
                   ),
                   GestureDetector(
                     onTap: () async {
-                     await ref.read(loginNotifierProvider.notifier).login(mail.value, passWord.value);
+                      showModalBottomSheet<void>(
+                          isScrollControlled: true,
+                          context: context,
+                          isDismissible: true,
+                          builder: (BuildContext context) {
+                            return const LoginModalWidget();
+                          });
                     },
                     child: Text(
                       'ログイン',
@@ -166,36 +178,6 @@ class LoginPages extends HookConsumerWidget {
                   )
                 ],
               ),
-              SizedBox(
-                height: 30.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'パスワードを忘れた方は',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12.sp,
-                        color: Colors.black54),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      
-                    },
-                    child: Text(
-                      'こちら',
-                      style: TextStyle(
-                          color: baseColor,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.sp),
-                    ),
-                  )
-                ],
-              )
             ],
           ),
         ),
