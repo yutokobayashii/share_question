@@ -39,8 +39,13 @@ class LoginDao {
     }
   }
 
-  Future<void> logout() async {
-    await FirebaseAuth.instance.signOut();
+  Future<bool> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<void> sendResetPassWordMail (String email) async {

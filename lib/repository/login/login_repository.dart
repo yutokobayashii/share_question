@@ -14,7 +14,7 @@ abstract class LoginRepository {
 
   Future<CreateAccountResult> login(String email, String password);
 
-  Future<void> logout();
+  Future<bool> logout();
 
   Future<void> sendResetPassWordMail(String email);
 
@@ -42,8 +42,8 @@ class LoginRepositoryImpl implements LoginRepository {
   }
 
   @override
-  Future<void> logout() async {
-    await _dao.logout();
+  Future<bool> logout() async {
+   return await _dao.logout();
   }
 
   @override

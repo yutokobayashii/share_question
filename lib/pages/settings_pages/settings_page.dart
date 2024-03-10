@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/notifier/login_notifier/login_notifier.dart';
+import 'package:share_question/pages/login_pages/create_account_pages.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/kiyaku.page.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/privacy_policy_page.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/setting_widget.dart';
+import 'package:share_question/util/snackbar.dart';
 
 import '../../constant/style.dart';
 import '../../controller/setting_controller/setting_controller.dart';
 import '../change_pass_pages/change_pass_pages.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
 import '../member_status_pages/member_status_pages.dart';
+import '../route_page/route_page.dart';
 import '../user_info_pages/user_info_pages.dart';
 
 class SettingsPage extends HookConsumerWidget {
@@ -29,14 +33,13 @@ class SettingsPage extends HookConsumerWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Padding(
-              padding: const EdgeInsets.only(left: 15,right: 15),
+              padding: const EdgeInsets.only(left: 15, right: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 10.h,
                   ),
-          
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text('ユーザー情報', style: boldTextStyle),
@@ -49,29 +52,52 @@ class SettingsPage extends HookConsumerWidget {
                     action: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const UserInfoPages()),
+                        MaterialPageRoute(
+                            builder: (context) => const UserInfoPages()),
                       );
                     },
                   ),
-          
                   SizedBox(
                     height: 15.h,
                   ),
-          
                   SettingWidget(
                     title: 'パスワードを変更',
                     action: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const ChangePassPages()),
+                        MaterialPageRoute(
+                            builder: (context) => const ChangePassPages()),
                       );
                     },
                   ),
-          
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SettingWidget(
+                    title: 'ログアウト',
+                    color: Colors.red,
+                    action: () async {
+                      final isLogoutSuccess = await ref
+                          .read(loginNotifierProvider.notifier)
+                          .logout();
+
+                      if(context.mounted) {
+                        if (isLogoutSuccess) {
+                          navigatorKey.currentState?.pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => const CreateAccountPages()),
+                                (Route<dynamic> _) => false,
+                          );
+                        } else {
+                          displayErrorSnackBar(ref, context, "予期せぬエラーが発生しました。\n時間をおいて再度お試しください。");
+                        }
+                      }
+
+
+                    },
+                  ),
                   SizedBox(
                     height: 20.h,
                   ),
-          
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text('アプリケーション設定', style: boldTextStyle),
@@ -84,7 +110,8 @@ class SettingsPage extends HookConsumerWidget {
                     action: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const MemberStatusPages()),
+                        MaterialPageRoute(
+                            builder: (context) => const MemberStatusPages()),
                       );
                     },
                   ),

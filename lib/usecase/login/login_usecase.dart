@@ -15,7 +15,7 @@ abstract class LoginUseCase {
 
   Future<CreateAccountResult> login(String email, String password);
 
-  Future<void> logout();
+  Future<bool> logout();
 
   Future<void> sendResetPassWordMail(String email);
 
@@ -43,8 +43,8 @@ class LoginUseCaseImpl implements LoginUseCase {
   }
 
   @override
-  Future<void> logout() async {
-    await _repository.logout();
+  Future<bool> logout() async {
+   return await _repository.logout();
   }
 
   @override

@@ -21,8 +21,8 @@ class LoginNotifier extends Notifier<void> {
     return await ref.read(loginUseCaseProvider).login(email, password);
   }
 
-  Future<void> logout() async {
-    await ref.read(loginUseCaseProvider).logout();
+  Future<bool> logout() async {
+   return await ref.read(loginUseCaseProvider).logout();
   }
 
   Future<void> sendResetPassWordMail(String email) async {

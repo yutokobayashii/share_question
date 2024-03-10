@@ -6,6 +6,9 @@ import 'package:share_question/pages/base_page.dart';
 
 import '../login_pages/create_account_pages.dart';
 
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class RoutePage extends HookConsumerWidget {
   const RoutePage({super.key});
 
@@ -13,16 +16,19 @@ class RoutePage extends HookConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
 
     final loginStatus =  ref.read(loginNotifierProvider.notifier).getCurrentUser();
-    return FutureBuilder<User?>(
-        future: loginStatus,
-        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          if(snapshot.data == null) {
-            return const CreateAccountPages();
-          }
-          else {
-            debugPrint(snapshot.data?.email.toString());
-            return const BasePage();
-          }
-        });
+    return MaterialApp(
+      navigatorKey: navigatorKey,
+      home: FutureBuilder<User?>(
+          future: loginStatus,
+          builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+            if(snapshot.data == null) {
+              return const CreateAccountPages();
+            }
+            else {
+              debugPrint(snapshot.data?.email.toString());
+              return const BasePage();
+            }
+          }),
+    );
   }
 }

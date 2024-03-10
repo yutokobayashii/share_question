@@ -1,9 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/pages/base_page.dart';
 import 'package:share_question/util/snackbar.dart';
 
 import '../../constant/color.dart';
@@ -16,7 +15,7 @@ class LoginPage extends HookConsumerWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final mail = useState("");
     final passWord = useState("");
     final isPassValid = useState(false);
@@ -33,11 +32,10 @@ class LoginPage extends HookConsumerWidget {
             size: 28,
           ),
         ),
-        title: Text('ログイン',
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 20.sp
-        ),),
+        title: Text(
+          'ログイン',
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.sp),
+        ),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -45,8 +43,9 @@ class LoginPage extends HookConsumerWidget {
         color: Colors.white,
         child: Column(
           children: [
-            SizedBox(height: 70.h,),
-
+            SizedBox(
+              height: 70.h,
+            ),
             SizedBox(
               width: MediaQuery.of(context).size.width - 80.w,
               height: 70.h,
@@ -88,15 +87,15 @@ class LoginPage extends HookConsumerWidget {
                     borderSide: BorderSide(color: baseColor),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: (isPassValid.value)
-                        ? baseColor
-                        : Colors.red),
+                    borderSide: BorderSide(
+                        color: (isPassValid.value) ? baseColor : Colors.red),
                   ),
                   filled: true,
                   fillColor: Colors.white, // 背景色を設定
                 ),
                 onChanged: (text) {
-                  RegExp regex = RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,12}$');
+                  RegExp regex =
+                      RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,12}$');
                   if (regex.hasMatch(text)) {
                     isPassValid.value = true;
                   } else {
@@ -107,7 +106,6 @@ class LoginPage extends HookConsumerWidget {
                 onSubmitted: (text) {},
               ),
             ),
-
             Text(
               '※英数文字、8文字以上12文字以下で設定してください。',
               style: TextStyle(
@@ -115,21 +113,29 @@ class LoginPage extends HookConsumerWidget {
                   fontSize: 12.sp,
                   color: Colors.black38),
             ),
-
             SizedBox(
               height: 30.h,
             ),
-
             GestureDetector(
               onTap: () async {
-              final user =  await ref
-                    .read(loginNotifierProvider.notifier)
-                    .login(passWord.value, mail.value);
+                final user =
+                    await ref.read(loginNotifierProvider.notifier).login(
+                          mail.value,
+                          passWord.value,
+                        );
 
+                //ログイン成功
+                if (user.userCredential != null && context.mounted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BasePage()),
+                  );
+                }
 
-              if (user.errorCode != null && context.mounted) {
-                displayErrorSnackBar(ref, context, user.errorCode!.message);
-              }
+                //ログイン失敗
+                if (user.errorCode != null && context.mounted) {
+                  displayErrorSnackBar(ref, context, user.errorCode!.message);
+                }
               },
               child: Container(
                 width: MediaQuery.of(context).size.width - 80.w,
@@ -144,19 +150,17 @@ class LoginPage extends HookConsumerWidget {
                 ),
                 child: Center(
                     child: Text(
-                      'ログイン',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18.sp,
-                          color: Colors.white),
-                    )),
+                  'ログイン',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18.sp,
+                      color: Colors.white),
+                )),
               ),
             ),
-
             SizedBox(
               height: 15.h,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -191,11 +195,9 @@ class LoginPage extends HookConsumerWidget {
                 )
               ],
             ),
-
             SizedBox(
               height: 15.h,
             ),
-
             SizedBox(
                 width: 200.w,
                 height: 200.h,
