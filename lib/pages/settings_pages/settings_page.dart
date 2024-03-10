@@ -10,6 +10,7 @@ import 'package:share_question/util/snackbar.dart';
 
 import '../../constant/style.dart';
 import '../../controller/setting_controller/setting_controller.dart';
+import '../../util/alart_dialog.dart';
 import '../change_pass_pages/change_pass_pages.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
 import '../member_status_pages/member_status_pages.dart';
@@ -27,153 +28,163 @@ class SettingsPage extends HookConsumerWidget {
           title: const Text("設定"),
           backgroundColor: Colors.white,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Text('ユーザー情報', style: boldTextStyle),
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  SettingWidget(
-                    title: 'ユーザー情報',
-                    action: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const UserInfoPages()),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  SettingWidget(
-                    title: 'パスワードを変更',
-                    action: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ChangePassPages()),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  SettingWidget(
-                    title: 'ログアウト',
-                    color: Colors.red,
-                    action: () async {
-                      final isLogoutSuccess = await ref
-                          .read(loginNotifierProvider.notifier)
-                          .logout();
-
-                      if(context.mounted) {
-                        if (isLogoutSuccess) {
-                          navigatorKey.currentState?.pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => const CreateAccountPages()),
-                                (Route<dynamic> _) => false,
-                          );
-                        } else {
-                          displayErrorSnackBar(ref, context, "予期せぬエラーが発生しました。\n時間をおいて再度お試しください。");
-                        }
-                      }
-
-
-                    },
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Text('アプリケーション設定', style: boldTextStyle),
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  SettingWidget(
-                    title: '会員ステータス',
-                    action: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MemberStatusPages()),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  SettingWidget(
-                    title: 'テーマカラー設定',
-                    action: () {
-                      showColorPalette(context, ref);
-                    },
-                  ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Text('インフォメーション', style: boldTextStyle),
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  SettingWidget(
-                    title: '使い方',
-                    action: () {
-                      showModalBottomSheet(
+        body: Container(
+          color: Colors.white,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // SizedBox(
+                //   height: 10.h,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text('ユーザー情報', style: boldTextStyle),
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                SettingWidget(
+                  title: 'ユーザー情報',
+                  action: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const UserInfoPages()),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                SettingWidget(
+                  title: 'パスワードを変更',
+                  action: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ChangePassPages()),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                SettingWidget(
+                  title: 'ログアウト',
+                  color: Colors.red,
+                  action: () async {
+                    showCupertinoDialog(
                         context: context,
-                        isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定
-                        builder: (BuildContext context) {
-                          return const SelectGuideWidget();
+                        title: 'ログアウトしますか？',
+                        content: 'ログアウトすると再度ログインしないとアプリを使用できません。',
+                        cancelText: 'ログアウト',
+                        okText: '戻る',
+                        onCancel: () async {
+                          final isLogoutSuccess = await ref
+                              .read(loginNotifierProvider.notifier)
+                              .logout();
+
+                          if (context.mounted) {
+                            if (isLogoutSuccess) {
+                              navigatorKey.currentState?.pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                    const CreateAccountPages()),
+                                    (Route<dynamic> _) => false,
+                              );
+                            } else {
+                              displayErrorSnackBar(ref, context,
+                                  "予期せぬエラーが発生しました。\n時間をおいて再度お試しください。");
+                            }
+                          }
                         },
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  SettingWidget(
-                    title: 'プライバシーポリシー',
-                    action: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PrivacyPolicyPage()),
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                  SettingWidget(
-                    title: '利用規約',
-                    action: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const KiyakuPage()),
-                      );
-                    },
-                  ),
-                ],
-              ),
+                        onOK: () {
+
+                        });
+                  },
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text('アプリケーション設定', style: boldTextStyle),
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                SettingWidget(
+                  title: '会員ステータス',
+                  action: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MemberStatusPages()),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                SettingWidget(
+                  title: 'テーマカラー設定',
+                  action: () {
+                    showColorPalette(context, ref);
+                  },
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text('インフォメーション', style: boldTextStyle),
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                SettingWidget(
+                  title: '使い方',
+                  action: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定
+                      builder: (BuildContext context) {
+                        return const SelectGuideWidget();
+                      },
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                SettingWidget(
+                  title: 'プライバシーポリシー',
+                  action: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PrivacyPolicyPage()),
+                    );
+                  },
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                SettingWidget(
+                  title: '利用規約',
+                  action: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const KiyakuPage()),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ));

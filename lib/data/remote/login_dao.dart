@@ -54,21 +54,30 @@ class LoginDao {
   }
 
 
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  Future<UserCredential?> signInWithGoogle() async {
+    try {
+      // Googleの認証フローをトリガー
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      // ユーザーがGoogleサインインをキャンセルした場合
+      if (googleUser == null) {
+        return null;
+      }
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // Googleサインインから認証の詳細を取得
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+      // Firebase用の認証情報を作成
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Firebaseにユーザーをサインインし、UserCredentialを返却
+      return await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (error) {
+      return null;
+    }
   }
 
 

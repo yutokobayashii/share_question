@@ -7,7 +7,9 @@ import 'package:share_question/constant/color.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
+import '../../util/normal_dialog.dart';
 import '../../util/snackbar.dart';
+import '../base_page.dart';
 import 'forget_pass_modal_widget.dart';
 import 'login_page.dart';
 
@@ -26,14 +28,8 @@ class CreateAccountPages extends HookConsumerWidget {
             body: SafeArea(
               child: Container(
                 color: Colors.white,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 child: Column(
                   children: [
                     SizedBox(
@@ -44,10 +40,7 @@ class CreateAccountPages extends HookConsumerWidget {
                         height: 200.h,
                         child: Image.asset(Assets.images.screen.path)),
                     SizedBox(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width - 80.w,
+                      width: MediaQuery.of(context).size.width - 80.w,
                       height: 70.h,
                       child: TextField(
                         cursorColor: ColorSharedPreferenceService().getColor(),
@@ -56,8 +49,8 @@ class CreateAccountPages extends HookConsumerWidget {
                           prefixIcon: const Icon(Icons.person_outlined),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
-                                color: ColorSharedPreferenceService()
-                                    .getColor()),
+                                color:
+                                    ColorSharedPreferenceService().getColor()),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -77,14 +70,11 @@ class CreateAccountPages extends HookConsumerWidget {
                       height: 15.h,
                     ),
                     SizedBox(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width - 80.w,
+                      width: MediaQuery.of(context).size.width - 80.w,
                       height: 70.h,
                       child: TextField(
-                        cursorColor: (isPassValid.value) ? baseColor : Colors
-                            .red,
+                        cursorColor:
+                            (isPassValid.value) ? baseColor : Colors.red,
                         decoration: InputDecoration(
                           hintText: 'パスワード',
                           prefixIcon: const Icon(Icons.lock_outlined),
@@ -127,8 +117,7 @@ class CreateAccountPages extends HookConsumerWidget {
                       onTap: () async {
                         if (!isPassValid.value) {
                           displayErrorSnackBar(
-                              ref, context,
-                              "パスワードは英数８文字以上12文字以下で入力してください");
+                              ref, context, "パスワードは英数８文字以上12文字以下で入力してください");
                         } else {
                           final user = await ref
                               .read(loginNotifierProvider.notifier)
@@ -141,10 +130,7 @@ class CreateAccountPages extends HookConsumerWidget {
                         }
                       },
                       child: Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width - 80.w,
+                        width: MediaQuery.of(context).size.width - 80.w,
                         height: 55.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
@@ -156,12 +142,12 @@ class CreateAccountPages extends HookConsumerWidget {
                         ),
                         child: Center(
                             child: Text(
-                              '新規ユーザー登録',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18.sp,
-                                  color: Colors.white),
-                            )),
+                          '新規ユーザー登録',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18.sp,
+                              color: Colors.white),
+                        )),
                       ),
                     ),
                     SizedBox(
@@ -177,16 +163,30 @@ class CreateAccountPages extends HookConsumerWidget {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        await ref
+                        final user = await ref
                             .read(loginNotifierProvider.notifier)
                             .signInWithGoogle();
+
+                        //ログイン成功
+                        if (user != null && context.mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const BasePage()),
+                          );
+
+                          showSuccessLoginDialog(context);
+                        } else {
+                          //ログイン失敗
+                          if (context.mounted) {
+                            displayErrorSnackBar(ref, context,
+                                "googleログインに失敗しました。\n時間をおいて再度お試しください。");
+                          }
+                        }
                       },
                       child: Image.asset(
                         Assets.images.google.path,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width - 180.w,
+                        width: MediaQuery.of(context).size.width - 180.w,
                       ),
                     ),
                     SizedBox(
@@ -264,7 +264,6 @@ class CreateAccountPages extends HookConsumerWidget {
               ),
             ),
           );
-        }
-    );
+        });
   }
 }
