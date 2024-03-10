@@ -17,7 +17,7 @@ class LoginNotifier extends Notifier<void> {
     return await ref.read(loginUseCaseProvider).createAccount(password, email);
   }
 
-  Future<UserCredential?> login(String email, String password) async {
+  Future<CreateAccountResult> login(String email, String password) async {
     return await ref.read(loginUseCaseProvider).login(email, password);
   }
 

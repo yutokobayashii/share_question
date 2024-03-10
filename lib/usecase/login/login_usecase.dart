@@ -13,7 +13,7 @@ final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
 abstract class LoginUseCase {
   Future<CreateAccountResult?> createAccount(String password, String email);
 
-  Future<UserCredential?> login(String email, String password);
+  Future<CreateAccountResult> login(String email, String password);
 
   Future<void> logout();
 
@@ -36,7 +36,7 @@ class LoginUseCaseImpl implements LoginUseCase {
   }
 
   @override
-  Future<UserCredential?> login(String email, String password) async {
+  Future<CreateAccountResult> login(String email, String password) async {
     return await _repository.login(email, password);
   }
 

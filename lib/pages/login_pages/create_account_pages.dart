@@ -9,10 +9,10 @@ import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
 import '../../util/snackbar.dart';
 import 'forget_pass_modal_widget.dart';
-import 'login_modal_widget.dart';
+import 'login_page.dart';
 
-class LoginPages extends HookConsumerWidget {
-  const LoginPages({super.key});
+class CreateAccountPages extends HookConsumerWidget {
+  const CreateAccountPages({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -84,7 +84,8 @@ class LoginPages extends HookConsumerWidget {
                     fillColor: Colors.white, // 背景色を設定
                   ),
                   onChanged: (text) {
-                    if (text.length > 8 && text.length < 12) {
+                    RegExp regex = RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,12}$');
+                    if (regex.hasMatch(text)) {
                       isPassValid.value = true;
                     } else {
                       isPassValid.value = false;
@@ -180,13 +181,10 @@ class LoginPages extends HookConsumerWidget {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      showModalBottomSheet<void>(
-                          isScrollControlled: true,
-                          context: context,
-                          isDismissible: true,
-                          builder: (BuildContext context) {
-                            return const LoginModalWidget();
-                          });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
+                      );
                     },
                     child: Text(
                       'ログイン',
@@ -199,7 +197,7 @@ class LoginPages extends HookConsumerWidget {
                 ],
               ),
               SizedBox(
-                height: 10.h,
+                height: 20.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

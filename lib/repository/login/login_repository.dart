@@ -10,9 +10,9 @@ final loginRepositoryProvider = Provider<LoginRepository>((ref) {
 });
 
 abstract class LoginRepository {
-  Future<CreateAccountResult?> createAccount(String password, String email);
+  Future<CreateAccountResult> createAccount(String password, String email);
 
-  Future<UserCredential?> login(String email, String password);
+  Future<CreateAccountResult> login(String email, String password);
 
   Future<void> logout();
 
@@ -30,12 +30,12 @@ class LoginRepositoryImpl implements LoginRepository {
   final LoginDao _dao;
 
   @override
-  Future<CreateAccountResult?> createAccount(String password, String email) async {
+  Future<CreateAccountResult> createAccount(String password, String email) async {
     return await _dao.createAccount(password, email);
   }
 
   @override
-  Future<UserCredential?> login(String email, String password) async {
+  Future<CreateAccountResult> login(String email, String password) async {
     return await _dao.login(email, password);
   }
 

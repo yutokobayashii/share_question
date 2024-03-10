@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../pages/answer_pages/answer_page.dart';
 import '../../pages/grade_pages/grade_page.dart';
 import '../../pages/home_pages/home_page.dart';
-import '../../pages/login_pages/login_pages.dart';
+import '../../pages/login_pages/create_account_pages.dart';
 import '../../pages/settings_pages/settings_page.dart';
 
 
@@ -53,7 +53,7 @@ Widget getPageWidget(TabItem item) {
       return const SettingsPage();
 
     case TabItem.login:
-      return const LoginPages();
+      return const CreateAccountPages();
 
 
   }

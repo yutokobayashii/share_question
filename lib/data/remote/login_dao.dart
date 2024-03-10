@@ -26,18 +26,16 @@ class LoginDao {
     return CreateAccountResult(userCredential: null,errorCode: errorCode);
   }
 
-  Future<UserCredential?> login(String email, String password) async {
+  Future<CreateAccountResult> login(String email, String password) async {
     try {
       final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      return userCredential;
+
+      final result = CreateAccountResult(userCredential: userCredential,errorCode: null);
+      return result;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        debugPrint('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        debugPrint('Wrong password provided for that user.');
-      }
-      return null;
+      final result = CreateAccountResult(userCredential: null,errorCode: FirebaseAuthErrorCode.fromString(e.code));
+      return result;
     }
   }
 
