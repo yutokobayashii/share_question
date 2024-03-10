@@ -7,6 +7,7 @@ import 'package:share_question/constant/color.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
+import '../../notifier/mail/mail_notifier.dart';
 import '../../util/normal_dialog.dart';
 import '../../util/snackbar.dart';
 import '../base_page.dart';
@@ -166,6 +167,10 @@ class CreateAccountPages extends HookConsumerWidget {
                         final user = await ref
                             .read(loginNotifierProvider.notifier)
                             .signInWithGoogle();
+
+                        await ref
+                            .read(mailNotifierProvider.notifier)
+                            .setMail(user?.user?.email ?? "");
 
                         //ログイン成功
                         if (user != null && context.mounted) {

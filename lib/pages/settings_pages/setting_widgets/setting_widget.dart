@@ -8,18 +8,20 @@ class SettingWidget extends StatelessWidget {
     required this.title,
     required this.action,
      this.color = Colors.black,
+     this.canTap = true,
   });
 
   final String title;
   final VoidCallback action;
   final Color color;
+  final bool canTap;
 
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
-        onTap: action,
+        onTap: (canTap) ? action : null,
         child: Container(
           padding: const EdgeInsets.all(15),
           width: MediaQuery
@@ -42,7 +44,10 @@ class SettingWidget extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 color: color
               )),
-              const Icon(Icons.chevron_right),
+              (canTap) ?
+              const Icon(Icons.chevron_right)
+                  :
+              const SizedBox()
             ],
           ),
         ),

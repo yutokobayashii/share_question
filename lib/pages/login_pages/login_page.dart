@@ -9,6 +9,7 @@ import '../../constant/color.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
+import '../../notifier/mail/mail_notifier.dart';
 import '../../util/normal_dialog.dart';
 import 'forget_pass_modal_widget.dart';
 
@@ -125,9 +126,12 @@ class LoginPage extends HookConsumerWidget {
                           passWord.value,
                         );
 
+                await ref
+                    .read(mailNotifierProvider.notifier)
+                    .setMail(user.userCredential?.user?.email ?? "");
+
                 //ログイン成功
                 if (user.userCredential != null && context.mounted) {
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const BasePage()),

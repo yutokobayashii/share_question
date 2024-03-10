@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/notifier/login_notifier/login_notifier.dart';
+import 'package:share_question/notifier/mail/mail_notifier.dart';
 import 'package:share_question/pages/login_pages/create_account_pages.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/kiyaku.page.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/privacy_policy_page.dart';
@@ -22,6 +23,7 @@ class SettingsPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mail = ref.read(mailNotifierProvider.notifier).getMail();
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -48,7 +50,8 @@ class SettingsPage extends HookConsumerWidget {
                   height: 15.h,
                 ),
                 SettingWidget(
-                  title: 'ユーザー情報',
+                  title: 'ログイン情報: $mail',
+                  canTap: false,
                   action: () {
                     Navigator.push(
                       context,
