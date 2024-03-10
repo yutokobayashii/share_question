@@ -33,4 +33,7 @@ class LoginNotifier extends Notifier<void> {
     return await ref.read(loginUseCaseProvider).signInWithGoogle();
   }
 
+  Future<User?> getCurrentUser() async {
+    return await ref.read(loginUseCaseProvider).getCurrentUser();
+  }
 }

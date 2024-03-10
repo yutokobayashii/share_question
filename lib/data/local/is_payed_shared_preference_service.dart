@@ -1,7 +1,7 @@
 import 'package:share_question/data/local/shared_preference_instance.dart';
 
 
-class StatusSharedPreferenceService {
+class MemberStatusSharedPreferenceService {
   final _instance = SharedPreferencesInstance().prefs;
 
   bool getStatus() {

@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:share_question/db/grade_sq_flite_db.dart';
 import 'package:share_question/pages/base_page.dart';
+import 'package:share_question/pages/route_page/route_page.dart';
 
 import 'data/local/shared_preference_instance.dart';
 import 'db/isar_db.dart';
@@ -24,5 +25,5 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  initializeDateFormatting().then((_) => runApp(const ProviderScope(overrides: [], child: BasePage())));
+  initializeDateFormatting().then((_) => runApp(const ProviderScope(overrides: [], child: RoutePage())));
 }

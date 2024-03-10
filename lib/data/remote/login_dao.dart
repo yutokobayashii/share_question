@@ -66,4 +66,18 @@ class LoginDao {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
+
+  Future<User?> getCurrentUser() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // ユーザーがログインしている場合、User型のオブジェクトを返します。
+      return user;
+    } else {
+      // ユーザーがログインしていない場合、nullを返します。
+      return null;
+    }
+  }
+
+
 }

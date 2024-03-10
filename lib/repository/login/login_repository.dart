@@ -19,6 +19,8 @@ abstract class LoginRepository {
   Future<void> sendResetPassWordMail(String email);
 
   Future<UserCredential> signInWithGoogle();
+
+  Future<User?> getCurrentUser();
 }
 
 class LoginRepositoryImpl implements LoginRepository {
@@ -52,5 +54,10 @@ class LoginRepositoryImpl implements LoginRepository {
   @override
   Future<UserCredential> signInWithGoogle() async {
     return await _dao.signInWithGoogle();
+  }
+
+  @override
+  Future<User?> getCurrentUser() async {
+    return await _dao.getCurrentUser();
   }
 }

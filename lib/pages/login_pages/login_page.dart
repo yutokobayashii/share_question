@@ -126,6 +126,7 @@ class LoginPage extends HookConsumerWidget {
                     .read(loginNotifierProvider.notifier)
                     .login(passWord.value, mail.value);
 
+
               if (user.errorCode != null && context.mounted) {
                 displayErrorSnackBar(ref, context, user.errorCode!.message);
               }
