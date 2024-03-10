@@ -12,6 +12,10 @@ abstract class UserRepository {
   Future<void> updatePassword(User user, String newPassword);
 
   Future<void> deleteAccount(User user);
+
+  Future<void> renewPassword(User user, String newPassword);
+
+  Future<bool> reAuthenticate(User user,String oldPassword);
 }
 
 class UserRepositoryImpl implements UserRepository {
@@ -30,5 +34,15 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<void> updatePassword(User user, String newPassword) async {
     await _dao.updatePassword(user, newPassword);
+  }
+
+  @override
+  Future<void> renewPassword(User user, String newPassword) async {
+    await _dao.renewPassword(user, newPassword);
+  }
+
+  @override
+  Future<bool> reAuthenticate(User user, String oldPassword) async {
+    return await _dao.reAuthenticate(user, oldPassword);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
@@ -8,7 +9,7 @@ void showColorPalette(BuildContext context, WidgetRef ref) {
     context: context,
     builder: (BuildContext context) {
       return SizedBox(
-        height: 200, // モーダルの高さ
+        height: 100.h, // モーダルの高さ
         child: GridView.count(
           crossAxisCount: 5, // 1行あたりの色の数
           children: paletteColors.map((color) {

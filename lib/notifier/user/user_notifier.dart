@@ -18,4 +18,12 @@ class UserNotifier extends Notifier<void> {
   Future<void> updatePassword(User user, String newPassword) async {
     await ref.read(userUseCaseProvider).updatePassword(user, newPassword);
   }
+
+  Future<void> renewPassword(User user, String newPassword) async {
+    await ref.read(userUseCaseProvider).renewPassword(user, newPassword);
+  }
+
+  Future<bool> reAuthenticate(User user,String oldPassword) async {
+    return await ref.read(userUseCaseProvider).reAuthenticate(user, oldPassword);
+  }
 }

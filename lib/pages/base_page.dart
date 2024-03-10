@@ -19,6 +19,7 @@ class BasePage extends HookConsumerWidget {
     final currentTab = useState(TabItem.home);
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: TabItem.values
               .map(
