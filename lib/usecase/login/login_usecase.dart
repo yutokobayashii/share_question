@@ -17,7 +17,7 @@ abstract class LoginUseCase {
 
   Future<bool> logout();
 
-  Future<void> sendResetPassWordMail(String email);
+  Future<bool> sendResetPassWordMail(String email);
 
   Future<UserCredential?> signInWithGoogle();
 
@@ -48,8 +48,8 @@ class LoginUseCaseImpl implements LoginUseCase {
   }
 
   @override
-  Future<void> sendResetPassWordMail(String email) async {
-    await _repository.sendResetPassWordMail(email);
+  Future<bool> sendResetPassWordMail(String email) async {
+   return await _repository.sendResetPassWordMail(email);
   }
 
   @override

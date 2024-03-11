@@ -25,8 +25,8 @@ class LoginNotifier extends Notifier<void> {
    return await ref.read(loginUseCaseProvider).logout();
   }
 
-  Future<void> sendResetPassWordMail(String email) async {
-    await ref.read(loginUseCaseProvider).sendResetPassWordMail(email);
+  Future<bool> sendResetPassWordMail(String email) async {
+   return await ref.read(loginUseCaseProvider).sendResetPassWordMail(email);
   }
 
   Future<UserCredential?> signInWithGoogle() async {

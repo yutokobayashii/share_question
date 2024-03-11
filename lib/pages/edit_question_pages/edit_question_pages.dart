@@ -10,7 +10,7 @@ import '../../controller/make_question_controller/make_question_controller.dart'
 import '../../data/local/color_shared_preference_service.dart';
 import '../../entity/question_data/question.dart';
 import '../../notifier/storage_firestore/storage_firestore_notifier.dart';
-import '../../util/alart_dialog.dart';
+import '../../util/dialog/alart_dialog.dart';
 import '../../util/snackbar.dart';
 import '../../widgets/base_textfield_widget.dart';
 import '../../widgets/basic_floating_button.dart';

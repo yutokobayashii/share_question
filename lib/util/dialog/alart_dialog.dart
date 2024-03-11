@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../data/local/color_shared_preference_service.dart';
+import '../../data/local/color_shared_preference_service.dart';
 
 void showCupertinoDialog({
   required BuildContext context,

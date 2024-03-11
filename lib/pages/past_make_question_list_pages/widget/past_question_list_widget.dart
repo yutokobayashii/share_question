@@ -9,7 +9,7 @@ import '../../../data/local/color_shared_preference_service.dart';
 import '../../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
 import '../../../notifier/question_number/question_number_notifier.dart';
 import '../../../notifier/token/token_notifier.dart';
-import '../../../util/alart_dialog.dart';
+import '../../../util/dialog/alart_dialog.dart';
 
 class PastQuestionListWidget extends HookConsumerWidget {
   const PastQuestionListWidget(

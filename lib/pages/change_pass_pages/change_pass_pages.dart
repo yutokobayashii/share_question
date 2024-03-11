@@ -9,6 +9,7 @@ import '../../constant/color.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
 import '../../notifier/user/user_notifier.dart';
+import '../../util/dialog/success_change_pass_dialog.dart';
 import '../login_pages/forget_pass_modal_widget.dart';
 
 class ChangePassPages extends HookConsumerWidget {
@@ -156,6 +157,10 @@ class ChangePassPages extends HookConsumerWidget {
                       await ref
                           .read(userNotifierProvider.notifier)
                           .renewPassword(user, newPass.value);
+
+                      if (context.mounted) {
+                        showSuccessChangePassDialog(context);
+                      }
                     } else {
                       if (context.mounted) {
                         displayErrorSnackBar(ref, context, "現在のパスワードが正しくありません");

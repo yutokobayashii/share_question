@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/util/snackbar.dart';
 
 import '../../constant/color.dart';
 import '../../data/local/color_shared_preference_service.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
-
+import '../../util/dialog/send_confirm_mail_dialog.dart';
 
 class ForgetPassModalWidget extends HookConsumerWidget {
   const ForgetPassModalWidget({
@@ -15,7 +16,7 @@ class ForgetPassModalWidget extends HookConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final mail = useState("");
 
     return Container(
@@ -24,8 +25,9 @@ class ForgetPassModalWidget extends HookConsumerWidget {
       color: Colors.white,
       child: Column(
         children: [
-          SizedBox(height: 50.h,),
-
+          SizedBox(
+            height: 50.h,
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width - 80.w,
             height: 70.h,
@@ -52,15 +54,23 @@ class ForgetPassModalWidget extends HookConsumerWidget {
               onSubmitted: (text) {},
             ),
           ),
-
-
           SizedBox(
             height: 30.h,
           ),
-
           GestureDetector(
             onTap: () async {
-             await ref.read(loginNotifierProvider.notifier).sendResetPassWordMail(mail.value);
+              final isSuccess = await ref
+                  .read(loginNotifierProvider.notifier)
+                  .sendResetPassWordMail(mail.value);
+
+              if (context.mounted) {
+                if (isSuccess) {
+                  showSendConfirmMailDialog(context);
+                } else {
+                  displayErrorSnackBar(
+                      ref, context, "予期せぬエラーが発生しました。\n再度時間をおいてお試しください");
+                }
+              }
             },
             child: Container(
               width: MediaQuery.of(context).size.width - 80.w,
@@ -75,19 +85,17 @@ class ForgetPassModalWidget extends HookConsumerWidget {
               ),
               child: Center(
                   child: Text(
-                    '確認メールを送る',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18.sp,
-                        color: Colors.white),
-                  )),
+                '確認メールを送る',
+                style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18.sp,
+                    color: Colors.white),
+              )),
             ),
           ),
-
           SizedBox(
             height: 20.h,
           ),
-
           SizedBox(
               width: 170.w,
               height: 170.h,

@@ -16,7 +16,7 @@ abstract class LoginRepository {
 
   Future<bool> logout();
 
-  Future<void> sendResetPassWordMail(String email);
+  Future<bool> sendResetPassWordMail(String email);
 
   Future<UserCredential?> signInWithGoogle();
 
@@ -47,8 +47,8 @@ class LoginRepositoryImpl implements LoginRepository {
   }
 
   @override
-  Future<void> sendResetPassWordMail(String email) async {
-    await _dao.sendResetPassWordMail(email);
+  Future<bool> sendResetPassWordMail(String email) async {
+   return await _dao.sendResetPassWordMail(email);
   }
 
   @override

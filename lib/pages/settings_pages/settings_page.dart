@@ -11,7 +11,7 @@ import 'package:share_question/util/snackbar.dart';
 
 import '../../constant/style.dart';
 import '../../controller/setting_controller/setting_controller.dart';
-import '../../util/alart_dialog.dart';
+import '../../util/dialog/alart_dialog.dart';
 import '../change_pass_pages/change_pass_pages.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
 import '../member_status_pages/member_status_pages.dart';

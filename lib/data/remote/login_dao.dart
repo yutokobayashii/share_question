@@ -48,9 +48,14 @@ class LoginDao {
     }
   }
 
-  Future<void> sendResetPassWordMail (String email) async {
-    await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: email);
+  Future<bool> sendResetPassWordMail(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      // 何らかのエラーが発生した場合
+      return false;
+    }
   }
 
 
