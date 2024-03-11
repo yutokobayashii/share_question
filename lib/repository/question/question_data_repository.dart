@@ -5,16 +5,17 @@ import 'package:uuid/uuid.dart';
 import '../../entity/question_data/question.dart';
 
 abstract class QuestionDataRepository {
-  Map<String, dynamic> createQuestionData(WidgetRef ref,InitialQuestion initial,List<QuestionDetail> questionDetail);
+  Map<String, dynamic> createQuestionData(WidgetRef ref,InitialQuestion initial,List<QuestionDetail> questionDetail,String userId);
 }
 
 class QuestionDataRepositoryImp implements QuestionDataRepository {
   @override
-  Map<String, dynamic> createQuestionData(WidgetRef ref,InitialQuestion initial,List<QuestionDetail> questionDetail) {
+  Map<String, dynamic> createQuestionData(WidgetRef ref,InitialQuestion initial,List<QuestionDetail> questionDetail,String userId) {
     final now = DateTime.now();
 
     return {
       'uuid': const Uuid().v4(),
+      'userId': userId,
       'name': initial.name,
       'author': initial.author,
       'explain': initial.explain,

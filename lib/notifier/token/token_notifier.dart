@@ -12,9 +12,7 @@ class TokenNotifier extends Notifier<void> {
     return;
   }
 
-  Future<List<Token>> tokenFindAll() async {
-   return await ref.read(tokenUseCaseProvider).tokenFindAll();
-  }
+
 
   Future<void> deleteTokenData(int id) async {
     await ref.read(tokenUseCaseProvider).deleteTokenData(id);

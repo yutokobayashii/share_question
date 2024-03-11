@@ -22,6 +22,8 @@ abstract class CloudFireStoreUseCase {
   Future<void> incrementAnswerNumber(String documentId);
 
   Future<String?> getDocumentIdByUuid(String uuid);
+
+  Future<List<Question>> getSortedQuestions();
 }
 
 class CloudFireStoreUseCaseImp implements CloudFireStoreUseCase {
@@ -60,5 +62,10 @@ class CloudFireStoreUseCaseImp implements CloudFireStoreUseCase {
   @override
   Future<void> incrementAnswerNumber(String documentId) async {
    await _repository.incrementAnswerNumber(documentId);
+  }
+
+  @override
+  Future<List<Question>> getSortedQuestions() async {
+    return await _repository.getSortedQuestions();
   }
 }

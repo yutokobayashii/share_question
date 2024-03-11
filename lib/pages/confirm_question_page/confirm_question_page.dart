@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/entity/initial_question/initial_question.dart';
+import 'package:share_question/notifier/login_notifier/login_notifier.dart';
 import 'package:share_question/pages/make_question_pages/make_question_widgets/share_question_page.dart';
 import 'package:share_question/repository/question/question_data_repository.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
@@ -106,14 +107,19 @@ class ConfirmQuestionPage extends HookConsumerWidget {
             text: '共有',
             action: () async {
               try {
+                final user = await ref
+                    .read(loginNotifierProvider.notifier)
+                    .getCurrentUser();
+
                 final data = questionRepository.createQuestionData(
-                    ref, initial, questionDetailValue.value);
+                    ref, initial, questionDetailValue.value, user?.uid ?? "");
 
                 final id = await cloudFireStoreNotifier.saveQuestion(data);
 
                 await controller.putQuestionDataToIsar(id, ref, initial);
 
-                await ref.read(questionNumberNotifierProvider.notifier)
+                await ref
+                    .read(questionNumberNotifierProvider.notifier)
                     .increaseQuestionNumber();
 
                 if (context.mounted) {

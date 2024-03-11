@@ -21,6 +21,8 @@ abstract class CloudFireStoreRepository {
   Future<void> incrementAnswerNumber(String documentId);
 
   Future<String?> getDocumentIdByUuid(String uuid);
+
+  Future<List<Question>> getSortedQuestions();
 }
 
 class CloudFireStoreRepositoryImp implements CloudFireStoreRepository {
@@ -55,6 +57,11 @@ class CloudFireStoreRepositoryImp implements CloudFireStoreRepository {
   @override
   Future<void> incrementAnswerNumber(String documentId) async {
     await _dao.incrementAnswerNumber(documentId);
+  }
+
+  @override
+  Future<List<Question>> getSortedQuestions() async {
+    return await _dao.getSortedQuestions();
   }
 
 }

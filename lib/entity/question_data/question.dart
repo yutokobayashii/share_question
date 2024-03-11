@@ -10,6 +10,7 @@ part 'question.g.dart';
 class Question with _$Question {
   const factory Question({
     required String uuid,
+    required String userId,
     required int? favorite,
     required int? answerNumber,
     required String name,

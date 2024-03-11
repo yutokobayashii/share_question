@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../constant/error.dart';
@@ -84,4 +85,26 @@ class CloudDao {
       return null; // エラーが発生した場合
     }
   }
+
+
+  Future<List<Question>> getSortedQuestions() async {
+    List<Question> questions = [];
+    String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
+
+    if (currentUserId != null) {
+      var collection = FirebaseFirestore.instance.collection('questionList');
+      var querySnapshot = await collection
+          .where('userId', isEqualTo: currentUserId)
+          // .orderBy('createdAt', descending: true) // 最新のものからソート
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        Question question = Question.fromJson(doc.data());
+        questions.add(question);
+      }
+    }
+
+    return questions;
+  }
+
 }

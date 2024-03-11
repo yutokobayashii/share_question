@@ -9,6 +9,7 @@ part of 'question.dart';
 _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
     _$QuestionImpl(
       uuid: json['uuid'] as String,
+      userId: json['userId'] as String,
       favorite: json['favorite'] as int?,
       answerNumber: json['answerNumber'] as int?,
       name: json['name'] as String,
@@ -24,6 +25,7 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
     <String, dynamic>{
       'uuid': instance.uuid,
+      'userId': instance.userId,
       'favorite': instance.favorite,
       'answerNumber': instance.answerNumber,
       'name': instance.name,

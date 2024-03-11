@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/pages/past_make_question_list_pages/widget/past_question_list_widget.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
-import '../../notifier/token/token_notifier.dart';
+import '../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
 
 class PastMakeQuestionListPage extends HookConsumerWidget {
@@ -15,7 +15,8 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context,WidgetRef ref) {
 
-    final tokenData = useState(ref.watch(tokenNotifierProvider.notifier).tokenFindAll());
+    
+    final questionData = useState(ref.read(cloudFireStoreNotifierProvider.notifier).getSortedQuestions());
 
     return MaterialApp(
       home: Scaffold(
@@ -54,7 +55,7 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
           ],
         ),
         body: FutureBuilder(
-          future: tokenData.value,
+          future: questionData.value,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
 
@@ -63,7 +64,7 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
               );
 
             }
-            else if (snapshot.data!.isEmpty) {
+            else if (snapshot.data?.isEmpty ?? true) {
 
              return const Center(child:
              Column(
@@ -91,7 +92,7 @@ class PastMakeQuestionListPage extends HookConsumerWidget {
                       SizedBox(height: 30.h,),
 
                       for(int i = 0; i<snapshot.data!.length; i++)... {
-                         PastQuestionListWidget(list: snapshot.data!, i: i, tokenData: tokenData,),
+                         PastQuestionListWidget(list: snapshot.data!, i: i, tokenData: questionData,),
                         SizedBox(height: 20.h,),
 
                       }
