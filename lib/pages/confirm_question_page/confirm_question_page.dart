@@ -8,7 +8,6 @@ import 'package:share_question/pages/make_question_pages/make_question_widgets/s
 import 'package:share_question/repository/question/question_data_repository.dart';
 import 'package:share_question/widgets/basic_floating_button.dart';
 
-import '../../controller/confirm_question_controller/confirm_question_controller.dart';
 import '../../controller/make_question_controller/make_question_controller.dart';
 import '../../controller/optional_make_question_controller/optional_make_question_controller.dart';
 import '../../entity/question_data/question.dart';
@@ -32,7 +31,6 @@ class ConfirmQuestionPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final questionRepository = QuestionDataRepositoryImp();
-    final controller = ConfirmQuestionController();
     final cloudFireStoreNotifier =
         ref.watch(cloudFireStoreNotifierProvider.notifier);
     final makeQuestionController = MakeQuestionController(ref);
@@ -115,8 +113,6 @@ class ConfirmQuestionPage extends HookConsumerWidget {
                     ref, initial, questionDetailValue.value, user?.uid ?? "");
 
                 final id = await cloudFireStoreNotifier.saveQuestion(data);
-
-                await controller.putQuestionDataToIsar(id, ref, initial);
 
                 await ref
                     .read(questionNumberNotifierProvider.notifier)
