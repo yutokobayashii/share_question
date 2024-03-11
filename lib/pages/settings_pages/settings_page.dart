@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/notifier/login_notifier/login_notifier.dart';
 import 'package:share_question/notifier/mail/mail_notifier.dart';
+import 'package:share_question/notifier/user/user_notifier.dart';
 import 'package:share_question/pages/login_pages/create_account_pages.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/kiyaku.page.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/privacy_policy_page.dart';
@@ -30,69 +31,203 @@ class SettingsPage extends HookConsumerWidget {
           title: const Text("設定"),
           backgroundColor: Colors.white,
         ),
-        body: Container(
-          color: Colors.white,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // SizedBox(
-                //   height: 10.h,
-                // ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text('ユーザー情報', style: boldTextStyle),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                SettingWidget(
-                  title: 'ログイン情報: $mail',
-                  canTap: false,
-                  action: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const UserInfoPages()),
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                SettingWidget(
-                  title: 'パスワードを変更',
-                  action: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ChangePassPages()),
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                SettingWidget(
-                  title: 'ログアウト',
-                  color: Colors.red,
-                  action: () async {
-                    showCupertinoDialog(
+        body: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+          
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text('ユーザー情報', style: boldTextStyle),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SettingWidget(
+                    title: 'ログイン情報: $mail',
+                    canTap: false,
+                    action: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UserInfoPages()),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SettingWidget(
+                    title: 'パスワードを変更',
+                    action: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ChangePassPages()),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SettingWidget(
+                    title: 'ログアウト',
+                    color: Colors.red,
+                    action: () async {
+                      showCupertinoDialog(
+                          context: context,
+                          title: 'ログアウトしますか？',
+                          content: 'ログアウトすると再度ログインしないとアプリを使用できません。',
+                          cancelText: 'ログアウト',
+                          okText: '戻る',
+                          onCancel: () async {
+                            final isLogoutSuccess = await ref
+                                .read(loginNotifierProvider.notifier)
+                                .logout();
+          
+                            if (context.mounted) {
+                              if (isLogoutSuccess) {
+                                navigatorKey.currentState?.pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                      const CreateAccountPages()),
+                                      (Route<dynamic> _) => false,
+                                );
+                              } else {
+                                displayErrorSnackBar(ref, context,
+                                    "予期せぬエラーが発生しました。\n時間をおいて再度お試しください。");
+                              }
+                            }
+                          },
+                          onOK: () {
+          
+                          });
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text('アプリケーション設定', style: boldTextStyle),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SettingWidget(
+                    title: '会員ステータス',
+                    action: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MemberStatusPages()),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SettingWidget(
+                    title: 'テーマカラー設定',
+                    action: () {
+                      showColorPalette(context, ref);
+                    },
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text('インフォメーション', style: boldTextStyle),
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SettingWidget(
+                    title: 'プライバシーポリシー',
+                    action: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicyPage()),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SettingWidget(
+                    title: '利用規約',
+                    action: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const KiyakuPage()),
+                      );
+                    },
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  SettingWidget(
+                    title: '使い方',
+                    action: () {
+                      showModalBottomSheet(
                         context: context,
-                        title: 'ログアウトしますか？',
-                        content: 'ログアウトすると再度ログインしないとアプリを使用できません。',
-                        cancelText: 'ログアウト',
-                        okText: '戻る',
-                        onCancel: () async {
-                          final isLogoutSuccess = await ref
-                              .read(loginNotifierProvider.notifier)
-                              .logout();
+                        isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定
+                        builder: (BuildContext context) {
+                          return const SelectGuideWidget();
+                        },
+                      );
+                    },
+                  ),
 
-                          if (context.mounted) {
-                            if (isLogoutSuccess) {
+                  SizedBox(
+                    height: 15.h,
+                  ),
+
+                  SettingWidget(
+                    title: 'お問い合わせ',
+                    action: () {
+          
+                    },
+                  ),
+
+                  SizedBox(
+                    height: 15.h,
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text('その他', style: boldTextStyle),
+                  ),
+
+                  SizedBox(
+                    height: 15.h,
+                  ),
+
+                  SettingWidget(
+                    title: 'アカウント削除',
+                    color: Colors.red,
+                    action: () async {
+                      showCupertinoDialog(
+                          context: context,
+                          title: '本当にアカウントを削除しますか？',
+                          content: '一度アカウントを削除すると作問/解答の履歴は二度と復元できません。',
+                          cancelText: 'アカウントを削除',
+                          okText: '戻る',
+                          onCancel: () async {
+                            final user = await ref.read(loginNotifierProvider.notifier).getCurrentUser();
+                            if (user != null) {
+                            final isSuccess =  await ref.read(userNotifierProvider.notifier).deleteAccount(user);
+
+                            if (isSuccess) {
                               navigatorKey.currentState?.pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) =>
@@ -100,94 +235,22 @@ class SettingsPage extends HookConsumerWidget {
                                     (Route<dynamic> _) => false,
                               );
                             } else {
-                              displayErrorSnackBar(ref, context,
-                                  "予期せぬエラーが発生しました。\n時間をおいて再度お試しください。");
+                              if (context.mounted) {
+                                displayErrorSnackBar(ref, context, "予期せぬエラーが発生しました。\n時間をおいて再度お試し下さい。");
+                              }
                             }
-                          }
-                        },
-                        onOK: () {
+                            }
+                          },
+                          onOK: () {
 
-                        });
-                  },
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text('アプリケーション設定', style: boldTextStyle),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                SettingWidget(
-                  title: '会員ステータス',
-                  action: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MemberStatusPages()),
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                SettingWidget(
-                  title: 'テーマカラー設定',
-                  action: () {
-                    showColorPalette(context, ref);
-                  },
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text('インフォメーション', style: boldTextStyle),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                SettingWidget(
-                  title: '使い方',
-                  action: () {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true, // 画面半分よりも大きなモーダルの表示設定
-                      builder: (BuildContext context) {
-                        return const SelectGuideWidget();
-                      },
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                SettingWidget(
-                  title: 'プライバシーポリシー',
-                  action: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PrivacyPolicyPage()),
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                SettingWidget(
-                  title: '利用規約',
-                  action: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const KiyakuPage()),
-                    );
-                  },
-                ),
-              ],
+                          });
+
+
+                    },
+                  ),
+
+                ],
+              ),
             ),
           ),
         ));

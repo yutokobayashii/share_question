@@ -9,9 +9,16 @@ class UserDao {
     await user.updatePassword(newPassword);
   }
 
-  Future<void> deleteAccount(User user) async {
-    await user.delete();
+  Future<bool> deleteAccount(User user) async {
+    try {
+      await user.delete();
+      return true;
+    } catch (e) {
+      // 何らかのエラーが発生した場合
+      return false;
+    }
   }
+
 
   Future<void> renewPassword(User user,String newPassword) async {
     await user.updatePassword(newPassword);

@@ -9,9 +9,8 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
 });
 
 abstract class UserRepository {
-  Future<void> updatePassword(User user, String newPassword);
 
-  Future<void> deleteAccount(User user);
+  Future<bool> deleteAccount(User user);
 
   Future<void> renewPassword(User user, String newPassword);
 
@@ -27,14 +26,10 @@ class UserRepositoryImpl implements UserRepository {
   final UserDao _dao;
 
   @override
-  Future<void> deleteAccount(User user) async {
-    await _dao.deleteAccount(user);
+  Future<bool> deleteAccount(User user) async {
+   return await _dao.deleteAccount(user);
   }
 
-  @override
-  Future<void> updatePassword(User user, String newPassword) async {
-    await _dao.updatePassword(user, newPassword);
-  }
 
   @override
   Future<void> renewPassword(User user, String newPassword) async {

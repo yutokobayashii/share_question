@@ -125,9 +125,24 @@ class CreateAccountPages extends HookConsumerWidget {
                               .read(loginNotifierProvider.notifier)
                               .createAccount(passWord.value, mail.value);
 
-                          if (user?.errorCode != null && context.mounted) {
-                            displayErrorSnackBar(
-                                ref, context, user!.errorCode!.message);
+                          await ref
+                              .read(mailNotifierProvider.notifier)
+                              .setMail(user?.userCredential?.user?.email ?? "");
+
+
+                          if (context.mounted) {
+                            if (user?.errorCode != null) {
+                              displayErrorSnackBar(
+                                  ref, context, user!.errorCode!.message);
+                            } else {
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const BasePage()),
+                              );
+                              showSuccessLoginDialog(context);
+                            }
                           }
                         }
                       },

@@ -10,9 +10,8 @@ final userUseCaseProvider = Provider<UserUseCase>((ref) {
 });
 
 abstract class UserUseCase {
-  Future<void> updatePassword(User user, String newPassword);
 
-  Future<void> deleteAccount(User user);
+  Future<bool> deleteAccount(User user);
 
   Future<void> renewPassword(User user, String newPassword);
 
@@ -28,13 +27,8 @@ class UserUseCaseImpl implements UserUseCase {
   final UserRepository _repository;
 
   @override
-  Future<void> deleteAccount(User user) async {
-    await _repository.deleteAccount(user);
-  }
-
-  @override
-  Future<void> updatePassword(User user, String newPassword) async {
-    await _repository.updatePassword(user, newPassword);
+  Future<bool> deleteAccount(User user) async {
+   return await _repository.deleteAccount(user);
   }
 
   @override

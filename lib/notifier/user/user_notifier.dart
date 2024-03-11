@@ -11,12 +11,8 @@ class UserNotifier extends Notifier<void> {
     return;
   }
 
-  Future<void> deleteAccount(User user) async {
-    await ref.read(userUseCaseProvider).deleteAccount(user);
-  }
-
-  Future<void> updatePassword(User user, String newPassword) async {
-    await ref.read(userUseCaseProvider).updatePassword(user, newPassword);
+  Future<bool> deleteAccount(User user) async {
+   return await ref.read(userUseCaseProvider).deleteAccount(user);
   }
 
   Future<void> renewPassword(User user, String newPassword) async {
