@@ -20,6 +20,7 @@ class AnswerPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        centerTitle: true,
         title: const Text("解答"),
         actions: [
           GestureDetector(

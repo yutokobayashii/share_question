@@ -26,7 +26,7 @@ class PastQuestionDetailPage extends HookConsumerWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Center(child: Text('問題集名')),
+          title: const Center(child: Text('作問詳細')),
           centerTitle:true,
           leading:
           GestureDetector(
@@ -34,6 +34,7 @@ class PastQuestionDetailPage extends HookConsumerWidget {
                 Navigator.pop(context);
               },
               child: const Icon(Icons.arrow_back, size: 28,)),
+          actions: const [SizedBox()],
 
 
         ),
@@ -76,11 +77,11 @@ class PastQuestionDetailPage extends HookConsumerWidget {
           action: () {
             shareText(context, """「$questionName」であなたの知識を試してみませんか？🌟
             🔑パスワード:「$documentId」
-
+        
             この問題集は、[$author]によって作られました。私たちのアプリは、教員や塾講師がテストや試験対策のために独自の問題集を作成し、生徒たちに挑戦させることができるプラットフォームです。授業や自習の質を高め、学習効果を最大化しましょう。
-
+        
             生徒の理解度を深め、より効果的な学習経験を提供するために設計されています。あなたも今すぐこのツールを使って、教育の可能性を広げてみてください！
-
+        
             👉ダウンロードはこちら: [アプリのURL]
                 """);
           },),

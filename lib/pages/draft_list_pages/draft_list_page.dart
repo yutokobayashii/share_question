@@ -16,9 +16,9 @@ class DraftListPage extends HookConsumerWidget {
     return MaterialApp(
       home: Scaffold(
        appBar: AppBar(
+         centerTitle: true,
           backgroundColor: Colors.white,
           title: const Center(child: Text('下書き一覧')),
-          centerTitle:true,
           leading:
           GestureDetector(
               onTap: () {

@@ -40,6 +40,7 @@ class ConfirmQuestionPage extends HookConsumerWidget {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
+            centerTitle: true,
             backgroundColor: Colors.white,
             leading: Padding(
               padding: const EdgeInsets.only(right: 15),

@@ -33,6 +33,7 @@ class GradePage extends HookConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.white,
           title: const Text("成績"),
           actions: [

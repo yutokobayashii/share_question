@@ -50,6 +50,7 @@ class MakeQuestionPage extends HookConsumerWidget {
           return MaterialApp(
             home: Scaffold(
               appBar: AppBar(
+                centerTitle: true,
                 backgroundColor: Colors.white,
                 leading: Padding(
                   padding: const EdgeInsets.only(left: 10),

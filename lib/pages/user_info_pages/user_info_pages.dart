@@ -9,6 +9,7 @@ class UserInfoPages extends HookConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         leading: Padding(
           padding: const EdgeInsets.only(left: 10),

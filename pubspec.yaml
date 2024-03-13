@@ -96,6 +96,13 @@ dependencies:
   #googlログイン
   google_sign_in: ^6.2.1
 
+  #アプリ内課金
+  in_app_purchase: ^3.1.13
+
+  #通信
+  http: ^1.2.0
+  provider: ^6.1.2
+
 
 
 flutter_icons:

@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
 import '../../notifier/status/status_notifier.dart';
+import '../settings_pages/setting_widgets/change_status_modal_widget.dart';
 
 class MemberStatusPages extends HookConsumerWidget {
   const MemberStatusPages({super.key});
@@ -16,6 +17,7 @@ class MemberStatusPages extends HookConsumerWidget {
     final status = ref.read(statusNotifierProvider.notifier).getStatus();
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         leading: GestureDetector(
             onTap: () {
@@ -56,21 +58,32 @@ class MemberStatusPages extends HookConsumerWidget {
                     const SizedBox(
                       width: 20,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.black38,
-                          width: 1,
+                    GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                            isScrollControlled: true,
+                            context: context,
+                            isDismissible: true,
+                            builder: (BuildContext context) {
+                              return const ChangeStatusModalWidget();
+                            });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: Colors.black38,
+                            width: 1,
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text(
-                          '変更する',
-                          style: TextStyle(
-                              color: ColorSharedPreferenceService().getColor()),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            '変更する',
+                            style: TextStyle(
+                                color: ColorSharedPreferenceService().getColor()),
+                          ),
                         ),
                       ),
                     )
@@ -136,7 +149,7 @@ class MemberStatusPages extends HookConsumerWidget {
                               width: 5,
                             ),
                             Text(
-                              '問題集の作成が最大5つまで可能。',
+                              '問題集の作成が最大3つまで可能。',
                               style: TextStyle(fontSize: 16.sp),
                             )
                           ]),
@@ -213,7 +226,7 @@ class MemberStatusPages extends HookConsumerWidget {
                               width: 5,
                             ),
                             Text(
-                              '1ヶ月:300円',
+                              '1ヶ月:350円',
                               style: TextStyle(fontSize: 16.sp),
                             )
                           ]),

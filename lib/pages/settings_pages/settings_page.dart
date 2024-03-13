@@ -28,6 +28,7 @@ class SettingsPage extends HookConsumerWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          centerTitle: true,
           title: const Text("設定"),
           backgroundColor: Colors.white,
         ),
@@ -35,13 +36,12 @@ class SettingsPage extends HookConsumerWidget {
           child: Container(
             color: Colors.white,
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+           // height: MediaQuery.of(context).size.height,
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-          
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text('ユーザー情報', style: boldTextStyle),
@@ -90,14 +90,14 @@ class SettingsPage extends HookConsumerWidget {
                             final isLogoutSuccess = await ref
                                 .read(loginNotifierProvider.notifier)
                                 .logout();
-          
+
                             if (context.mounted) {
                               if (isLogoutSuccess) {
                                 navigatorKey.currentState?.pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                      const CreateAccountPages()),
-                                      (Route<dynamic> _) => false,
+                                          const CreateAccountPages()),
+                                  (Route<dynamic> _) => false,
                                 );
                               } else {
                                 displayErrorSnackBar(ref, context,
@@ -105,9 +105,7 @@ class SettingsPage extends HookConsumerWidget {
                               }
                             }
                           },
-                          onOK: () {
-          
-                          });
+                          onOK: () {});
                     },
                   ),
                   SizedBox(
@@ -187,31 +185,23 @@ class SettingsPage extends HookConsumerWidget {
                       );
                     },
                   ),
-
                   SizedBox(
                     height: 15.h,
                   ),
-
                   SettingWidget(
                     title: 'お問い合わせ',
-                    action: () {
-          
-                    },
+                    action: () {},
                   ),
-
                   SizedBox(
                     height: 15.h,
                   ),
-
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text('その他', style: boldTextStyle),
                   ),
-
                   SizedBox(
                     height: 15.h,
                   ),
-
                   SettingWidget(
                     title: 'アカウント削除',
                     color: Colors.red,
@@ -223,32 +213,35 @@ class SettingsPage extends HookConsumerWidget {
                           cancelText: 'アカウントを削除',
                           okText: '戻る',
                           onCancel: () async {
-                            final user = await ref.read(loginNotifierProvider.notifier).getCurrentUser();
+                            final user = await ref
+                                .read(loginNotifierProvider.notifier)
+                                .getCurrentUser();
                             if (user != null) {
-                            final isSuccess =  await ref.read(userNotifierProvider.notifier).deleteAccount(user);
+                              final isSuccess = await ref
+                                  .read(userNotifierProvider.notifier)
+                                  .deleteAccount(user);
 
-                            if (isSuccess) {
-                              navigatorKey.currentState?.pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                    const CreateAccountPages()),
-                                    (Route<dynamic> _) => false,
-                              );
-                            } else {
-                              if (context.mounted) {
-                                displayErrorSnackBar(ref, context, "予期せぬエラーが発生しました。\n時間をおいて再度お試し下さい。");
+                              if (isSuccess) {
+                                navigatorKey.currentState?.pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CreateAccountPages()),
+                                  (Route<dynamic> _) => false,
+                                );
+                              } else {
+                                if (context.mounted) {
+                                  displayErrorSnackBar(ref, context,
+                                      "予期せぬエラーが発生しました。\n時間をおいて再度お試し下さい。");
+                                }
                               }
                             }
-                            }
                           },
-                          onOK: () {
-
-                          });
-
-
+                          onOK: () {});
                     },
                   ),
-
+                  SizedBox(
+                    height: 55.h,
+                  ),
                 ],
               ),
             ),

@@ -23,6 +23,7 @@ class GuidePageWidget extends HookConsumerWidget {
     final PageController pageController = PageController();
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         leading: GestureDetector(
             onTap: () {

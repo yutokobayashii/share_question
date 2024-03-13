@@ -24,6 +24,7 @@ class ChangePassPages extends HookConsumerWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         leading: Padding(
           padding: const EdgeInsets.only(left: 10),

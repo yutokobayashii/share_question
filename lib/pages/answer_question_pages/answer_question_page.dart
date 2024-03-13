@@ -35,6 +35,7 @@ class AnswerQuestionPage extends HookConsumerWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
+          centerTitle: true,
           leading: GestureDetector(
               onTap: () {
                 Navigator.pop(context);

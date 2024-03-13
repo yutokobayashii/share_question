@@ -27,6 +27,7 @@ class HomePage extends ConsumerWidget {
             child: Scaffold(
                 appBar: AppBar(
                   backgroundColor: Colors.white,
+                  centerTitle: true,
                   title: const Text("ホーム"),
                 ),
                 body: Container(
@@ -50,10 +51,10 @@ class HomePage extends ConsumerWidget {
                                   ref.read(questionNumberNotifierProvider.notifier)
                                       .getQuestionNumber();
 
-                              if (questionNumber > 5) {
+                              if (questionNumber > 3) {
                                 showCupertinoDialog(
                                     context: context,
-                                    title: '無料会員で５問以上の作問はできません。',
+                                    title: '無料会員で3問以上の作問はできません。',
                                     content: '有料会員になるか既存の問題を削除してください。',
                                     cancelText: '戻る',
                                     okText: '有料会員へ',

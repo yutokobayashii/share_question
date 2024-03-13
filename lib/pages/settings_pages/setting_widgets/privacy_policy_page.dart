@@ -10,6 +10,7 @@ class PrivacyPolicyPage extends HookConsumerWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.white,
           leading: GestureDetector(
               onTap: () {

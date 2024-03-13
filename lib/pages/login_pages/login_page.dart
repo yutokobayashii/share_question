@@ -23,8 +23,9 @@ class LoginPage extends HookConsumerWidget {
     final passWord = useState("");
     final isPassValid = useState(false);
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         leading: GestureDetector(
           onTap: () {

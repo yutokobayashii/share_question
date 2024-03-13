@@ -38,6 +38,7 @@ class CalendarPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         title: const Text('解答実績カレンダー'),
         leading: GestureDetector(
