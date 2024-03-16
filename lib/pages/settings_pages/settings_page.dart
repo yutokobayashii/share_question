@@ -12,9 +12,10 @@ import 'package:share_question/util/snackbar.dart';
 
 import '../../constant/style.dart';
 import '../../controller/setting_controller/setting_controller.dart';
-import '../../util/dialog/alart_dialog.dart';
+import '../../dialog/alart_dialog.dart';
 import '../change_pass_pages/change_pass_pages.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
+import '../inquire_pages/inquire_page.dart';
 import '../member_status_pages/member_status_pages.dart';
 import '../route_page/route_page.dart';
 import '../user_info_pages/user_info_pages.dart';
@@ -190,7 +191,12 @@ class SettingsPage extends HookConsumerWidget {
                   ),
                   SettingWidget(
                     title: 'お問い合わせ',
-                    action: () {},
+                    action: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const InquirePage()),
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 15.h,

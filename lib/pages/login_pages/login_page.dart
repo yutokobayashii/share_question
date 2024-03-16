@@ -7,11 +7,11 @@ import 'package:share_question/util/snackbar.dart';
 
 import '../../constant/color.dart';
 import '../../data/local/color_shared_preference_service.dart';
+import '../../dialog/success_login_dialog.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
 import '../../notifier/mail/mail_notifier.dart';
 
-import '../../util/dialog/success_login_dialog.dart';
 import 'forget_pass_modal_widget.dart';
 
 class LoginPage extends HookConsumerWidget {

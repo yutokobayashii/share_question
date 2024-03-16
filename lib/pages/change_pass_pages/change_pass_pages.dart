@@ -6,10 +6,10 @@ import 'package:share_question/data/local/color_shared_preference_service.dart';
 import 'package:share_question/util/snackbar.dart';
 
 import '../../constant/color.dart';
+import '../../dialog/success_change_pass_dialog.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
 import '../../notifier/user/user_notifier.dart';
-import '../../util/dialog/success_change_pass_dialog.dart';
 import '../login_pages/forget_pass_modal_widget.dart';
 
 class ChangePassPages extends HookConsumerWidget {

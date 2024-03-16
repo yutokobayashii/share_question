@@ -6,9 +6,9 @@ import 'package:share_question/util/snackbar.dart';
 
 import '../../constant/color.dart';
 import '../../data/local/color_shared_preference_service.dart';
+import '../../dialog/send_confirm_mail_dialog.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
-import '../../util/dialog/send_confirm_mail_dialog.dart';
 
 class ForgetPassModalWidget extends HookConsumerWidget {
   const ForgetPassModalWidget({

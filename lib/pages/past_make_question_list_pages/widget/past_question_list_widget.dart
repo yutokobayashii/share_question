@@ -5,10 +5,10 @@ import 'package:share_question/pages/past_question_detail_page/past_question_det
 
 import '../../../constant/style.dart';
 import '../../../data/local/color_shared_preference_service.dart';
+import '../../../dialog/alart_dialog.dart';
 import '../../../entity/question_data/question.dart';
 import '../../../notifier/cloud_firestore_notifier/cloud_firestore_notifier.dart';
 import '../../../notifier/question_number/question_number_notifier.dart';
-import '../../../util/dialog/alart_dialog.dart';
 
 class PastQuestionListWidget extends HookConsumerWidget {
   const PastQuestionListWidget({super.key,

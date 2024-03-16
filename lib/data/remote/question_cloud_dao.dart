@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import '../../constant/error.dart';
 import '../../entity/question_data/question.dart';
 
-class CloudDao {
+class QuestionCloudDao {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   Future<String> saveQuestion(Map<String, dynamic> questionData) async {

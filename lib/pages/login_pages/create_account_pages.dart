@@ -5,11 +5,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/constant/color.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
+import '../../dialog/success_login_dialog.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
 import '../../notifier/mail/mail_notifier.dart';
 
-import '../../util/dialog/success_login_dialog.dart';
 import '../../util/snackbar.dart';
 import '../base_page.dart';
 import 'forget_pass_modal_widget.dart';

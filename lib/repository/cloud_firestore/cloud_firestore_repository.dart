@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:share_question/data/remote/cloud_dao.dart';
+import 'package:share_question/data/remote/question_cloud_dao.dart';
 
 import '../../entity/question_data/question.dart';
 
@@ -27,7 +27,7 @@ abstract class CloudFireStoreRepository {
 
 class CloudFireStoreRepositoryImp implements CloudFireStoreRepository {
 
-  final _dao = CloudDao();
+  final _dao = QuestionCloudDao();
 
   @override
   Future<bool> deleteQuestion(String documentId) async {

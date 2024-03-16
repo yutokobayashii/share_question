@@ -1,11 +1,9 @@
-
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-
-
 part 'question.freezed.dart';
+
 part 'question.g.dart';
+
 @freezed
 class Question with _$Question {
   const factory Question({
@@ -21,11 +19,9 @@ class Question with _$Question {
     required List<QuestionDetail> questionDetailList,
   }) = _Question;
 
-  factory Question.fromJson(Map<String, dynamic> json) => _$QuestionFromJson(json);
+  factory Question.fromJson(Map<String, dynamic> json) =>
+      _$QuestionFromJson(json);
 }
-
-
-
 
 @freezed
 class QuestionDetail with _$QuestionDetail {
@@ -36,8 +32,8 @@ class QuestionDetail with _$QuestionDetail {
     required String correctAnswer,
     required String explanation,
     required List<String> optionalList,
-}) = _QuestionDetail;
+  }) = _QuestionDetail;
 
-factory QuestionDetail.fromJson(Map<String, dynamic> json) => _$QuestionDetailFromJson(json);
+  factory QuestionDetail.fromJson(Map<String, dynamic> json) =>
+      _$QuestionDetailFromJson(json);
 }
-
