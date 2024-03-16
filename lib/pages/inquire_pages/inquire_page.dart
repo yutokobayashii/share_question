@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/data/local/color_shared_preference_service.dart';
 import 'package:share_question/entity/inquire/inquire.dart';
 import 'package:share_question/notifier/login_notifier/login_notifier.dart';
+import 'package:share_question/util/snackbar.dart';
 
+import '../../dialog/success_inquire_dialog.dart';
 import '../../notifier/inquire/inquire_notifier.dart';
 
 class InquirePage extends HookConsumerWidget {
@@ -54,7 +55,6 @@ class InquirePage extends HookConsumerWidget {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 60.h,
               ),
@@ -81,24 +81,35 @@ class InquirePage extends HookConsumerWidget {
                   },
                 ),
               ),
-
-              SizedBox(height: 20.h,),
-
-              const Text('※なおこのフォームは送信専用であり、\n返信は行なっておりませんが、\n今後のアプリの性能向上の参考にさせていただきます。',
-                style: TextStyle(
-                  color: Colors.black45
-                ),),
-
+              SizedBox(
+                height: 20.h,
+              ),
+              const Text(
+                '※なおこのフォームは送信専用であり、\n返信は行なっておりませんが、\n今後のアプリの性能向上の参考にさせていただきます。',
+                style: TextStyle(color: Colors.black45),
+              ),
               SizedBox(
                 height: 50.h,
               ),
-
               GestureDetector(
                 onTap: () async {
-                  final user =  await ref.read(loginNotifierProvider.notifier).getCurrentUser();
-                  final data = Inquire(userId: user?.uid ?? "", content: inquireText.value);
-                  final mapData = data.toJson();
-                  ref.read(inquireNotifierProvider.notifier).sendInquire(mapData);
+                  if (inquireText.value != "") {
+                    final user = await ref
+                        .read(loginNotifierProvider.notifier)
+                        .getCurrentUser();
+                    final data = Inquire(
+                        userId: user?.uid ?? "", content: inquireText.value);
+                    final mapData = data.toJson();
+                    await ref
+                        .read(inquireNotifierProvider.notifier)
+                        .sendInquire(mapData);
+
+                    if (context.mounted) {
+                      showSuccessInquireDialog(context);
+                    }
+                  } else {
+                    displayErrorSnackBar(ref, context, "お問合せ内容を入力してください。");
+                  }
                 },
                 child: Container(
                   width: 200.w,
@@ -107,13 +118,14 @@ class InquirePage extends HookConsumerWidget {
                     borderRadius: BorderRadius.circular(10),
                     color: ColorSharedPreferenceService().getColor(),
                   ),
-                  child: Center(child: Text('送信',
+                  child: Center(
+                      child: Text(
+                    '送信',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18.sp
-                    ),)),
-
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18.sp),
+                  )),
                 ),
               )
             ],
