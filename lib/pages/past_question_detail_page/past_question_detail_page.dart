@@ -27,14 +27,17 @@ class PastQuestionDetailPage extends HookConsumerWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: const Center(child: Text('作問詳細')),
-          centerTitle:true,
+         // centerTitle:true,
           leading:
-          GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(Icons.arrow_back, size: 28,)),
-          actions: const [SizedBox()],
+          SizedBox(
+            width: 45,
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(Icons.arrow_back, size: 28,)),
+          ),
+          actions: const [SizedBox(width: 45,)],
 
 
         ),

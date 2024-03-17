@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>533039063859-birbes8r5m02tgsuon7vqcn178h8m6ei.apps.googleusercontent.com</string>
+	<string>1007608032854-cki36gbiodqi7fj2seiloolhm3d4d5nm.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.533039063859-birbes8r5m02tgsuon7vqcn178h8m6ei</string>
+	<string>com.googleusercontent.apps.1007608032854-cki36gbiodqi7fj2seiloolhm3d4d5nm</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>1007608032854-mvniqhbvdhe11n1qkkn38gc29jdfnc5c.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCrEZH4PuUeKntlsX6QVB2N2jrD_Ow-IzY</string>
+	<string>AIzaSyDFQHeA1ubbxL9e2KMO6y9L_ZWbEtykbg4</string>
 	<key>GCM_SENDER_ID</key>
-	<string>533039063859</string>
+	<string>1007608032854</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.shareQuestion</string>
+	<string>com.share.question</string>
 	<key>PROJECT_ID</key>
-	<string>sharequestion-ed0ef</string>
+	<string>qshare-32165</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sharequestion-ed0ef.appspot.com</string>
+	<string>qshare-32165.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:533039063859:ios:edd69fe294259dc13cd446</string>
+	<string>1:1007608032854:ios:1e7a2e38bbfcf54bbb15f7</string>
 </dict>
 </plist>
