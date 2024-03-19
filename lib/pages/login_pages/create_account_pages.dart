@@ -27,6 +27,7 @@ class CreateAccountPages extends HookConsumerWidget {
         designSize: const Size(393, 852),
         builder: (_, child) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             body: SafeArea(
               child: Container(
                 color: Colors.white,
@@ -35,11 +36,8 @@ class CreateAccountPages extends HookConsumerWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 30.h,
-                    ),
-                    SizedBox(
-                        width: 200.w,
-                        height: 200.h,
+                        width: 180.w,
+                        height: 180.h,
                         child: Image.asset(Assets.images.screen.path)),
                     SizedBox(
                       width: MediaQuery.of(context).size.width - 80.w,
@@ -168,7 +166,7 @@ class CreateAccountPages extends HookConsumerWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 15.h,
+                      height: 20.h,
                     ),
                     Text(
                       'OR',
@@ -176,7 +174,7 @@ class CreateAccountPages extends HookConsumerWidget {
                           fontWeight: FontWeight.w700, fontSize: 15.sp),
                     ),
                     SizedBox(
-                      height: 15.h,
+                      height: 20.h,
                     ),
                     GestureDetector(
                       onTap: () async {
@@ -211,7 +209,7 @@ class CreateAccountPages extends HookConsumerWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 30.h,
+                      height: 40.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -224,7 +222,7 @@ class CreateAccountPages extends HookConsumerWidget {
                               color: Colors.black54),
                         ),
                         const SizedBox(
-                          width: 10,
+                          width: 15,
                         ),
                         GestureDetector(
                           onTap: () {
