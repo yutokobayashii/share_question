@@ -6,10 +6,12 @@ import 'package:share_question/constant/color.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
 import '../../dialog/success_login_dialog.dart';
+import '../../entity/user_info/user_info.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/login_notifier/login_notifier.dart';
 import '../../notifier/mail/mail_notifier.dart';
 
+import '../../notifier/user_info/user_info_notifier.dart';
 import '../../util/snackbar.dart';
 import '../base_page.dart';
 import 'forget_pass_modal_widget.dart';
@@ -127,13 +129,20 @@ class CreateAccountPages extends HookConsumerWidget {
                               .read(mailNotifierProvider.notifier)
                               .setMail(user?.userCredential?.user?.email ?? "");
 
+                          final data = UserInfo(
+                              userId: user?.userCredential?.user?.uid ?? "",
+                              mail: user?.userCredential?.user?.email ?? "");
+                          final mapData = data.toJson();
+
+                          await ref
+                              .read(userInfoNotifierProvider.notifier)
+                              .sendUserInfo(mapData);
 
                           if (context.mounted) {
                             if (user?.errorCode != null) {
                               displayErrorSnackBar(
                                   ref, context, user!.errorCode!.message);
                             } else {
-
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

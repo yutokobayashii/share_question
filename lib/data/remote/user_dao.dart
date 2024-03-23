@@ -15,6 +15,7 @@ class UserDao {
       return true;
     } catch (e) {
       // 何らかのエラーが発生した場合
+      print(e);
       return false;
     }
   }

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'inquire.dart';
+part of 'user_info.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,32 +14,33 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Inquire _$InquireFromJson(Map<String, dynamic> json) {
-  return _Inquire.fromJson(json);
+UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
+  return _UserInfo.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Inquire {
+mixin _$UserInfo {
   String get userId => throw _privateConstructorUsedError;
-  String get content => throw _privateConstructorUsedError;
+  String get mail => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $InquireCopyWith<Inquire> get copyWith => throw _privateConstructorUsedError;
+  $UserInfoCopyWith<UserInfo> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $InquireCopyWith<$Res> {
-  factory $InquireCopyWith(Inquire value, $Res Function(Inquire) then) =
-      _$InquireCopyWithImpl<$Res, Inquire>;
+abstract class $UserInfoCopyWith<$Res> {
+  factory $UserInfoCopyWith(UserInfo value, $Res Function(UserInfo) then) =
+      _$UserInfoCopyWithImpl<$Res, UserInfo>;
   @useResult
-  $Res call({String userId, String content});
+  $Res call({String userId, String mail});
 }
 
 /// @nodoc
-class _$InquireCopyWithImpl<$Res, $Val extends Inquire>
-    implements $InquireCopyWith<$Res> {
-  _$InquireCopyWithImpl(this._value, this._then);
+class _$UserInfoCopyWithImpl<$Res, $Val extends UserInfo>
+    implements $UserInfoCopyWith<$Res> {
+  _$UserInfoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -50,53 +51,54 @@ class _$InquireCopyWithImpl<$Res, $Val extends Inquire>
   @override
   $Res call({
     Object? userId = null,
-    Object? content = null,
+    Object? mail = null,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      content: null == content
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
+      mail: null == mail
+          ? _value.mail
+          : mail // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$InquireImplCopyWith<$Res> implements $InquireCopyWith<$Res> {
-  factory _$$InquireImplCopyWith(
-          _$InquireImpl value, $Res Function(_$InquireImpl) then) =
-      __$$InquireImplCopyWithImpl<$Res>;
+abstract class _$$UserInfoImplCopyWith<$Res>
+    implements $UserInfoCopyWith<$Res> {
+  factory _$$UserInfoImplCopyWith(
+          _$UserInfoImpl value, $Res Function(_$UserInfoImpl) then) =
+      __$$UserInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, String content});
+  $Res call({String userId, String mail});
 }
 
 /// @nodoc
-class __$$InquireImplCopyWithImpl<$Res>
-    extends _$InquireCopyWithImpl<$Res, _$InquireImpl>
-    implements _$$InquireImplCopyWith<$Res> {
-  __$$InquireImplCopyWithImpl(
-      _$InquireImpl _value, $Res Function(_$InquireImpl) _then)
+class __$$UserInfoImplCopyWithImpl<$Res>
+    extends _$UserInfoCopyWithImpl<$Res, _$UserInfoImpl>
+    implements _$$UserInfoImplCopyWith<$Res> {
+  __$$UserInfoImplCopyWithImpl(
+      _$UserInfoImpl _value, $Res Function(_$UserInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? userId = null,
-    Object? content = null,
+    Object? mail = null,
   }) {
-    return _then(_$InquireImpl(
+    return _then(_$UserInfoImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      content: null == content
-          ? _value.content
-          : content // ignore: cast_nullable_to_non_nullable
+      mail: null == mail
+          ? _value.mail
+          : mail // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -104,62 +106,63 @@ class __$$InquireImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$InquireImpl implements _Inquire {
-  const _$InquireImpl({required this.userId, required this.content});
+class _$UserInfoImpl implements _UserInfo {
+  const _$UserInfoImpl({required this.userId, required this.mail});
 
-  factory _$InquireImpl.fromJson(Map<String, dynamic> json) =>
-      _$$InquireImplFromJson(json);
+  factory _$UserInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserInfoImplFromJson(json);
 
   @override
   final String userId;
   @override
-  final String content;
+  final String mail;
 
   @override
   String toString() {
-    return 'Inquire(userId: $userId, content: $content)';
+    return 'UserInfo(userId: $userId, mail: $mail)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$InquireImpl &&
+            other is _$UserInfoImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.mail, mail) || other.mail == mail));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, content);
+  int get hashCode => Object.hash(runtimeType, userId, mail);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$InquireImplCopyWith<_$InquireImpl> get copyWith =>
-      __$$InquireImplCopyWithImpl<_$InquireImpl>(this, _$identity);
+  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
+      __$$UserInfoImplCopyWithImpl<_$UserInfoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InquireImplToJson(
+    return _$$UserInfoImplToJson(
       this,
     );
   }
 }
 
-abstract class _Inquire implements Inquire {
-  const factory _Inquire(
+abstract class _UserInfo implements UserInfo {
+  const factory _UserInfo(
       {required final String userId,
-      required final String content}) = _$InquireImpl;
+      required final String mail}) = _$UserInfoImpl;
 
-  factory _Inquire.fromJson(Map<String, dynamic> json) = _$InquireImpl.fromJson;
+  factory _UserInfo.fromJson(Map<String, dynamic> json) =
+      _$UserInfoImpl.fromJson;
 
   @override
   String get userId;
   @override
-  String get content;
+  String get mail;
   @override
   @JsonKey(ignore: true)
-  _$$InquireImplCopyWith<_$InquireImpl> get copyWith =>
+  _$$UserInfoImplCopyWith<_$UserInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

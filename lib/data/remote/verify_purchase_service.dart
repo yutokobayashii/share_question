@@ -10,14 +10,14 @@ class VerifyPurchaseService {
   Future<int> verifyPurchase(PurchaseDetails purchaseDetails) async {
     try {
       if (Platform.isIOS) {
-        HttpsCallable verifyReceipt = FirebaseFunctions.instance.httpsCallable('verifyIos');
+        HttpsCallable verifyReceipt = FirebaseFunctions.instanceFor(region: 'asia-northeast1').httpsCallable('verifyIos');
         final HttpsCallableResult result = await verifyReceipt.call(
             {'data': purchaseDetails.verificationData.localVerificationData});
 
         debugPrint("Verify Purchase RESULT: ${result.data}");
         return result.data[BillingConst.result];
       } else if (Platform.isAndroid) {
-        HttpsCallable verifyReceipt = FirebaseFunctions.instance.httpsCallable('verifyAndroid');
+        HttpsCallable verifyReceipt = FirebaseFunctions.instanceFor(region: 'asia-northeast1').httpsCallable('verifyAndroid');
         final HttpsCallableResult result = await verifyReceipt.call({
           'data': purchaseDetails.verificationData.localVerificationData});
 

@@ -59,7 +59,7 @@ class EditOptionalQuestionPages extends HookConsumerWidget {
           backgroundColor: Colors.white,
           leading: GestureDetector(
               onTap: () {
-                showCupertinoDialog(
+                showAlartDialog(
                     context: context,
                     title: '戻ると編集した内容が保存されません',
                     content: '本当によろしいですか？',

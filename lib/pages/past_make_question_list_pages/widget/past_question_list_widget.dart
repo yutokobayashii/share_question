@@ -68,7 +68,7 @@ class PastQuestionListWidget extends HookConsumerWidget {
                   Text('問題名:', style: colorBoldTextStyle(colors)),
                   GestureDetector(
                     onTap: () async {
-                      showCupertinoDialog(
+                      showAlartDialog(
                           context: context,
                           title: 'この問題を削除しますか？',
                           content: '削除すると以後ユーザーがこの問題をライブラリに追加できなくなります。',

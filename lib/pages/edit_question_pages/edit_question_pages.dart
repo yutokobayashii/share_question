@@ -52,7 +52,7 @@ class EditQuestionPages extends HookConsumerWidget {
           padding: const EdgeInsets.only(left: 10),
           child: GestureDetector(
             onTap: () {
-              showCupertinoDialog(
+              showAlartDialog(
                   context: context,
                   title: '戻ると編集した内容が保存されません',
                   content: '本当によろしいですか？',

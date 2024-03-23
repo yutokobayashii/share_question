@@ -5,6 +5,7 @@ import 'package:share_question/notifier/login_notifier/login_notifier.dart';
 import 'package:share_question/notifier/mail/mail_notifier.dart';
 import 'package:share_question/notifier/user/user_notifier.dart';
 import 'package:share_question/pages/login_pages/create_account_pages.dart';
+import 'package:share_question/pages/settings_pages/setting_widgets/delete_account_modal_widget.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/kiyaku.page.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/privacy_policy_page.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/setting_widget.dart';
@@ -13,6 +14,7 @@ import 'package:share_question/util/snackbar.dart';
 import '../../constant/style.dart';
 import '../../controller/setting_controller/setting_controller.dart';
 import '../../dialog/alart_dialog.dart';
+import '../../notifier/status/status_notifier.dart';
 import '../change_pass_pages/change_pass_pages.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
 import '../inquire_pages/inquire_page.dart';
@@ -26,6 +28,16 @@ class SettingsPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mail = ref.read(mailNotifierProvider.notifier).getMail();
+    const int maxLength = 25;
+    final status = ref.read(statusNotifierProvider.notifier).getStatus();
+
+    String mailText() {
+      if (mail.length <= maxLength) {
+        return mail;
+      }
+      return '${mail.substring(0, maxLength - 3)}...';
+    }
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -51,7 +63,7 @@ class SettingsPage extends HookConsumerWidget {
                     height: 15.h,
                   ),
                   SettingWidget(
-                    title: 'ログイン情報: $mail',
+                    title: 'ログイン情報: ${mailText()}',
                     canTap: false,
                     action: () {
                       Navigator.push(
@@ -81,7 +93,7 @@ class SettingsPage extends HookConsumerWidget {
                     title: 'ログアウト',
                     color: Colors.red,
                     action: () async {
-                      showCupertinoDialog(
+                      showAlartDialog(
                           context: context,
                           title: 'ログアウトしますか？',
                           content: 'ログアウトすると再度ログインしないとアプリを使用できません。',
@@ -120,7 +132,7 @@ class SettingsPage extends HookConsumerWidget {
                     height: 15.h,
                   ),
                   SettingWidget(
-                    title: '会員ステータス',
+                    title: (status) ? '会員ステータス:有料会員' : '会員ステータス:無料会員',
                     action: () {
                       Navigator.push(
                         context,
@@ -212,37 +224,50 @@ class SettingsPage extends HookConsumerWidget {
                     title: 'アカウント削除',
                     color: Colors.red,
                     action: () async {
-                      showCupertinoDialog(
+                      showModalBottomSheet<void>(
+                          isScrollControlled: true,
                           context: context,
-                          title: '本当にアカウントを削除しますか？',
-                          content: '一度アカウントを削除すると作問/解答の履歴は二度と復元できません。',
-                          cancelText: 'アカウントを削除',
-                          okText: '戻る',
-                          onCancel: () async {
-                            final user = await ref
-                                .read(loginNotifierProvider.notifier)
-                                .getCurrentUser();
-                            if (user != null) {
-                              final isSuccess = await ref
-                                  .read(userNotifierProvider.notifier)
-                                  .deleteAccount(user);
-
-                              if (isSuccess) {
-                                navigatorKey.currentState?.pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CreateAccountPages()),
-                                  (Route<dynamic> _) => false,
-                                );
-                              } else {
-                                if (context.mounted) {
-                                  displayErrorSnackBar(ref, context,
-                                      "予期せぬエラーが発生しました。\n時間をおいて再度お試し下さい。");
-                                }
-                              }
-                            }
-                          },
-                          onOK: () {});
+                          isDismissible: true,
+                          builder: (BuildContext context) {
+                            return const DeleteAccountModalWidget();
+                          });
+                      // showAlartDialog(
+                      //     context: context,
+                      //     title: '本当にアカウントを削除しますか？',
+                      //     content: '一度アカウントを削除すると作問/解答の履歴は二度と復元できません。',
+                      //     cancelText: 'アカウントを削除',
+                      //     okText: '戻る',
+                      //     onCancel: () async {
+                      //
+                      //
+                      //       // final user = await ref
+                      //       //     .read(loginNotifierProvider.notifier)
+                      //       //     .getCurrentUser();
+                      //       //
+                      //       // final isCurrentPassValid = await ref
+                      //       //     .read(userNotifierProvider.notifier)
+                      //       //     .reAuthenticate(user!, user.);
+                      //       //
+                      //       //
+                      //       // final isSuccess = await ref
+                      //       //     .read(userNotifierProvider.notifier)
+                      //       //     .deleteAccount(user);
+                      //       //
+                      //       // if (isSuccess) {
+                      //       //   navigatorKey.currentState?.pushAndRemoveUntil(
+                      //       //     MaterialPageRoute(
+                      //       //         builder: (context) =>
+                      //       //             const CreateAccountPages()),
+                      //       //     (Route<dynamic> _) => false,
+                      //       //   );
+                      //       // } else {
+                      //       //   if (context.mounted) {
+                      //       //     displayErrorSnackBar(ref, context,
+                      //       //         "予期せぬエラーが発生しました。\n時間をおいて再度お試し下さい。");
+                      //       //   }
+                      //       // }
+                      //                               },
+                      //     onOK: () {});
                     },
                   ),
                   SizedBox(

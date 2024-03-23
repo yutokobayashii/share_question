@@ -13,7 +13,7 @@ class GetProductService {
       return products;
     }
 
-    final ids = <String>{ 'com.share.question', 'com.share.question.yearly'};
+    final ids = <String>{ 'com.share.question'};
     final ProductDetailsResponse response = await inAppPurchase.queryProductDetails(ids);
 
     if (response.error != null) {

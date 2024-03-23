@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/local/color_shared_preference_service.dart';
 
-void showCupertinoDialog({
+void showAlartDialog({
   required BuildContext context,
   required String title,
   required String content,

@@ -7,9 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+import '../../../constant/billing.dart';
 import '../../../data/local/color_shared_preference_service.dart';
+import '../../../dialog/success_payed_status_dialog.dart';
 import '../../../notifier/get_product/get_product_notifier.dart';
 import '../../../notifier/status/status_notifier.dart';
+import '../../../notifier/verify_purchase/verify_purchase_notifier.dart';
 
 class ChangeStatusModalWidget extends HookConsumerWidget {
   const ChangeStatusModalWidget({
@@ -18,8 +21,6 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final status = ref.read(statusNotifierProvider.notifier).getStatus();
-
     final inAppPurchase = useMemoized(() => InAppPurchase.instance);
     final products = useState<List<ProductDetails>>([]);
     final subscription =
@@ -39,7 +40,44 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
       fetchProducts();
 
       subscription.value =
-          inAppPurchase.purchaseStream.listen((purchaseDetailsList) {});
+          inAppPurchase.purchaseStream.listen((purchaseDetailsList) async {
+        if (purchaseDetailsList.isEmpty) {
+          //対象が見当たらない場合
+          print('hhh');
+        }
+        for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
+          if (purchaseDetails.status == PurchaseStatus.pending) {
+            isPending.value = false;
+            print('hddddh');
+          } else {
+            if (purchaseDetails.status == PurchaseStatus.error) {
+              isPending.value = false;
+              print('hhrf4eh');
+            } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+                purchaseDetails.status == PurchaseStatus.restored) {
+              final result = await ref
+                  .read(verifyPurchaseNotifierProvider.notifier)
+                  .verifyPurchase(purchaseDetails);
+              debugPrint('_verifyPurchase result: $result');
+              if (result == BillingConst.SUCCESS) {
+                debugPrint('_listenToPurchaseUpdated _verifyPurchase: SUCCESS');
+                ref.read(statusNotifierProvider.notifier).toPayed();
+                if (context.mounted) {
+                  showPayedStatusDialog(context);
+                }
+              } else {
+                isPending.value = false;
+                return;
+              }
+            }
+            if (purchaseDetails.pendingCompletePurchase) {
+              await inAppPurchase.completePurchase(purchaseDetails);
+            }
+          }
+        }
+      }, onDone: () {
+        subscription.value?.cancel();
+      }, onError: (Object error) {});
 
       return () {
         subscription.value?.cancel();
@@ -78,7 +116,7 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
             ),
           ),
           SizedBox(
-            height: 60.h,
+            height: 40.h,
           ),
           SizedBox(
             width: 300.w,
@@ -192,43 +230,37 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
             ]),
           ),
           SizedBox(
-            height: 60.h,
+            height: 30.h,
           ),
           GestureDetector(
             onTap: () async {
-              if (status) {
-                ref.read(statusNotifierProvider.notifier).toFree();
-              } else {
-                ref.read(statusNotifierProvider.notifier).toPayed();
+              PurchaseParam purchaseParam =
+                  PurchaseParam(productDetails: products.value[0]);
 
-                PurchaseParam purchaseParam =
-                PurchaseParam(productDetails: products.value[0]);
+              try {
+                await inAppPurchase.buyNonConsumable(
+                    purchaseParam: purchaseParam);
+              } catch (error) {
+                debugPrint('inAppPurchase.buyNonConsumable: $error');
 
-                try {
-                  await inAppPurchase.buyNonConsumable(
-                      purchaseParam: purchaseParam);
-                } catch (error) {
-                  debugPrint('inAppPurchase.buyNonConsumable: $error');
-
-                  if (error
-                      .toString()
-                      .contains('storekit_duplicate_product_object')) {
-                    if (context.mounted) {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return CupertinoAlertDialog(
-                              title: const Text('エラー'),
-                              content: const Text('すでに購入済みの商品です'),
-                              actions: <Widget>[
-                                CupertinoDialogAction(
-                                  child: const Text("OK"),
-                                  onPressed: () => Navigator.pop(context),
-                                ),
-                              ],
-                            );
-                          });
-                    }
+                if (error
+                    .toString()
+                    .contains('storekit_duplicate_product_object')) {
+                  if (context.mounted) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return CupertinoAlertDialog(
+                            title: const Text('エラー'),
+                            content: const Text('すでに購入済みの商品です'),
+                            actions: <Widget>[
+                              CupertinoDialogAction(
+                                child: const Text("OK"),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          );
+                        });
                   }
                 }
               }
@@ -243,23 +275,45 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
                       color: ColorSharedPreferenceService().getColor(),
                     ),
                     child: Center(
-                        child: (status)
-                            ? Text(
-                                '350円/月',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 18.sp,
-                                    color: Colors.white),
-                              )
-                            : Text(
-                                '解約する',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 18.sp,
-                                    color: Colors.white),
-                              )),
+                        child: Text(
+                      '350円/月',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18.sp,
+                          color: Colors.white),
+                    )),
                   ),
-          )
+          ),
+          SizedBox(
+            height: 15.h,
+          ),
+          GestureDetector(
+            onTap: () async {
+              try {
+                await inAppPurchase.restorePurchases();
+              } catch (error) {
+                print('inAppPurchase.restorePurchase: $error');
+              }
+            },
+            child: isPending.value
+                ? const Text('ユーザー情報を取得中')
+                : Container(
+                    width: 270.w,
+                    height: 50.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: ColorSharedPreferenceService().getColor(),
+                    ),
+                    child: Center(
+                        child: Text(
+                      '購入を復元する',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18.sp,
+                          color: Colors.white),
+                    )),
+                  ),
+          ),
         ],
       ),
     );

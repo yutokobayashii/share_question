@@ -52,7 +52,7 @@ class HomePage extends ConsumerWidget {
                                       .getQuestionNumber();
 
                               if (questionNumber > 3) {
-                                showCupertinoDialog(
+                                showAlartDialog(
                                     context: context,
                                     title: '無料会員で3問以上の作問はできません。',
                                     content: '有料会員になるか既存の問題を削除してください。',
