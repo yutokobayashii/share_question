@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/notifier/login_notifier/login_notifier.dart';
 import 'package:share_question/notifier/mail/mail_notifier.dart';
-import 'package:share_question/notifier/user/user_notifier.dart';
 import 'package:share_question/pages/login_pages/create_account_pages.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/delete_account_modal_widget.dart';
 import 'package:share_question/pages/settings_pages/setting_widgets/kiyaku.page.dart';
@@ -14,7 +13,6 @@ import 'package:share_question/util/snackbar.dart';
 import '../../constant/style.dart';
 import '../../controller/setting_controller/setting_controller.dart';
 import '../../dialog/alart_dialog.dart';
-import '../../notifier/status/status_notifier.dart';
 import '../change_pass_pages/change_pass_pages.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
 import '../inquire_pages/inquire_page.dart';
@@ -29,7 +27,6 @@ class SettingsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mail = ref.read(mailNotifierProvider.notifier).getMail();
     const int maxLength = 25;
-    final status = ref.read(statusNotifierProvider.notifier).getStatus();
 
     String mailText() {
       if (mail.length <= maxLength) {
@@ -132,7 +129,7 @@ class SettingsPage extends HookConsumerWidget {
                     height: 15.h,
                   ),
                   SettingWidget(
-                    title: (status) ? '会員ステータス:有料会員' : '会員ステータス:無料会員',
+                    title: '会員ステータス',
                     action: () {
                       Navigator.push(
                         context,

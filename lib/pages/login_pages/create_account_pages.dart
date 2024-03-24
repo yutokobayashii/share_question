@@ -129,14 +129,14 @@ class CreateAccountPages extends HookConsumerWidget {
                               .read(mailNotifierProvider.notifier)
                               .setMail(user?.userCredential?.user?.email ?? "");
 
-                          final data = UserInfo(
-                              userId: user?.userCredential?.user?.uid ?? "",
-                              mail: user?.userCredential?.user?.email ?? "");
-                          final mapData = data.toJson();
-
-                          await ref
-                              .read(userInfoNotifierProvider.notifier)
-                              .sendUserInfo(mapData);
+                          // final data = UserInfo(
+                          //     userId: user?.userCredential?.user?.uid ?? "",
+                          //     mail: user?.userCredential?.user?.email ?? "");
+                          // final mapData = data.toJson();
+                          //
+                          // await ref
+                          //     .read(userInfoNotifierProvider.notifier)
+                          //     .sendUserInfo(mapData);
 
                           if (context.mounted) {
                             if (user?.errorCode != null) {

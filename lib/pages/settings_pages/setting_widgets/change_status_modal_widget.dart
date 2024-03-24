@@ -1,18 +1,16 @@
-import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:share_question/constant/color.dart';
+import 'package:share_question/notifier/login_notifier/login_notifier.dart';
+import 'package:share_question/notifier/status/status_notifier.dart';
+import 'package:share_question/util/snackbar.dart';
 
-import '../../../constant/billing.dart';
 import '../../../data/local/color_shared_preference_service.dart';
-import '../../../dialog/success_payed_status_dialog.dart';
-import '../../../notifier/get_product/get_product_notifier.dart';
-import '../../../notifier/status/status_notifier.dart';
-import '../../../notifier/verify_purchase/verify_purchase_notifier.dart';
+import '../../../notifier/in_app_purchase/in_app_purchase_notifier.dart';
+
 
 class ChangeStatusModalWidget extends HookConsumerWidget {
   const ChangeStatusModalWidget({
@@ -21,68 +19,6 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final inAppPurchase = useMemoized(() => InAppPurchase.instance);
-    final products = useState<List<ProductDetails>>([]);
-    final subscription =
-        useRef<StreamSubscription<List<PurchaseDetails>>?>(null);
-    final isPending = useState(false);
-
-    useEffect(() {
-      Future<void> fetchProducts() async {
-        final result = await ref
-            .read(getProductNotifierProvider.notifier)
-            .getProducts(inAppPurchase);
-        products.value = result;
-        isPending.value = false;
-      }
-
-      isPending.value = true;
-      fetchProducts();
-
-      subscription.value =
-          inAppPurchase.purchaseStream.listen((purchaseDetailsList) async {
-        if (purchaseDetailsList.isEmpty) {
-          //対象が見当たらない場合
-          print('hhh');
-        }
-        for (final PurchaseDetails purchaseDetails in purchaseDetailsList) {
-          if (purchaseDetails.status == PurchaseStatus.pending) {
-            isPending.value = false;
-            print('hddddh');
-          } else {
-            if (purchaseDetails.status == PurchaseStatus.error) {
-              isPending.value = false;
-              print('hhrf4eh');
-            } else if (purchaseDetails.status == PurchaseStatus.purchased ||
-                purchaseDetails.status == PurchaseStatus.restored) {
-              final result = await ref
-                  .read(verifyPurchaseNotifierProvider.notifier)
-                  .verifyPurchase(purchaseDetails);
-              debugPrint('_verifyPurchase result: $result');
-              if (result == BillingConst.SUCCESS) {
-                debugPrint('_listenToPurchaseUpdated _verifyPurchase: SUCCESS');
-                ref.read(statusNotifierProvider.notifier).toPayed();
-                if (context.mounted) {
-                  showPayedStatusDialog(context);
-                }
-              } else {
-                isPending.value = false;
-                return;
-              }
-            }
-            if (purchaseDetails.pendingCompletePurchase) {
-              await inAppPurchase.completePurchase(purchaseDetails);
-            }
-          }
-        }
-      }, onDone: () {
-        subscription.value?.cancel();
-      }, onError: (Object error) {});
-
-      return () {
-        subscription.value?.cancel();
-      };
-    }, [inAppPurchase]);
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,
@@ -100,6 +36,7 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
               child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
+                    ref.invalidate(statusNotifierProvider);
                   },
                   child: const Icon(
                     Icons.close,
@@ -234,40 +171,49 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
           ),
           GestureDetector(
             onTap: () async {
-              PurchaseParam purchaseParam =
-                  PurchaseParam(productDetails: products.value[0]);
 
-              try {
-                await inAppPurchase.buyNonConsumable(
-                    purchaseParam: purchaseParam);
-              } catch (error) {
-                debugPrint('inAppPurchase.buyNonConsumable: $error');
+              payedAction() async {
+                await ref.read(statusNotifierProvider.notifier).toPayed();
+                ref.invalidate(statusNotifierProvider);
+               }
 
-                if (error
-                    .toString()
-                    .contains('storekit_duplicate_product_object')) {
-                  if (context.mounted) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return CupertinoAlertDialog(
-                            title: const Text('エラー'),
-                            content: const Text('すでに購入済みの商品です'),
-                            actions: <Widget>[
-                              CupertinoDialogAction(
-                                child: const Text("OK"),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                            ],
-                          );
-                        });
-                  }
-                }
+              freeAction() async {
+               await ref.read(statusNotifierProvider.notifier).toFree();
+               ref.invalidate(statusNotifierProvider);
               }
+
+              errorAction() {
+                displayErrorSnackBar(ref, context, "予期せぬエラーが発生しました。\n再度時間をおいてお試しください");
+              }
+
+              subscriptionDoneAction() {
+                displayErrorSnackBar(ref, context, "すでに有料会員に登録されています。");
+              }
+
+              successAction() {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return CupertinoAlertDialog(
+                        title: const Text('ご購入いただきありがとうございます。'),
+                        content: const Text('最大限アプリを活用いただきますと幸いです。'),
+                        actions: <Widget>[
+                          CupertinoDialogAction(child: const Text("OK",style: TextStyle(color: baseColor),),
+                            onPressed: () => Navigator.pop(context),),
+                        ],
+                      );
+                    }
+                );
+              }
+
+             final user = await ref.read(loginNotifierProvider.notifier).getCurrentUser();
+
+             await ref.read(inAppPurchaseNotifierProvider.notifier).initInAppPurchase(user?.uid ?? "",freeAction,payedAction,subscriptionDoneAction);
+
+             await ref.read(inAppPurchaseNotifierProvider.notifier).makePurchase("default", user?.uid ?? "",freeAction,payedAction,errorAction,successAction);
+
             },
-            child: isPending.value
-                ? const Text('ユーザー情報を取得中')
-                : Container(
+            child: Container(
                     width: 270.w,
                     height: 50.h,
                     decoration: BoxDecoration(
@@ -289,15 +235,9 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
           ),
           GestureDetector(
             onTap: () async {
-              try {
-                await inAppPurchase.restorePurchases();
-              } catch (error) {
-                print('inAppPurchase.restorePurchase: $error');
-              }
+             await ref.read(inAppPurchaseNotifierProvider.notifier).restorePurchase("default", () { }, () { });
             },
-            child: isPending.value
-                ? const Text('ユーザー情報を取得中')
-                : Container(
+            child: Container(
                     width: 270.w,
                     height: 50.h,
                     decoration: BoxDecoration(

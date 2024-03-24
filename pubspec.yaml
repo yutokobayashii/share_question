@@ -105,6 +105,7 @@ dependencies:
 
   #サーバーサイド
   cloud_functions: ^4.6.8
+  purchases_flutter: ^6.24.0
 
 
 

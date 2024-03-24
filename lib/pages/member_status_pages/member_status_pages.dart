@@ -14,7 +14,7 @@ class MemberStatusPages extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isFreeOpened = useState(false);
     final isPayedOpened = useState(false);
-    final status = ref.read(statusNotifierProvider.notifier).getStatus();
+    final status = ref.watch(statusNotifierProvider.notifier).getStatus();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
