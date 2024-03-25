@@ -89,18 +89,30 @@ class InAppPurchaseService {
     }
   }
 
-  Future<void> restorePurchase(String entitlement,VoidCallback freeAction,VoidCallback payedAction) async {
+  Future<void> restorePurchase(
+      String entitlement,
+      VoidCallback freeAction,
+      VoidCallback payedAction,
+      VoidCallback onRestoreSuccess,
+      VoidCallback onRestoreFail,
+      VoidCallback noInfoAction,
+      ) async {
     try {
       CustomerInfo customerInfo = await Purchases.restorePurchases();
       final isActive = await updatePurchases(customerInfo, entitlement);
       if (!isActive) {
         debugPrint("購入情報なし");
+        noInfoAction();
       } else {
-        await getPurchaserInfo(customerInfo,freeAction,payedAction);
+        await getPurchaserInfo(customerInfo, freeAction, payedAction);
         debugPrint("$entitlement 購入情報あり　復元する");
+        onRestoreSuccess();
       }
     } on PlatformException catch (e) {
       debugPrint("purchase repo  restorePurchase error ${e.toString()}");
+      onRestoreFail();
     }
   }
+
+
 }

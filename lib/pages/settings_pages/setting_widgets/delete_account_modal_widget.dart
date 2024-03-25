@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share_question/util/snackbar.dart';
 
-import '../../../constant/color.dart';
 import '../../../data/local/color_shared_preference_service.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../notifier/login_notifier/login_notifier.dart';
@@ -130,9 +129,23 @@ class DeleteAccountModalWidget extends HookConsumerWidget {
           SizedBox(
             height: 20.h,
           ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              '※アカウントを削除しても、\n自動更新されるサブスクリプションは解約されません。\nサブスクリプションを解約したい場合は、\nApp StoreまたはGoogle Playストアのアカウント設定から手続きを行ってください。',
+              style:TextStyle(
+                fontSize: 12.sp,
+                color: Colors.black38
+              ),),
+          ),
+
           SizedBox(
-              width: 170.w,
-              height: 170.h,
+            height: 20.h,
+          ),
+          SizedBox(
+              width: 150.w,
+              height: 150.h,
               child: Image.asset(Assets.images.screen.path)),
         ],
       ),

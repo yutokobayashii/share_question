@@ -235,7 +235,62 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
           ),
           GestureDetector(
             onTap: () async {
-             await ref.read(inAppPurchaseNotifierProvider.notifier).restorePurchase("default", () { }, () { });
+             await ref.read(inAppPurchaseNotifierProvider.notifier).restorePurchase(
+               "default",
+                   () async {
+                     await ref.read(statusNotifierProvider.notifier).toFree();
+                     ref.invalidate(statusNotifierProvider);
+                   },
+                   () async {
+                     await ref.read(statusNotifierProvider.notifier).toPayed();
+                     ref.invalidate(statusNotifierProvider);
+                   },
+                   () {
+                     showDialog(
+                         context: context,
+                         builder: (context) {
+                           return CupertinoAlertDialog(
+                             title: const Text('復元に成功しました。'),
+                             content: const Text('最大限アプリを活用いただきますと幸いです。'),
+                             actions: <Widget>[
+                               CupertinoDialogAction(child: const Text("OK",style: TextStyle(color: baseColor),),
+                                 onPressed: () => Navigator.pop(context),),
+                             ],
+                           );
+                         }
+                     );
+                   },
+                   () {
+                     showDialog(
+                         context: context,
+                         builder: (context) {
+                           return CupertinoAlertDialog(
+                             title: const Text('復元に失敗しました。'),
+                             content: const Text('最大限アプリを活用いただきますと幸いです。'),
+                             actions: <Widget>[
+                               CupertinoDialogAction(child: const Text("OK",style: TextStyle(color: baseColor),),
+                                 onPressed: () => Navigator.pop(context),),
+                             ],
+                           );
+                         }
+                     );
+                   },
+                   () {
+                     showDialog(
+                         context: context,
+                         builder: (context) {
+                           return CupertinoAlertDialog(
+                             title: const Text('購入データが存在しませんでした。'),
+                             content: const Text('再度有料会員への登録をお願いします。'),
+                             actions: <Widget>[
+                               CupertinoDialogAction(child: const Text("OK",style: TextStyle(color: baseColor),),
+                                 onPressed: () => Navigator.pop(context),),
+                             ],
+                           );
+                         }
+                     );
+                   },
+             );
             },
             child: Container(
                     width: 270.w,

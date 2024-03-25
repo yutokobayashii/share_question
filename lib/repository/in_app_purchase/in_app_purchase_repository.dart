@@ -12,7 +12,7 @@ abstract class InAppPurchaseRepository {
 
   Future<void> makePurchase(String offeringsName, String userId,VoidCallback freeAction,VoidCallback payedAction,VoidCallback errorAction,VoidCallback successAction);
 
-  Future<void> restorePurchase(String entitlement,VoidCallback freeAction,VoidCallback payedAction);
+  Future<void> restorePurchase(String entitlement, VoidCallback onRestoreNoPurchase, VoidCallback onRestoreActiveSubscription, VoidCallback onRestoreExpiredSubscription, VoidCallback onRestoreFail,VoidCallback noInfoAction,);
 }
 
 class InAppPurchaseRepositoryImpl implements InAppPurchaseRepository {
@@ -34,7 +34,7 @@ class InAppPurchaseRepositoryImpl implements InAppPurchaseRepository {
   }
 
   @override
-  Future<void> restorePurchase(String entitlement,VoidCallback freeAction,VoidCallback payedAction) async {
-    await _service.restorePurchase(entitlement,freeAction,payedAction);
+  Future<void> restorePurchase(String entitlement, VoidCallback freeAction, VoidCallback payedAction, VoidCallback onRestoreSuccess, VoidCallback onRestoreFail,VoidCallback noInfoAction,) async {
+    await _service.restorePurchase(entitlement,freeAction,payedAction,onRestoreSuccess,onRestoreFail,noInfoAction);
   }
 }

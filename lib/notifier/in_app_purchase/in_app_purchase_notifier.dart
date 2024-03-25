@@ -19,7 +19,7 @@ class InAppPurchaseNotifier extends Notifier<void> {
     await ref.read(inAppPurchaseUseCaseProvider).makePurchase(offeringsName, userId,freeAction,payedAction,errorAction,successAction);
   }
 
-  Future<void> restorePurchase(String entitlement,VoidCallback freeAction,VoidCallback payedAction) async {
-    await ref.read(inAppPurchaseUseCaseProvider).restorePurchase(entitlement,freeAction,payedAction);
+  Future<void> restorePurchase(String entitlement, VoidCallback freeAction, VoidCallback payedAction, VoidCallback onRestoreSuccess, VoidCallback onRestoreFail, VoidCallback noInfoAction) async {
+    await ref.read(inAppPurchaseUseCaseProvider).restorePurchase(entitlement,freeAction,payedAction,onRestoreSuccess,onRestoreFail,noInfoAction);
   }
 }
