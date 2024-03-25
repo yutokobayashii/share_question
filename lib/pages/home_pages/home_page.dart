@@ -1,24 +1,33 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_question/notifier/status/status_notifier.dart';
 import 'package:share_question/pages/calendar_page/calendar_page.dart';
 import 'package:share_question/pages/home_pages/home_widgets/small_main_home_widget.dart';
 import 'package:share_question/pages/past_make_question_list_pages/past_make_question_list_page.dart';
 
-import '../../dialog/alart_dialog.dart';
+import '../../constant/color.dart';
 import '../../gen/assets.gen.dart';
 import '../../notifier/question_number/question_number_notifier.dart';
 import '../guide_pages/guide_widget/select_guide_widget.dart';
 import '../make_question_pages/make_question_widgets/initial_make_question_page.dart';
 import 'home_widgets/main_home_widget.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
+    final status = useState(false);
+
+    useEffect(() {
+      status.value = ref.read(statusNotifierProvider.notifier).getStatus();
+      return null;
+    }, [ref.read(statusNotifierProvider.notifier).getStatus()]);
     return ScreenUtilInit(
         designSize: const Size(393, 852),
         builder: (_, child) {
@@ -51,15 +60,22 @@ class HomePage extends ConsumerWidget {
                                   ref.read(questionNumberNotifierProvider.notifier)
                                       .getQuestionNumber();
 
-                              if (questionNumber > 3) {
-                                showAlartDialog(
-                                    context: context,
-                                    title: '無料会員で3問以上の作問はできません。',
-                                    content: '有料会員になるか既存の問題を削除してください。',
-                                    cancelText: '戻る',
-                                    okText: '有料会員へ',
-                                    onCancel: () {},
-                                    onOK: () {});
+
+
+                              if (questionNumber > 2 && !status.value) {
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (BuildContext context) => CupertinoAlertDialog(
+                                    title: const Text('無料会員で3問以上の作問はできません。'),
+                                    content: const Text('有料会員になるか既存の問題を削除してください。'),
+                                    actions: <Widget>[
+                                      CupertinoDialogAction(
+                                        child: const Text("OK", style: TextStyle(color: baseColor)),
+                                        onPressed: () => Navigator.pop(context),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               } else {
                                 Navigator.push(
                                   context,

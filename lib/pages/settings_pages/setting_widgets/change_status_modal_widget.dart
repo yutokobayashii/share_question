@@ -190,20 +190,26 @@ class ChangeStatusModalWidget extends HookConsumerWidget {
                 displayErrorSnackBar(ref, context, "すでに有料会員に登録されています。");
               }
 
-              successAction() {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return CupertinoAlertDialog(
-                        title: const Text('ご購入いただきありがとうございます。'),
-                        content: const Text('最大限アプリを活用いただきますと幸いです。'),
-                        actions: <Widget>[
-                          CupertinoDialogAction(child: const Text("OK",style: TextStyle(color: baseColor),),
-                            onPressed: () => Navigator.pop(context),),
-                        ],
-                      );
-                    }
-                );
+              successAction() async {
+                await ref.read(statusNotifierProvider.notifier).toPayed();
+                ref.invalidate(statusNotifierProvider);
+
+                if (context.mounted) {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: const Text('ご購入いただきありがとうございます。'),
+                          content: const Text('最大限アプリを活用いただきますと幸いです。'),
+                          actions: <Widget>[
+                            CupertinoDialogAction(child: const Text("OK",style: TextStyle(color: baseColor),),
+                              onPressed: () => Navigator.pop(context),),
+                          ],
+                        );
+                      }
+                  );
+                }
+
               }
 
              final user = await ref.read(loginNotifierProvider.notifier).getCurrentUser();

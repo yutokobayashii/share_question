@@ -14,7 +14,12 @@ class MemberStatusPages extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isFreeOpened = useState(false);
     final isPayedOpened = useState(false);
-    final status = ref.watch(statusNotifierProvider.notifier).getStatus();
+    final status = useState(false);
+
+    useEffect(() {
+      status.value = ref.read(statusNotifierProvider.notifier).getStatus();
+      return null;
+    }, [ref.read(statusNotifierProvider.notifier).getStatus()]);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -52,7 +57,7 @@ class MemberStatusPages extends HookConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      (status) ? '有料会員' : '無料会員',
+                      (status.value) ? '有料会員' : '無料会員',
                       style: TextStyle(fontSize: 16.sp),
                     ),
                     const SizedBox(
