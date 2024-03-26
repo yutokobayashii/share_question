@@ -14,7 +14,7 @@ class SelectGuideWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         color: Colors.white,
-        height: MediaQuery.of(context).size.height * 0.5,
+        height: MediaQuery.of(context).size.height * 0.3,
         width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
@@ -41,11 +41,7 @@ class SelectGuideWidget extends StatelessWidget {
                 GuideImageWidget(assets: Assets.guideAnswer.library.path,),
                 GuideImageWidget(assets: Assets.guideAnswer.grade.path,),
               ],),
-            SizedBox(height: 20.h,),
 
-            const GuidePage(
-              title: '会員ステータス編',
-              widgets: [],),
             SizedBox(height: 20.h,),
           ],
         )

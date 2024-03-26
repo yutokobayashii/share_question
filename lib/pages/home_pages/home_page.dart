@@ -26,6 +26,7 @@ class HomePage extends HookConsumerWidget {
 
     useEffect(() {
       status.value = ref.read(statusNotifierProvider.notifier).getStatus();
+      print('status${status.value}');
       return null;
     }, [ref.read(statusNotifierProvider.notifier).getStatus()]);
     return ScreenUtilInit(
@@ -81,7 +82,7 @@ class HomePage extends HookConsumerWidget {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const InitialMakeQuestionPage()),
+                                          InitialMakeQuestionPage(status: status,)),
                                 );
                               }
                             },
@@ -146,7 +147,7 @@ class HomePage extends HookConsumerWidget {
                                 return Container(
                                     color: Colors.white,
                                     height: MediaQuery.of(context).size.height *
-                                        0.5,
+                                        0.3,
                                     width: MediaQuery.of(context).size.width,
                                     child: const SelectGuideWidget());
                               },

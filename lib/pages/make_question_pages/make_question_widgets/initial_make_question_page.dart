@@ -11,7 +11,9 @@ import '../../../widgets/dialog_widget.dart';
 import '../make_question_page.dart';
 
 class InitialMakeQuestionPage extends HookConsumerWidget {
-  const InitialMakeQuestionPage({super.key});
+  const InitialMakeQuestionPage({super.key, required this.status});
+
+  final ValueNotifier<bool> status;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -124,36 +126,37 @@ class InitialMakeQuestionPage extends HookConsumerWidget {
                     ),
                   ),
                 ),
-                floatingActionButton:  BasicFloatingButtonWidget(
-                        text: '次へ',
-                        action: () async {
-                          if (InitialQuestionController
-                                  .questionNameController.text.isEmpty ||
-                              InitialQuestionController
-                                  .authorController.text.isEmpty ||
-                              InitialQuestionController
-                                  .explainController.text.isEmpty ||
-                              InitialQuestionController
-                                  .commentController.text.isEmpty) {
-                            controller.getSnackBar(context, ref);
-                          } else {
-                            controller.clearControllers();
+                floatingActionButton: BasicFloatingButtonWidget(
+                  text: '次へ',
+                  action: () async {
+                    if (InitialQuestionController
+                            .questionNameController.text.isEmpty ||
+                        InitialQuestionController
+                            .authorController.text.isEmpty ||
+                        InitialQuestionController
+                            .explainController.text.isEmpty ||
+                        InitialQuestionController
+                            .commentController.text.isEmpty) {
+                      controller.getSnackBar(context, ref);
+                    } else {
+                      controller.clearControllers();
 
-                            final initial = ref
-                                .read(initialQuestionNotifierProvider.notifier)
-                                .get(name.value, author.value, explain.value,
-                                    comment.value);
+                      final initial = ref
+                          .read(initialQuestionNotifierProvider.notifier)
+                          .get(name.value, author.value, explain.value,
+                              comment.value);
 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MakeQuestionPage(
-                                        initial: initial,
-                                      )),
-                            );
-                          }
-                        },
-                      )),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MakeQuestionPage(
+                                  initial: initial,
+                                  status: status,
+                                )),
+                      );
+                    }
+                  },
+                )),
           );
         });
   }
@@ -177,7 +180,9 @@ class IsRequiredWidget extends StatelessWidget {
         child: Text(
           '必須',
           style: TextStyle(
-              color: Colors.white, fontSize: 12.sp, fontWeight: FontWeight.w700),
+              color: Colors.white,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w700),
         ),
       ),
     );

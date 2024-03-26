@@ -22,9 +22,11 @@ import 'make_question_widgets/option_make_question_page.dart';
 import 'make_question_widgets/select_optional_widget.dart';
 
 class MakeQuestionPage extends HookConsumerWidget {
-  const MakeQuestionPage({super.key, required this.initial});
+  const MakeQuestionPage(
+      {super.key, required this.initial, required this.status});
 
   final InitialQuestion initial;
+  final ValueNotifier<bool> status;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,6 +45,8 @@ class MakeQuestionPage extends HookConsumerWidget {
     final optionalNumber = useState(2);
     final isSelectedOptionalItem = useState("0");
     final imageNumber = useState(0);
+    const maxImageNumber = 5;
+    const maxQuestionNUmber = 15;
 
     return ScreenUtilInit(
         designSize: const Size(393, 852),
@@ -218,83 +222,85 @@ class MakeQuestionPage extends HookConsumerWidget {
                               },
                               onSubmitted: (text) {},
                             ),
-                            (imageNumber.value > 5) ?
-                                const Text('画像枚数上限に達しました。有料会員になれば無制限で画像を挿入できます。')
-                                :
-                            BasicAddWidget(
-                              text: '画像を追加',
-                              icon: (imagePath.value != null)
-                                  ? Icons.close
-                                  : Icons.add,
-                              action: (imagePath.value != null)
-                                  //×ボタン押下時
-                                  ? () {
-                                      imagePath.value = null;
-                                      imageUrl.value = "";
-                                      imageNumber.value--;
-                                    }
-                                  : () async {
-                                      //➕ボタン押下時
-                                      imageNumber.value++;
-                                      await pickImage(
-                                          ImageSource.gallery, imagePath);
+                            (imageNumber.value > maxImageNumber &&
+                                    !status.value)
+                                ? const Text(
+                                    '画像枚数上限に達しました。有料会員になれば無制限で画像を挿入できます。')
+                                : BasicAddWidget(
+                                    text: '画像を追加',
+                                    icon: (imagePath.value != null)
+                                        ? Icons.close
+                                        : Icons.add,
+                                    action: (imagePath.value != null)
+                                        //×ボタン押下時
+                                        ? () {
+                                            imagePath.value = null;
+                                            imageUrl.value = "";
+                                            imageNumber.value--;
+                                          }
+                                        : () async {
+                                            //➕ボタン押下時
+                                            imageNumber.value++;
+                                            await pickImage(
+                                                ImageSource.gallery, imagePath);
 
-                                      if (imagePath.value != null) {
-                                        final stringUrl = await ref
-                                            .read(
-                                                storageFireStoreNotifierProvider
-                                                    .notifier)
-                                            .uploadImage(
-                                                imagePath.value!, isUploadDone);
+                                            if (imagePath.value != null) {
+                                              final stringUrl = await ref
+                                                  .read(
+                                                      storageFireStoreNotifierProvider
+                                                          .notifier)
+                                                  .uploadImage(imagePath.value!,
+                                                      isUploadDone);
 
-                                        isUploadDone.value = true;
+                                              isUploadDone.value = true;
 
-                                        imageUrl.value = stringUrl;
-                                      }
-                                    },
-                            ),
+                                              imageUrl.value = stringUrl;
+                                            }
+                                          },
+                                  ),
                             const SizedBox(
                               height: 10,
                             ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: RichText(
-                                text: TextSpan(
-                                    // デフォルトのスタイルを設定します
-                                    style: const TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black,
-                                    ),
-                                    children: <TextSpan>[
-                                      const TextSpan(text: '※今回の作問で使用できる画像は残り',
-                                          style: TextStyle(
-                                            color: Colors.black38
-                                          )),
-                                      TextSpan(
-                                        text:
-                                            (5 - imageNumber.value).toString(),
-                                        style: const TextStyle(
-                                          color: Colors.black38,
-                                          fontWeight: FontWeight.bold),
-                                      ),
-                                      const TextSpan(
-                                        text: "枚です。",
-                                        style: TextStyle(
-                                          fontSize: 14.0,
-                                          color: Colors.black38,
-                                        ),
-                                      ),
-                                  const TextSpan(
-                                    text: "\n有料会員になれば無制限で画像を挿入できます。",
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      color: Colors.black38,
+                            (status.value)
+                                ? const SizedBox()
+                                : Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: RichText(
+                                      text: TextSpan(
+                                          // デフォルトのスタイルを設定します
+                                          style: const TextStyle(
+                                            fontSize: 14.0,
+                                            color: Colors.black,
+                                          ),
+                                          children: <TextSpan>[
+                                            const TextSpan(
+                                                text: '※今回の作問で使用できる画像は残り',
+                                                style: TextStyle(
+                                                    color: Colors.black38)),
+                                            TextSpan(
+                                              text: (5 - imageNumber.value)
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.black38,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const TextSpan(
+                                              text: "枚です。",
+                                              style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black38,
+                                              ),
+                                            ),
+                                            const TextSpan(
+                                              text: "\n有料会員になれば無制限で画像を挿入できます。",
+                                              style: TextStyle(
+                                                fontSize: 14.0,
+                                                color: Colors.black38,
+                                              ),
+                                            ),
+                                          ]),
                                     ),
                                   ),
-
-                                    ]),
-                              ),
-                            ),
                             (imagePath.value != null)
                                 ? Column(
                                     children: [
@@ -390,8 +396,8 @@ class MakeQuestionPage extends HookConsumerWidget {
                                               OptionalMakeQuestionController
                                                   .optionalController2
                                                   .text
-                                                  .isEmpty
-                                      || !isUploadDone.value
+                                                  .isEmpty ||
+                                              !isUploadDone.value
 
                                           ///未記入がある場合
                                           ) {
@@ -401,7 +407,8 @@ class MakeQuestionPage extends HookConsumerWidget {
                                             isOptionAnswerTypeState,
                                             name,
                                             correctAnswer,
-                                            explanation,isUploadDone);
+                                            explanation,
+                                            isUploadDone);
 
                                         optionalController.getSnackBar(
                                             context, ref);
@@ -464,7 +471,8 @@ class MakeQuestionPage extends HookConsumerWidget {
                                             isOptionAnswerTypeState,
                                             name,
                                             correctAnswer,
-                                            explanation,isUploadDone);
+                                            explanation,
+                                            isUploadDone);
                                       } else {
                                         ///未記入がない場合
                                         final detail = ref
@@ -521,6 +529,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                       35.w,
                                   action: () {
                                     if (isOptionAnswerTypeState.value == true) {
+                                      //選択肢問題でかつ未記入がある場合
                                       if (explanation.value == "" ||
                                           name.value == "" ||
                                           correctAnswer.value == "" ||
@@ -531,7 +540,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                           OptionalMakeQuestionController
                                               .optionalController2
                                               .text
-                                              .isEmpty||
+                                              .isEmpty ||
                                           !isUploadDone.value) {
                                         controller.getSnackBar(
                                             context,
@@ -539,13 +548,24 @@ class MakeQuestionPage extends HookConsumerWidget {
                                             isOptionAnswerTypeState,
                                             name,
                                             correctAnswer,
-                                            explanation,isUploadDone);
+                                            explanation,
+                                            isUploadDone);
                                         //ここのロジックもかえる
 
                                         optionalController.getSnackBar(
                                             context, ref);
                                       } else {
+                                        //選択肢でかつすべて記入済み
                                         questionNumber.value++;
+
+                                        if (questionNumber.value >
+                                                maxQuestionNUmber &&
+                                            !status.value) {
+                                          //無料会員で上限を超えた場合
+                                          displayErrorSnackBar(ref, context,
+                                              "無料会員では$maxQuestionNUmber問以上の作問はできません");
+                                          return;
+                                        }
 
                                         final detail = ref
                                             .read(questionDetailNotifierProvider
@@ -576,6 +596,7 @@ class MakeQuestionPage extends HookConsumerWidget {
                                         imagePath.value = null;
                                       }
                                     } else {
+                                      //記入式で未記入がある場合
                                       if (explanation.value == "" ||
                                           name.value == "" ||
                                           correctAnswer.value == "") {
@@ -585,12 +606,23 @@ class MakeQuestionPage extends HookConsumerWidget {
                                             isOptionAnswerTypeState,
                                             name,
                                             correctAnswer,
-                                            explanation,isUploadDone);
+                                            explanation,
+                                            isUploadDone);
 
                                         optionalController.getSnackBar(
                                             context, ref);
                                       } else {
+                                        //記入式ですべて記入済み
                                         questionNumber.value++;
+
+                                        if (questionNumber.value >
+                                                maxQuestionNUmber &&
+                                            !status.value) {
+                                          //無料会員で上限を超えた場合
+                                          displayErrorSnackBar(ref, context,
+                                              "無料会員では$maxQuestionNUmber問以上の作問はできません");
+                                          return;
+                                        }
 
                                         final detail = ref
                                             .read(questionDetailNotifierProvider

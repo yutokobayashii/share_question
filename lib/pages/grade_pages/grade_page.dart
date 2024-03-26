@@ -45,7 +45,7 @@ class GradePage extends HookConsumerWidget {
                   builder: (BuildContext context) {
                     return Container(
                         color: Colors.white,
-                        height: MediaQuery.of(context).size.height * 0.5,
+                        height: MediaQuery.of(context).size.height * 0.3,
                         width: MediaQuery.of(context).size.width,
                         child: const SelectGuideWidget());
                   },
